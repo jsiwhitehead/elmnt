@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`txt: autosize multiple lines of text, no rows 1`] = `null`;
+
+exports[`txt: autosize multiple lines of text, single row 1`] = `
+<span
+  style={
+    Object {
+      "display": "block",
+      "lineHeight": "30px",
+      "minHeight": 30,
+      "visibility": "hidden",
+      "whiteSpace": "pre-wrap",
+      "width": 100,
+      "wordBreak": "break-word",
+    }
+  }
+>
+  Hello
+  World!
+</span>
+`;
+
+exports[`txt: autosize multiple lines of text, three rows 1`] = `
+<span
+  style={
+    Object {
+      "display": "block",
+      "lineHeight": "30px",
+      "minHeight": 90,
+      "visibility": "hidden",
+      "whiteSpace": "pre-wrap",
+      "width": 100,
+      "wordBreak": "break-word",
+    }
+  }
+>
+  Hello
+  World!
+</span>
+`;
+
+exports[`txt: autosize single line of text, no rows 1`] = `null`;
+
+exports[`txt: autosize single line of text, single row 1`] = `
+<span
+  style={
+    Object {
+      "display": "block",
+      "lineHeight": "30px",
+      "minHeight": 30,
+      "visibility": "hidden",
+      "whiteSpace": "pre-wrap",
+      "width": 100,
+      "wordBreak": "break-word",
+    }
+  }
+>
+  Hello!
+</span>
+`;
+
+exports[`txt: autosize single line of text, single row, overwritten style 1`] = `
+<span
+  style={
+    Object {
+      "display": "block",
+      "lineHeight": "30px",
+      "minHeight": 30,
+      "visibility": "hidden",
+      "whiteSpace": "pre-wrap",
+      "wordBreak": "break-word",
+    }
+  }
+>
+  Hello!
+</span>
+`;
+
+exports[`txt: autosize single line of text, three rows 1`] = `
+<span
+  style={
+    Object {
+      "display": "block",
+      "lineHeight": "30px",
+      "minHeight": 90,
+      "visibility": "hidden",
+      "whiteSpace": "pre-wrap",
+      "width": 100,
+      "wordBreak": "break-word",
+    }
+  }
+>
+  Hello!
+</span>
+`;

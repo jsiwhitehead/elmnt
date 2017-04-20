@@ -1,0 +1,716 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`txt content only 1`] = `
+<span
+  style={
+    Object {
+      "display": "block",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+        "minHeight": 20,
+        "padding": "1px 0px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "display": "block",
+          "fontFamily": "inherit",
+          "fontSize": 20,
+          "lineHeight": "30px",
+          "margin": "-6px 0px -6px",
+        }
+      }
+    >
+      Hello World!
+    </span>
+  </span>
+</span>
+`;
+
+exports[`txt content with placeholder style 1`] = `
+<span
+  style={
+    Object {
+      "display": "block",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+        "minHeight": 20,
+        "padding": "1px 0px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "color": "red",
+          "display": "block",
+          "fontFamily": "inherit",
+          "fontSize": 20,
+          "lineHeight": "30px",
+          "margin": "-6px 0px -6px",
+        }
+      }
+    >
+      Hello World!
+    </span>
+  </span>
+</span>
+`;
+
+exports[`txt content with style 1`] = `
+<span
+  style={
+    Object {
+      "display": "block",
+      "width": 100,
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+        "minHeight": 16,
+        "padding": "1px 0px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "color": "red",
+          "display": "block",
+          "fontFamily": "inherit",
+          "fontSize": 16,
+          "lineHeight": "24px",
+          "margin": "-5px 0px -5px",
+        }
+      }
+    >
+      Hello World!
+    </span>
+  </span>
+</span>
+`;
+
+exports[`txt empty 1`] = `
+<span
+  style={
+    Object {
+      "display": "block",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+        "minHeight": 20,
+        "padding": "1px 0px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "display": "block",
+          "fontFamily": "inherit",
+          "fontSize": 20,
+          "lineHeight": "30px",
+          "margin": "-6px 0px -6px",
+        }
+      }
+    />
+  </span>
+</span>
+`;
+
+exports[`txt onTextChange only 1`] = `
+<span
+  onMouseDown={[Function]}
+  style={
+    Object {
+      "cursor": "text",
+      "display": "block",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+        "minHeight": 20,
+        "padding": "1px 0px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "display": "block",
+          "margin": "-6px 0px -6px",
+          "position": "relative",
+        }
+      }
+    >
+      <input
+        onBlur={undefined}
+        onChange={[Function]}
+        onFocus={undefined}
+        onKeyDown={[Function]}
+        spellCheck={undefined}
+        style={
+          Object {
+            "background": "transparent",
+            "border": 0,
+            "display": "block",
+            "fontFamily": "inherit",
+            "fontSize": 20,
+            "height": "auto",
+            "left": 0,
+            "lineHeight": "30px",
+            "margin": 0,
+            "outline": "none",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "relative",
+            "resize": "none",
+            "top": 0,
+            "width": "100%",
+          }
+        }
+        tabIndex={0}
+        type="text"
+        value=""
+      />
+    </span>
+  </span>
+</span>
+`;
+
+exports[`txt onTextChange with content 1`] = `
+<span
+  onMouseDown={[Function]}
+  style={
+    Object {
+      "cursor": "text",
+      "display": "block",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+        "minHeight": 20,
+        "padding": "1px 0px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "display": "block",
+          "margin": "-6px 0px -6px",
+          "position": "relative",
+        }
+      }
+    >
+      <input
+        onBlur={undefined}
+        onChange={[Function]}
+        onFocus={undefined}
+        onKeyDown={[Function]}
+        spellCheck={undefined}
+        style={
+          Object {
+            "background": "transparent",
+            "border": 0,
+            "display": "block",
+            "fontFamily": "inherit",
+            "fontSize": 20,
+            "height": "auto",
+            "left": 0,
+            "lineHeight": "30px",
+            "margin": 0,
+            "outline": "none",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "relative",
+            "resize": "none",
+            "top": 0,
+            "width": "100%",
+          }
+        }
+        tabIndex={0}
+        type="text"
+        value="Hello World!"
+      />
+    </span>
+  </span>
+</span>
+`;
+
+exports[`txt onTextChange with placeholder 1`] = `
+<span
+  onMouseDown={[Function]}
+  style={
+    Object {
+      "cursor": "text",
+      "display": "block",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+        "minHeight": 20,
+        "padding": "1px 0px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "display": "block",
+          "margin": "-6px 0px -6px",
+          "position": "relative",
+        }
+      }
+    >
+      <span
+        style={
+          Object {
+            "display": "block",
+            "fontFamily": "inherit",
+            "fontSize": 20,
+            "height": "100%",
+            "left": 0,
+            "lineHeight": "30px",
+            "padding": 0,
+            "position": "absolute",
+            "top": 0,
+            "width": "100%",
+          }
+        }
+      >
+        Hello World!
+      </span>
+      <input
+        onBlur={undefined}
+        onChange={[Function]}
+        onFocus={undefined}
+        onKeyDown={[Function]}
+        spellCheck={undefined}
+        style={
+          Object {
+            "background": "transparent",
+            "border": 0,
+            "display": "block",
+            "fontFamily": "inherit",
+            "fontSize": 20,
+            "height": "auto",
+            "left": 0,
+            "lineHeight": "30px",
+            "margin": 0,
+            "outline": "none",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "relative",
+            "resize": "none",
+            "top": 0,
+            "width": "100%",
+          }
+        }
+        tabIndex={0}
+        type="text"
+        value=""
+      />
+    </span>
+  </span>
+</span>
+`;
+
+exports[`txt onTextChange with placeholder and content 1`] = `
+<span
+  onMouseDown={[Function]}
+  style={
+    Object {
+      "cursor": "text",
+      "display": "block",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+        "minHeight": 20,
+        "padding": "1px 0px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "display": "block",
+          "margin": "-6px 0px -6px",
+          "position": "relative",
+        }
+      }
+    >
+      <input
+        onBlur={undefined}
+        onChange={[Function]}
+        onFocus={undefined}
+        onKeyDown={[Function]}
+        spellCheck={undefined}
+        style={
+          Object {
+            "background": "transparent",
+            "border": 0,
+            "display": "block",
+            "fontFamily": "inherit",
+            "fontSize": 20,
+            "height": "auto",
+            "left": 0,
+            "lineHeight": "30px",
+            "margin": 0,
+            "outline": "none",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "relative",
+            "resize": "none",
+            "top": 0,
+            "width": "100%",
+          }
+        }
+        tabIndex={0}
+        type="text"
+        value="World!"
+      />
+    </span>
+  </span>
+</span>
+`;
+
+exports[`txt onTextChange with rows 1`] = `
+<span
+  onMouseDown={[Function]}
+  style={
+    Object {
+      "cursor": "text",
+      "display": "block",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+        "minHeight": 20,
+        "padding": "1px 0px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "display": "block",
+          "margin": "-6px 0px -6px",
+          "position": "relative",
+        }
+      }
+    >
+      <span
+        style={
+          Object {
+            "display": "block",
+            "fontFamily": "inherit",
+            "fontSize": 20,
+            "lineHeight": "30px",
+            "minHeight": 90,
+            "visibility": "hidden",
+            "whiteSpace": "pre-wrap",
+            "wordBreak": "break-word",
+          }
+        }
+      >
+        
+      </span>
+      <textarea
+        onBlur={undefined}
+        onChange={[Function]}
+        onFocus={undefined}
+        onKeyDown={[Function]}
+        spellCheck={undefined}
+        style={
+          Object {
+            "background": "transparent",
+            "border": 0,
+            "display": "block",
+            "fontFamily": "inherit",
+            "fontSize": 20,
+            "height": "100%",
+            "left": 0,
+            "lineHeight": "30px",
+            "margin": 0,
+            "outline": "none",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "absolute",
+            "resize": "none",
+            "top": 0,
+            "width": "100%",
+          }
+        }
+        tabIndex={0}
+        type="text"
+        value=""
+      />
+    </span>
+  </span>
+</span>
+`;
+
+exports[`txt onTextChange with rows and content 1`] = `
+<span
+  onMouseDown={[Function]}
+  style={
+    Object {
+      "cursor": "text",
+      "display": "block",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+        "minHeight": 20,
+        "padding": "1px 0px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "display": "block",
+          "margin": "-6px 0px -6px",
+          "position": "relative",
+        }
+      }
+    >
+      <span
+        style={
+          Object {
+            "display": "block",
+            "fontFamily": "inherit",
+            "fontSize": 20,
+            "lineHeight": "30px",
+            "minHeight": 90,
+            "visibility": "hidden",
+            "whiteSpace": "pre-wrap",
+            "wordBreak": "break-word",
+          }
+        }
+      >
+        Hello World!
+      </span>
+      <textarea
+        onBlur={undefined}
+        onChange={[Function]}
+        onFocus={undefined}
+        onKeyDown={[Function]}
+        spellCheck={undefined}
+        style={
+          Object {
+            "background": "transparent",
+            "border": 0,
+            "display": "block",
+            "fontFamily": "inherit",
+            "fontSize": 20,
+            "height": "100%",
+            "left": 0,
+            "lineHeight": "30px",
+            "margin": 0,
+            "outline": "none",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "absolute",
+            "resize": "none",
+            "top": 0,
+            "width": "100%",
+          }
+        }
+        tabIndex={0}
+        type="text"
+        value="Hello World!"
+      />
+    </span>
+  </span>
+</span>
+`;
+
+exports[`txt onTextChange with rows and multi-line content 1`] = `
+<span
+  onMouseDown={[Function]}
+  style={
+    Object {
+      "cursor": "text",
+      "display": "block",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+        "minHeight": 20,
+        "padding": "1px 0px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "display": "block",
+          "margin": "-6px 0px -6px",
+          "position": "relative",
+        }
+      }
+    >
+      <span
+        style={
+          Object {
+            "display": "block",
+            "fontFamily": "inherit",
+            "fontSize": 20,
+            "lineHeight": "30px",
+            "minHeight": 90,
+            "visibility": "hidden",
+            "whiteSpace": "pre-wrap",
+            "wordBreak": "break-word",
+          }
+        }
+      >
+        Hello
+        World!
+      </span>
+      <textarea
+        onBlur={undefined}
+        onChange={[Function]}
+        onFocus={undefined}
+        onKeyDown={[Function]}
+        spellCheck={undefined}
+        style={
+          Object {
+            "background": "transparent",
+            "border": 0,
+            "display": "block",
+            "fontFamily": "inherit",
+            "fontSize": 20,
+            "height": "100%",
+            "left": 0,
+            "lineHeight": "30px",
+            "margin": 0,
+            "outline": "none",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "absolute",
+            "resize": "none",
+            "top": 0,
+            "width": "100%",
+          }
+        }
+        tabIndex={0}
+        type="text"
+        value="Hello
+      World!"
+      />
+    </span>
+  </span>
+</span>
+`;
+
+exports[`txt placeholder only 1`] = `
+<span
+  style={
+    Object {
+      "display": "block",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+        "minHeight": 20,
+        "padding": "1px 0px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "display": "block",
+          "fontFamily": "inherit",
+          "fontSize": 20,
+          "lineHeight": "30px",
+          "margin": "-6px 0px -6px",
+        }
+      }
+    >
+      Hello World!
+    </span>
+  </span>
+</span>
+`;
+
+exports[`txt placeholder with style 1`] = `
+<span
+  style={
+    Object {
+      "display": "block",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+        "minHeight": 20,
+        "padding": "1px 0px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "color": "blue",
+          "display": "block",
+          "fontFamily": "inherit",
+          "fontSize": 20,
+          "lineHeight": "30px",
+          "margin": "-6px 0px -6px",
+        }
+      }
+    >
+      Hello World!
+    </span>
+  </span>
+</span>
+`;

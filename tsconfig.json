@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "es6", "es2016.array.include"],
+    "module": "commonjs",
+    "sourceMap": true,
+    "declaration": true,
+    "jsx": "react",
+    "rootDir": "src",
+    "outDir": "lib",
+    "baseUrl": "./",
+    "paths": {
+      "*": [ "node_modules/@types/*", "*"]
+    },
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": false
+  },
+  "include": ["typings.d.ts", "src/**/*"]
+}

@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`utils: renderLayer basic 1`] = `
+<div
+  style={
+    Object {
+      "color": "red",
+    }
+  }
+>
+  <p
+    style={
+      Object {
+        "color": "red",
+      }
+    }
+  >
+    Hello World!
+  </p>
+</div>
+`;

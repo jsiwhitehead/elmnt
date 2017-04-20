@@ -1,0 +1,802 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`div bar layout with numeric childWidths 1`] = `
+<div
+  style={
+    Object {
+      "background": "red",
+      "display": "table",
+      "verticalAlign": undefined,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 0,
+        "verticalAlign": "middle",
+        "width": 100,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 10,
+        "verticalAlign": "middle",
+        "width": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 10,
+        "verticalAlign": "middle",
+        "width": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`div bar layout with numeric spacing 1`] = `
+<div
+  style={
+    Object {
+      "background": "red",
+      "display": "table",
+      "verticalAlign": undefined,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 0,
+        "verticalAlign": "middle",
+        "width": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 10,
+        "verticalAlign": "middle",
+        "width": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 10,
+        "verticalAlign": "middle",
+        "width": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`div bar layout with string childWidths 1`] = `
+<div
+  style={
+    Object {
+      "background": "red",
+      "display": "table",
+      "verticalAlign": undefined,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 0,
+        "verticalAlign": "middle",
+        "width": "100px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 10,
+        "verticalAlign": "middle",
+        "width": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 10,
+        "verticalAlign": "middle",
+        "width": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`div bar layout with string multi-childWidths 1`] = `
+<div
+  style={
+    Object {
+      "background": "red",
+      "display": "table",
+      "verticalAlign": undefined,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 0,
+        "verticalAlign": "middle",
+        "width": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 10,
+        "verticalAlign": "middle",
+        "width": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 10,
+        "verticalAlign": "middle",
+        "width": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`div bar layout with string multi-spacing 1`] = `
+<div
+  style={
+    Object {
+      "background": "red",
+      "display": "table",
+      "verticalAlign": undefined,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 0,
+        "verticalAlign": "middle",
+        "width": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": "20px",
+        "verticalAlign": "middle",
+        "width": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": "20px",
+        "verticalAlign": "middle",
+        "width": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`div grid layout with numeric spacing 1`] = `
+<div
+  style={
+    Object {
+      "background": "red",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "paddingLeft": 1,
+        "paddingTop": 1,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginLeft": "-11px",
+          "marginTop": "-11px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "float": "left",
+            "marginLeft": 10,
+            "marginTop": 10,
+          }
+        }
+      >
+        <div />
+      </div>
+      <div
+        style={
+          Object {
+            "float": "left",
+            "marginLeft": 10,
+            "marginTop": 10,
+          }
+        }
+      >
+        <div />
+      </div>
+      <div
+        style={
+          Object {
+            "float": "left",
+            "marginLeft": 10,
+            "marginTop": 10,
+          }
+        }
+      >
+        <div />
+      </div>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "clear": "both",
+        "display": "table",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`div grid layout with string multi-spacing 1`] = `
+<div
+  style={
+    Object {
+      "background": "red",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "paddingLeft": 1,
+        "paddingTop": 1,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginLeft": "-21px",
+          "marginTop": "-11px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "float": "left",
+            "marginLeft": "20px",
+            "marginTop": "10px",
+          }
+        }
+      >
+        <div />
+      </div>
+      <div
+        style={
+          Object {
+            "float": "left",
+            "marginLeft": "20px",
+            "marginTop": "10px",
+          }
+        }
+      >
+        <div />
+      </div>
+      <div
+        style={
+          Object {
+            "float": "left",
+            "marginLeft": "20px",
+            "marginTop": "10px",
+          }
+        }
+      >
+        <div />
+      </div>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "clear": "both",
+        "display": "table",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`div grid layout with string spacing 1`] = `
+<div
+  style={
+    Object {
+      "background": "red",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "paddingLeft": 1,
+        "paddingTop": 1,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginLeft": "-11px",
+          "marginTop": "-11px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "float": "left",
+            "marginLeft": "10px",
+            "marginTop": "10px",
+          }
+        }
+      >
+        <div />
+      </div>
+      <div
+        style={
+          Object {
+            "float": "left",
+            "marginLeft": "10px",
+            "marginTop": "10px",
+          }
+        }
+      >
+        <div />
+      </div>
+      <div
+        style={
+          Object {
+            "float": "left",
+            "marginLeft": "10px",
+            "marginTop": "10px",
+          }
+        }
+      >
+        <div />
+      </div>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "clear": "both",
+        "display": "table",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`div no layout 1`] = `
+<div
+  style={
+    Object {
+      "background": "red",
+    }
+  }
+>
+  <p>
+    Hello
+  </p>
+  <p>
+    World!
+  </p>
+  <div
+    style={
+      Object {
+        "clear": "both",
+        "display": "table",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`div stack layout with numeric spacing 1`] = `
+<div
+  style={
+    Object {
+      "background": "red",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "paddingTop": 0,
+      }
+    }
+  >
+    <div />
+    <div
+      style={
+        Object {
+          "clear": "both",
+          "display": "table",
+        }
+      }
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "paddingTop": 10,
+      }
+    }
+  >
+    <div />
+    <div
+      style={
+        Object {
+          "clear": "both",
+          "display": "table",
+        }
+      }
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "paddingTop": 10,
+      }
+    }
+  >
+    <div />
+    <div
+      style={
+        Object {
+          "clear": "both",
+          "display": "table",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`div stack layout with string multi-spacing 1`] = `
+<div
+  style={
+    Object {
+      "background": "red",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "paddingTop": 0,
+      }
+    }
+  >
+    <div />
+    <div
+      style={
+        Object {
+          "clear": "both",
+          "display": "table",
+        }
+      }
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "paddingTop": "10px",
+      }
+    }
+  >
+    <div />
+    <div
+      style={
+        Object {
+          "clear": "both",
+          "display": "table",
+        }
+      }
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "paddingTop": "10px",
+      }
+    }
+  >
+    <div />
+    <div
+      style={
+        Object {
+          "clear": "both",
+          "display": "table",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`div stack layout with string spacing 1`] = `
+<div
+  style={
+    Object {
+      "background": "red",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "paddingTop": 0,
+      }
+    }
+  >
+    <div />
+    <div
+      style={
+        Object {
+          "clear": "both",
+          "display": "table",
+        }
+      }
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "paddingTop": "10px",
+      }
+    }
+  >
+    <div />
+    <div
+      style={
+        Object {
+          "clear": "both",
+          "display": "table",
+        }
+      }
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "paddingTop": "10px",
+      }
+    }
+  >
+    <div />
+    <div
+      style={
+        Object {
+          "clear": "both",
+          "display": "table",
+        }
+      }
+    />
+  </div>
+</div>
+`;

@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`txt: placeholder no text, empty value 1`] = `null`;
+
+exports[`txt: placeholder text, empty value 1`] = `
+<span
+  style={
+    Object {
+      "background": "red",
+      "display": "block",
+      "height": "100%",
+      "left": 0,
+      "padding": 0,
+      "position": "absolute",
+      "top": 0,
+      "width": "100%",
+    }
+  }
+>
+  Hello!
+</span>
+`;
+
+exports[`txt: placeholder text, value 1`] = `null`;
