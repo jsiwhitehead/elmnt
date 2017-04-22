@@ -6,12 +6,13 @@ import Div from '../../div';
 import Txt from '../../txt';
 import { cssGroups } from '../../utils';
 
-import Icon from './Icon';
+import Marker from './Marker';
 
 export default compose<any, any>(
 
   mapStyle(() => [
-    ['numeric', 'fontSize', 'iconSize', 'paddingLeft', 'paddingRight'],
+    ['numeric', 'fontSize', 'paddingLeft', 'paddingRight'],
+    ['scale', { fontSize: { iconSize: 0.9 } }]
   ]),
 
   mapStyle(({ icon, style: { fontSize, iconSize, paddingLeft, paddingRight, cursor } }) => ({
@@ -42,7 +43,7 @@ export default compose<any, any>(
 )(({ text, icon, password, onTextChange, onMouseDown, focusProps, setFocusElem, style }) =>
   <Div onMouseDown={onMouseDown} style={style.div}>
     {(icon || ['']).map(i => i ?
-      <Icon type={i} style={style.icon} key={i} /> :
+      <Marker type={i} style={style.icon} key={i} /> :
       <Txt
         onTextChange={onTextChange} {...focusProps} focusRef={setFocusElem}
         password={password} style={style.text} key={i} children={text}

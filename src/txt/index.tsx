@@ -6,7 +6,7 @@ import {
 import * as omit from 'lodash.omit';
 import { CSSTree, mapStyle } from 'highstyle';
 
-import { cssGroups, focusable, focusOnMouseDown, renderLayer } from '../utils';
+import { clickFocus, cssGroups, focusable, renderLayer } from '../utils';
 
 import Autosize from './Autosize';
 import Placeholder from './Placeholder';
@@ -33,7 +33,7 @@ export default compose<any, TxtProps>(
   focusable,
   branch(
     ({ onTextChange }) => onTextChange,
-    focusOnMouseDown,
+    clickFocus,
   ),
 
   mapStyle(),

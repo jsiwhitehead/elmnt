@@ -27,16 +27,10 @@ export default compose<any, InputProps>(
     isList: type.endsWith('list'),
   })),
 
-  mapStyle(({ invalid, isFocused, isHovered, style: { fontSize } }) => [
-
-    ['defaults', {
-      fontSize: 20, lineHeight: 1.5, color: 'black', layout: 'grid',
-      iconSize: Math.round(parseFloat(fontSize || 20) * 0.5),
-    }],
-
+  mapStyle(({ invalid, isFocused, isHovered }) => [
+    ['defaults', { fontSize: 20, lineHeight: 1.5, color: 'black', layout: 'grid' }],
     ['mergeKeys', { invalid, focus: isFocused, hover: isHovered }],
     ['filterKeys', 'active', 'selected', 'placeholder', 'group', 'key', 'alt'],
-
   ]),
 
   branch(

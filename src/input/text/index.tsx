@@ -3,14 +3,14 @@ import { branch, compose, lifecycle, withHandlers, withProps, withState } from '
 import { mapStyle } from 'highstyle';
 
 import { Comp, Obj } from '../../typings';
-import { focusOnMouseDown } from '../../utils';
+import { clickFocus } from '../../utils';
 
 import parsers from './parsers';
 
 export default function createText({ Label }: Obj<Comp<any>>) {
   return compose<any, any>(
 
-    focusOnMouseDown,
+    clickFocus,
 
     withState(
       'textState', 'setTextState',

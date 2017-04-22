@@ -1,6 +1,7 @@
 import * as React from 'react';
-import * as Portal from 'react-portal';
-import { mapStyle } from 'highstyle';
+import css from 'highstyle';
+
+import Portal from './Portal';
 
 const padding = 5;
 const paddingSmall = [50, 15];
@@ -27,9 +28,7 @@ export interface ModalState {
   height: number;
   footerHeight: number;
 }
-export default mapStyle(() => [
-  ['expandFor', 'paddingTop', 'paddingBottom'],
-])(class Modal extends React.Component<ModalProps, ModalState> {
+export default class Modal extends React.Component<ModalProps, ModalState> {
 
   private base;
   private modal;
@@ -76,18 +75,20 @@ export default mapStyle(() => [
     if (this.props.isOpen && this.modal) {
       const newState = {} as ModalState;
 
+      const style = css(this.props.style, [['expandFor', 'paddingTop', 'paddingBottom']]);
+
       const modalClone = this.modal.cloneNode(true);
       modalClone.style.visibility = 'hidden';
-      modalClone.style.width = toPxString(this.props.style.width) || 'auto';
-      modalClone.style.minWidth = toPxString(this.props.style.minWidth) || '0';
+      modalClone.style.width = toPxString(style.width) || 'auto';
+      modalClone.style.minWidth = toPxString(style.minWidth) || '0';
       modalClone.style.height = 'auto';
-      modalClone.style.paddingTop = toPxString(this.props.style.paddingTop);
-      modalClone.style.paddingBottom = toPxString(this.props.style.paddingBottom);
+      modalClone.style.paddingTop = toPxString(style.paddingTop);
+      modalClone.style.paddingBottom = toPxString(style.paddingBottom);
 
       document.body.appendChild(modalClone);
 
       modalClone.childNodes[0].style.position = 'relative';
-      modalClone.childNodes[0].style.bottom = toPxString(this.props.style.paddingBottom);
+      modalClone.childNodes[0].style.bottom = toPxString(style.paddingBottom);
       newState.footerHeight = this.props.footer ? modalClone.childNodes[1].offsetHeight : 0;
 
       if (document.documentElement.clientWidth < 500) {
@@ -149,6 +150,8 @@ export default mapStyle(() => [
       isOpen, baseElement, footer, onClickBase, onClickOutside, style, children, ...otherProps,
     } = this.props as any;
 
+    const s = css(style, [['expandFor', 'paddingTop', 'paddingBottom']]);
+
     const overlayStyle = {
       position: 'fixed' as 'fixed',
       top: 0, left: 0, width: '100%', height: '100%',
@@ -159,7 +162,7 @@ export default mapStyle(() => [
       boxShadow: this.state.small ? '0 2px 25px rgba(0,0,0,0.5)' : '0 2px 20px 5px rgba(0,0,0,0.4)',
       borderRadius: 3,
       background: 'white',
-      ...style,
+      ...s,
       padding: 0,
       overflow: 'hidden' as 'hidden',
       position: 'fixed' as 'fixed',
@@ -172,8 +175,8 @@ export default mapStyle(() => [
     const innerStyle = {
       overflow: 'auto' as 'auto',
       position: 'absolute' as 'absolute',
-      top: style.paddingTop,
-      bottom: parseFloat(style.paddingBottom || '0') + this.state.footerHeight,
+      top: s.paddingTop,
+      bottom: parseFloat(s.paddingBottom || '0') + this.state.footerHeight,
       width: '100%',
     };
     const footerStyle = {
@@ -186,7 +189,7 @@ export default mapStyle(() => [
         {React.cloneElement(baseElement, {
           onMouseDown: onClickBase, ...(isOpen ? {} : otherProps),
         })}
-        <Portal isOpened={isOpen}>
+        <Portal isOpen={isOpen}>
           <div className="kalambo">
             <div style={overlayStyle} onMouseDown={this.clickOverlay} />
             <div
@@ -205,4 +208,4 @@ export default mapStyle(() => [
       </div>
     );
   }
-});
+};

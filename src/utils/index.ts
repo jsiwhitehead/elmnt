@@ -5,8 +5,8 @@ import focusable, { FocusableProps } from './states/focusable';
 import withFocus, { FocusProps } from './states/withFocus';
 import withHover, { HoverProps } from './states/withHover';
 
+import clickFocus from './clickFocus';
 import cssGroups from './cssGroups';
-import focusOnMouseDown from './focusOnMouseDown';
 import renderLayer from './renderLayer';
 
 export {
@@ -17,7 +17,7 @@ export {
   withFocus, FocusProps,
   withHover, HoverProps,
 
+  clickFocus,
   cssGroups,
-  focusOnMouseDown,
   renderLayer,
 };

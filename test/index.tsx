@@ -73,7 +73,7 @@ ReactDOM.render(
     <br />
 
     <WrappedInput
-      type="text" options={['One', 'Two', 'Three']} labels={['One', 'Two', '~Group', 'Three']}
+      type="text" options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
       style={{ ...inputStyle, layout: 'modal' }}
     />
 

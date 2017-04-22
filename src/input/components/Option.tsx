@@ -6,7 +6,7 @@ import Div from '../../div';
 import Txt from '../../txt';
 import { cssGroups } from '../../utils';
 
-import Icon from './Icon';
+import Marker from './Marker';
 
 export default compose<any, any>(
 
@@ -16,8 +16,8 @@ export default compose<any, any>(
 
   mapStyle(({ isList, layout }) => [
     !isList && ['merge', { borderRadius: 1000 }],
-    ['numeric', 'iconSize'],
-    layout !== 'modal' && ['scale', { padding: 0.7 }],
+    ['scale', { fontSize: { iconSize: 0.9 } }],
+    layout !== 'modal' && ['scale', { padding: 0.2 }],
   ]),
 
   mapStyle(({ layout }) => ({
@@ -43,7 +43,7 @@ export default compose<any, any>(
 
 )(({ text, icon, style }) =>
   <Div style={style.div}>
-    <Icon type={icon} style={style.icon} />
+    <Marker type={icon} style={style.icon} />
     <Txt style={style.text}>{text}</Txt>
   </Div>
 );

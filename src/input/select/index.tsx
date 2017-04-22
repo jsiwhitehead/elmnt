@@ -2,7 +2,7 @@ import * as React from 'react';
 import { branch, compose, renderComponent, withProps } from 'recompose';
 import { mapStyle } from 'highstyle';
 
-import Modal from '../../modal';
+import Modal from '../modal';
 import { Comp, Obj } from '../../typings';
 import { renderLayer } from '../../utils';
 
@@ -58,12 +58,15 @@ export default function createSelect({ Group, Key, Label, Option, Select }: Obj<
           ]
         } })),
         renderLayer(({
-          labelText, hoverProps, style, children, openState, openModal, closeModal, setModalElem,
+          isList, labelText, hoverProps, style, children, openState, openModal, closeModal,
+          setModalElem,
         }) =>
           <Modal
             isOpen={openState.isOpen} onClickBase={openModal} onClickOutside={closeModal}
             {...hoverProps} style={style.modal} ref={setModalElem}
-            baseElement={<Label text={labelText} icon={['', 'arrow']} style={style.label} />}
+            baseElement={
+              <Label text={labelText} icon={['', isList ? 'updown' : 'down']} style={style.label} />
+            }
             children={children}
           />
         ),
