@@ -15,12 +15,12 @@ const formatNull = (func: (v, ...args) => string) => (
 
 export default {
 
-  String: {
+  text: {
     format: formatNull((value: string) => value),
     parse: (text: string) => ({ value: text, text }),
   },
 
-  Int: {
+  int: {
     format: formatNull((value: number) => `${value}`),
     parse: (text: string) => {
       const t = text.replace(/[^\d]/g, '');
@@ -29,7 +29,7 @@ export default {
     },
   },
 
-  Float: {
+  float: {
     format: formatNull((value: number) => `${value}`),
     parse: (text: string) => {
 
@@ -56,7 +56,7 @@ export default {
     }
   },
 
-  Date: {
+  date: {
     allowNull: true,
     format: formatNull((
       value: Date,
@@ -102,7 +102,7 @@ export default {
     },
   },
 
-  StringList: {
+  textlist: {
     format: formatNull((value: string[]) => value.join(',\n')),
     parse: (text: string) => {
       const value = text.split(',').map(s => s.trim());

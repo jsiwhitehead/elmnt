@@ -1,7 +1,5 @@
 import { branch, ComponentEnhancer, compose, withHandlers, withProps, withState } from 'recompose';
 
-import { withContext } from '../../utils';
-
 const undefToNull = (v: any) => v === undefined ? null : v;
 
 const mod = (a: number, b: number) => ((a % b) + b) % b;
@@ -19,7 +17,6 @@ const getText = (isList, value, options, labels) => {
 export default compose(
 
   withState('activeIndex', 'setActiveIndex', 0),
-  withContext('activeIndex', ({ activeIndex }) => activeIndex),
 
   withHandlers({
     selectIndex: ({ isList, value, onChange, setActiveIndex, options }) => (index) => {
@@ -35,20 +32,16 @@ export default compose(
     },
   }),
 
-  withContext(
-    'selected',
-    ({ isList, value, options }) => !isList ? options.indexOf(value) :
-      (value || []).reduce((result, v) => ({ ...result, [options.indexOf(v)]: true }), {}),
-  ),
-
   withHandlers({
-    moveActiveIndex: ({ isList, activeIndex, setActiveIndex, selectIndex, options, modal }) => (
+    moveActiveIndex: ({
+      isList, activeIndex, setActiveIndex, selectIndex, options, layout,
+    }) => (
       (move?: number, jumpTo?: boolean) => {
         if (move === undefined) {
           selectIndex(activeIndex);
         } else {
           const newActiveIndex = jumpTo ? move : modMove(activeIndex, move, options.length);
-          (isList || modal ? setActiveIndex : selectIndex)(newActiveIndex);
+          (isList || (layout === 'modal') ? setActiveIndex : selectIndex)(newActiveIndex);
           return newActiveIndex;
         }
       }
@@ -56,15 +49,23 @@ export default compose(
   }),
 
   branch(
-    ({ modal }) => modal,
+    ({ layout }) => layout === 'modal',
     compose(
 
+      withState('openState', 'setOpenState', { isOpen: false, isOpening: false, timeout: null }),
       withState('scroll', 'setScroll', { isScrolling: false, modalElem: null }),
-      withHandlers({
-        setModalElem: ({ scroll, setScroll }) => (c) => setScroll({ ...scroll, modalElem: c }),
-      }),
 
       withHandlers({
+
+        openModal: ({ setOpenState }) => () => {
+          const timeout = setTimeout(() => setOpenState({ isOpen: true, isOpening: false }), 400);
+          setOpenState({ isOpen: true, isOpening: true, timeout });
+        },
+        closeModal: ({ openState, setOpenState }) => () => {
+          clearTimeout(openState.timeout);
+          setOpenState({ isOpen: false, isOpening: false, timeout: null });
+        },
+
         moveActiveIndex: ({ moveActiveIndex, scroll, setScroll }) => (
           (move?: number, jumpTo?: boolean) => {
             if (move === undefined) {
@@ -80,25 +81,15 @@ export default compose(
             }
           }
         ),
-      }),
 
-      withState('openState', 'setOpenState', { isOpen: false, isOpening: false, timeout: null }),
+        setModalElem: ({ scroll, setScroll }) => (c) => setScroll({ ...scroll, modalElem: c }),
 
-      withHandlers({
-        open: ({ setOpenState }) => () => {
-          const timeout = setTimeout(() => setOpenState({ isOpen: true, isOpening: false }), 400);
-          setOpenState({ isOpen: true, isOpening: true, timeout });
-        },
-        close: ({ openState, setOpenState }) => () => {
-          clearTimeout(openState.timeout);
-          setOpenState({ isOpen: false, isOpening: false, timeout: null });
-        },
       }),
 
       withHandlers({
-        selectIndex: ({ isList, selectIndex, openState, close }) => (i) => {
+        selectIndex: ({ isList, selectIndex, openState, closeModal }) => (i) => {
           if (!openState.isOpening) {
-            if (!isList) close();
+            if (!isList) closeModal();
             selectIndex(i);
           }
         },
@@ -108,16 +99,16 @@ export default compose(
   ),
 
   withHandlers({
-    onKeyDown: ({ isList, moveActiveIndex, openState, open, close }) => (event) => {
+    onKeyDown: ({ isList, moveActiveIndex, openState, openModal, closeModal }) => (event) => {
       if (openState && !openState.isOpen) {
         if ((event.keyCode === 13) || (event.keyCode === 32)) {
-          open();
+          openModal();
           event.preventDefault();
         }
       } else {
         if ((event.keyCode === 13) || (event.keyCode === 32)) {
           moveActiveIndex();
-          if (!isList && close) close();
+          if (!isList && closeModal) closeModal();
           event.preventDefault();
         } else if ((event.keyCode === 37) || (event.keyCode === 38)) {
           moveActiveIndex(-1);
@@ -126,7 +117,7 @@ export default compose(
           moveActiveIndex(1);
           event.preventDefault();
         } else if ((event.keyCode === 9) || (event.keyCode === 27)) {
-          if (close) close();
+          if (closeModal) closeModal();
         }
       }
       if (event.keyCode === 13) {
@@ -140,8 +131,11 @@ export default compose(
     const filteredLabels = newLabels.filter(l => !(typeof l === 'string' && l[0] === '~'));
     const labelIndices = newLabels.map(l => filteredLabels.indexOf(l));
     return {
-      labels: newLabels, labelIndices,
-      text: getText(isList, value, options, filteredLabels),
+      labels: newLabels,
+      labelIndices,
+      labelText: getText(isList, value, options, filteredLabels),
+      selected: !isList ? options.indexOf(value) :
+        (value || []).reduce((result, v) => ({ ...result, [options.indexOf(v)]: true }), {}),
     };
   }),
 

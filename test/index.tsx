@@ -2,11 +2,11 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { withState } from 'recompose';
 
-import Div from '../src/div';
-import Txt from '../src/txt';
+// import Div from '../src/div';
+// import Txt from '../src/txt';
 import Input from '../src/input';
 
-const StateTxt = withState<any>('children', 'onTextChange', 'Hello world!')(Txt);
+// const StateTxt = withState<any>('children', 'onTextChange', 'Hello world!')(Txt);
 const WrappedInput = withState<any>('value', 'onChange', null)(Input);
 
 const inputStyle = {
@@ -29,6 +29,7 @@ const inputStyle = {
   },
   group: {
     fontWeight: 'bold',
+    userSelect: 'none',
   },
   key: {
     fontWeight: 'bold',
@@ -45,8 +46,45 @@ const inputStyle = {
 ReactDOM.render(
   <div style={{ padding: 100 }}>
 
-    <WrappedInput type="String" style={inputStyle}/>
+    <WrappedInput type="boolean" options={{}} text="Hello" style={inputStyle}/>
 
+    <br />
+
+    <WrappedInput
+      type="text" options={['One', 'Two', 'Three']}
+      labels={['One', 'Two', '~Group', 'Three']} style={inputStyle}
+    />
+
+    <br />
+
+    <WrappedInput type="textlist" options={['One', 'Two', 'Three']} style={inputStyle} />
+
+    <br />
+
+    <table>
+      <tbody>
+        <WrappedInput
+          type="text" text="Hello" options={['One', 'Two', 'Three']}
+          style={{ ...inputStyle, layout: 'table' }}
+        />
+      </tbody>
+    </table>
+
+    <br />
+
+    <WrappedInput
+      type="text" options={['One', 'Two', 'Three']} labels={['One', 'Two', '~Group', 'Three']}
+      style={{ ...inputStyle, layout: 'modal' }}
+    />
+
+    <br />
+
+    <WrappedInput
+      type="textlist" options={['One', 'Two', 'Three']} labels={['One', 'Two', '~Group', 'Three']}
+      style={{ ...inputStyle, layout: 'modal' }}
+    />
+
+{/*
     <br />
 
     <WrappedInput
@@ -83,14 +121,8 @@ ReactDOM.render(
 
     <br />
 
-    <table>
-      <tbody>
-        <WrappedInput
-          type="String" label="Hello" options={['One', 'Two', 'Three']} style={inputStyle} alt
-        />
-      </tbody>
-    </table>
-
+    */}
+{/*
     <br />
 
     <Div style={{ background: 'lightblue' }}>
@@ -138,7 +170,7 @@ ReactDOM.render(
     <StateTxt tab={2} />
     <StateTxt style={{ background:'lightblue', border: '1px solid blue', padding: 20 }} />
     <StateTxt rows={1} style={{ background:'lightblue', border: '1px solid blue' }} />
-    <StateTxt rows={3} style={{ background:'lightblue', border: '1px solid blue' }} />
+    <StateTxt rows={3} style={{ background:'lightblue', border: '1px solid blue' }} />*/}
 
   </div>,
   document.getElementById('root'),

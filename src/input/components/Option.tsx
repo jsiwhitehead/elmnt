@@ -1,52 +1,39 @@
 import * as React from 'react';
-import { compose } from 'recompose';
+import { compose, withProps } from 'recompose';
 import { mapStyle } from 'highstyle';
 
 import Div from '../../div';
 import Txt from '../../txt';
 import { cssGroups } from '../../utils';
 
-import { option } from '../logic';
-
 import Icon from './Icon';
 
-export interface OptionStyle extends React.CSSProperties {
-  fontSize: number;
-  iconSize?: number | string;
-}
-export interface OptionProps {
-  isList: boolean;
-  index: number;
-  selectIndex: (index: number) => void;
-  text?: string;
-  icon?: string | false | null;
-  modal?: boolean;
-  moveActiveIndex?: (move?: number, jumpTo?: boolean) => void;
-  style: OptionStyle;
-}
-export default compose<any, OptionProps>(
+export default compose<any, any>(
 
-  option,
+  withProps(({ isList, isSelected, layout }) => ({
+    icon: isSelected && (isList || (layout === 'modal') ? 'tick' : 'disc')
+  })),
 
-  mapStyle(({ isList, isActive, modal, icon }) => [
-    ['mergeKeys', { active: isActive, selected: modal && icon }],
+  mapStyle(({ isList, layout }) => [
     !isList && ['merge', { borderRadius: 1000 }],
     ['numeric', 'iconSize'],
+    layout !== 'modal' && ['scale', { padding: 0.7 }],
   ]),
 
-  mapStyle(({ modal }) => ({
+  mapStyle(({ layout }) => ({
     div: [
       ['scale', { fontSize: { spacing: 0.5 }, iconSize: { childWidths: 1 } }],
       ['filter', ...cssGroups.box, ...cssGroups.other, 'childWidths'],
       ['merge', {
         layout: 'bar', cursor: 'pointer', userSelect: 'none', border: 0, borderRadius: 0,
-        ...(!modal ? { background: 'none', padding: 0 } : {}),
+        ...((layout !== 'modal') ? { background: 'none', padding: 0 } : { width: '100%' }),
       }],
     ],
     icon: [
       ['scale', { iconSize: { fontSize: 1 } }],
       ['filter',
-        'fontSize', 'color', 'background', ...(!modal ? ['padding', 'border', 'borderRadius'] : []),
+        'fontSize', 'color', 'background',
+        ...((layout !== 'modal') ? ['padding', 'border', 'borderRadius'] : []),
       ],
     ],
     text: [
@@ -54,11 +41,8 @@ export default compose<any, OptionProps>(
     ],
   })),
 
-)(({ text, icon, index, onMouseUp, onMouseDown, onMouseMove, style }) =>
-  <Div
-    onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={onMouseMove}
-    style={style.div} data-modal-index={index}
-  >
+)(({ text, icon, style }) =>
+  <Div style={style.div}>
     <Icon type={icon} style={style.icon} />
     <Txt style={style.text}>{text}</Txt>
   </Div>

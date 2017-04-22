@@ -1,9 +1,12 @@
 import * as React from 'react';
-import { branch, compose, renderComponent } from 'recompose';
+import { branch, compose, renderComponent, withProps } from 'recompose';
+import { mapStyle } from 'highstyle';
 
-import { states, text } from './logic';
+import { focusable, withFocus, withHover } from '../utils';
 
-import { Label, SelectGrid, SelectModal, SelectTable } from './components';
+import components from './components';
+import createText from './text';
+import createSelect from './select';
 
 export interface InputProps {
   value: string;
@@ -13,25 +16,32 @@ export interface InputProps {
 }
 export default compose<any, InputProps>(
 
-  states,
+  focusable,
+
+  mapStyle(),
+
+  withFocus,
+  withHover,
+
+  withProps(({ type }) => ({
+    isList: type.endsWith('list'),
+  })),
+
+  mapStyle(({ invalid, isFocused, isHovered, style: { fontSize } }) => [
+
+    ['defaults', {
+      fontSize: 20, lineHeight: 1.5, color: 'black', layout: 'grid',
+      iconSize: Math.round(parseFloat(fontSize || 20) * 0.5),
+    }],
+
+    ['mergeKeys', { invalid, focus: isFocused, hover: isHovered }],
+    ['filterKeys', 'active', 'selected', 'placeholder', 'group', 'key', 'alt'],
+
+  ]),
 
   branch(
-    ({ options, modal }) => options && modal,
-    renderComponent(SelectModal),
+    ({ options }) => options,
+    renderComponent(createSelect(components)),
   ),
 
-  branch(
-    ({ options, label }) => options && label,
-    renderComponent(SelectTable),
-  ),
-
-  branch(
-    ({ type, onValue, offValue, options }) => (
-      (type === 'Boolean') || (onValue !== undefined) || (offValue !== undefined) || options
-    ),
-    renderComponent(SelectGrid),
-  ),
-
-  text,
-
-)(Label);
+)(createText(components));

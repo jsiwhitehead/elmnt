@@ -1,32 +1,27 @@
 import * as React from 'react';
-import { branch, compose } from 'recompose';
+import { compose } from 'recompose';
 import { mapStyle } from 'highstyle';
 
 import Div from '../../div';
 import Txt from '../../txt';
-import { cssGroups, focusOnMouseDown } from '../../utils';
+import { cssGroups } from '../../utils';
 
 import Icon from './Icon';
 
 export default compose<any, any>(
 
-  branch(
-    ({ onTextChange }) => onTextChange,
-    focusOnMouseDown,
-  ),
-
-  mapStyle(({ isFocused }) => [
-    ['mergeKeys', { active: isFocused }],
+  mapStyle(() => [
     ['numeric', 'fontSize', 'iconSize', 'paddingLeft', 'paddingRight'],
   ]),
-  mapStyle(({ onTextChange, icon, style: { fontSize, iconSize, paddingLeft, paddingRight } }) => ({
+
+  mapStyle(({ icon, style: { fontSize, iconSize, paddingLeft, paddingRight, cursor } }) => ({
     div: [
       ['filter', ...cssGroups.box, ...cssGroups.other],
       ['merge', {
         layout: 'bar', spacing: 0, width: '100%',
-        cursor: onTextChange ? 'text' : 'pointer',
+        cursor: cursor || 'pointer',
         childWidths: icon &&
-          icon.side === 'left' ? iconSize + paddingLeft : `auto auto ${iconSize + paddingRight}`,
+          icon[0] ? iconSize + paddingLeft : `auto ${iconSize + paddingRight}px`,
       }],
     ],
     icon: [
@@ -35,8 +30,8 @@ export default compose<any, any>(
         fontSize: iconSize,
         paddingTop: Math.round((fontSize - iconSize) * 0.5),
         paddingBottom: Math.round((fontSize - iconSize) * 0.5),
-        paddingRight: icon && icon.side === 'left' && paddingLeft,
-        paddingLeft: icon && icon.side === 'right' && paddingRight,
+        paddingRight: icon && icon[0] && paddingLeft,
+        paddingLeft: icon && !icon[0] && paddingRight,
       }],
     ],
     text: [
@@ -44,14 +39,14 @@ export default compose<any, any>(
     ],
   })),
 
-)(({ text, icon, onTextChange, onMouseDown, hoverProps, focusProps, setFocusElem, style }) =>
-  <Div onMouseDown={onMouseDown} {...hoverProps} style={style.div}>
-    {icon && icon.side === 'left' && <Icon type={icon.type} style={style.icon} />}
-    <Txt
-      onTextChange={onTextChange} {...focusProps} style={style.text} focusRef={setFocusElem}
-    >
-      {text}
-    </Txt>
-    {icon && icon.side === 'right' && <Icon type={icon.type} style={style.icon} />}
+)(({ text, icon, password, onTextChange, onMouseDown, focusProps, setFocusElem, style }) =>
+  <Div onMouseDown={onMouseDown} style={style.div}>
+    {(icon || ['']).map(i => i ?
+      <Icon type={i} style={style.icon} key={i} /> :
+      <Txt
+        onTextChange={onTextChange} {...focusProps} focusRef={setFocusElem}
+        password={password} style={style.text} key={i} children={text}
+      />
+    )}
   </Div>
 );
