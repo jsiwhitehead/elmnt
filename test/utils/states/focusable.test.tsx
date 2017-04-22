@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as renderer from 'react-test-renderer';
 import { mount } from 'enzyme';
 
-import focusable, { FocusableProps } from '../../src/utils/focusable';
+import focusable, { FocusableProps } from '../../../src/utils/states/focusable';
 
 describe('utils: focusable', () => {
 

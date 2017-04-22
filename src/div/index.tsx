@@ -45,7 +45,7 @@ const Div = compose<any, DivProps>(
   branch(
     ({ divStyles: { layout } }) => layout === 'grid',
     compose(
-      renderComponent(({ divStyles: { spacing }, children, ...otherProps }) =>
+      renderComponent(({ divStyles: { spacing, childWidths }, children, ...otherProps }) =>
         <Div {...otherProps}>
           <div style={{ paddingTop: 1, paddingLeft: 1 }}>
             <div style={{
@@ -54,7 +54,9 @@ const Div = compose<any, DivProps>(
             }}>
               {React.Children.map(children, (child, i) => child &&
                 <div key={i} style={{
-                  float: 'left', marginTop: spacing[0], marginLeft: spacing[1],
+                  float: 'left',
+                  marginTop: spacing[0], marginLeft: spacing[1],
+                  width: childWidths[i] || 'auto',
                 }}>
                   {child}
                 </div>
@@ -69,10 +71,13 @@ const Div = compose<any, DivProps>(
   branch(
     ({ divStyles: { layout } }) => layout === 'stack',
     compose(
-      renderComponent(({ divStyles: { spacing }, children, ...otherProps }) =>
+      renderComponent(({ divStyles: { spacing, childWidths }, children, ...otherProps }) =>
         <div {...otherProps}>
           {React.Children.map(children, (child, i) => child &&
-            <Div key={i} style={{ paddingTop: (i !== 0 ? spacing[0] : 0) }}>
+            <Div key={i} style={{
+              paddingTop: (i !== 0 ? spacing[0] : 0),
+              width: childWidths[i] || 'auto',
+            }}>
               {child}
             </Div>
           )}

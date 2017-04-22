@@ -4,13 +4,13 @@ import {
   withState,
 } from 'recompose';
 import * as omit from 'lodash.omit';
-import css, { CSSTree, mapStyle } from 'highstyle';
+import { CSSTree, mapStyle } from 'highstyle';
 
-import { cssGroups, focusable, renderLayer } from '../utils';
+import { cssGroups, focusable, focusOnMouseDown, renderLayer } from '../utils';
 
 import Autosize from './Autosize';
 import Placeholder from './Placeholder';
-import transforms from './transforms';
+import cssTransforms from './cssTransforms';
 
 const getMargin = style => {
   const gap = (parseFloat(style.lineHeight) - parseFloat(style.fontSize)) * 0.5;
@@ -18,51 +18,40 @@ const getMargin = style => {
 };
 
 export interface TxtProps extends React.HTMLProps<{}> {
-  children?: string;
+  children?: string | null;
   onTextChange?: (text: string) => void;
   placeholder?: string;
   rows?: number;
   password?: boolean;
   tab?: number;
+  focusRef?: (c: any) => void;
   style?: CSSTree<"placeholder">;
 }
 export default compose<any, TxtProps>(
 
-  mapStyle(),
-
   setDisplayName('Txt'),
+  focusable,
   branch(
     ({ onTextChange }) => onTextChange,
-    compose(
-      focusable,
-      withHandlers({
-        onMouseDown: ({ onMouseDown, focusElem }) => (event) => {
-          if (onMouseDown) onMouseDown(event);
-          if (event.target !== focusElem) {
-            focusElem.focus();
-            event.preventDefault();
-          }
-        },
-      }),
-    ),
+    focusOnMouseDown,
   ),
-  setDisplayName('TxtOuter'),
 
+  mapStyle(),
   mapStyle(({ onTextChange }) => [
-    css.defaults({
+    ['defaults', {
       fontFamily: 'inherit', fontSize: 20, lineHeight: 1.5,
       cursor: onTextChange ? 'text' : undefined,
-    }),
-    transforms.block,
-    transforms.lineHeightPx,
-  ]),
+    }],
+    ['block'],
+    ['lineHeightPx'],
+  ], cssTransforms),
 
   renderLayer(
     compose(
       mapStyle(({ style }) => ({
         outer: [
-          css.filterKeys(),
-          css.filter(...cssGroups.box, ...cssGroups.other),
+          ['filterKeys'],
+          ['filter', ...cssGroups.box, ...cssGroups.other],
         ],
         inner: [
           { padding: '1px 0px', display: 'block', minHeight: style.fontSize },
@@ -70,7 +59,7 @@ export default compose<any, TxtProps>(
       })),
       mapProps(props => omit(props,
         'onTextChange', 'placeholder', 'rows', 'password', 'tab',
-        'tabIndex', 'onFocus', 'onBlur', 'focusElem', 'setFocusElem', 'spellCheck',
+        'tabIndex', 'onFocus', 'onBlur', 'focusElem', 'setFocusElem', 'focusRef', 'spellCheck',
       )),
     )(({ style, ...props }: any) => (
       <span style={style.outer} {...props}>
@@ -81,12 +70,12 @@ export default compose<any, TxtProps>(
 
   mapStyle(() => ({
     text: [
-      css.filterKeys(),
-      css.filter(...cssGroups.text),
+      ['filterKeys'],
+      ['filter', ...cssGroups.text],
     ],
     placeholder: [
-      css.mergeKeys('placeholder'),
-      css.filter(...cssGroups.text),
+      ['mergeKeys', 'placeholder'],
+      ['filter', ...cssGroups.text],
     ],
   })),
 
@@ -106,13 +95,13 @@ export default compose<any, TxtProps>(
   mapStyle(({ rows }) => ({
     text: {
       input: [
-        css.merge({
+        ['merge', {
           position: rows ? 'absolute' : 'relative',
           top:0, left:0, width: '100%', height: rows ? '100%' : 'auto',
           resize: 'none', overflow: 'hidden',
           background: 'transparent', outline: 'none',
           border: 0, padding: 0, margin: 0, display: 'block',
-        }),
+        }],
       ],
     }
   })),
@@ -128,26 +117,28 @@ export default compose<any, TxtProps>(
   }),
   withHandlers({
     onChange: ({ onTextChange }) => (event) => onTextChange(event.target.value),
-    onKeyDown: ({ children = '', onTextChange, rows, tab, setCursor }) => (event) => {
+    onKeyDown: ({ children, onTextChange, rows, tab, setCursor }) => (event) => {
       if (event.keyCode === 13 && rows) event.stopPropagation();
       if (event.keyCode === 9 && tab) {
         const start = event.target.selectionStart || 0;
         const end = event.target.selectionEnd || event.target.selectionStart;
         const tabSpaces = Array(tab + 1).join(' ');
         setCursor(start + tab);
-        onTextChange(`${children.substring(0, start)}${tabSpaces}${children.substring(end)}`);
+        onTextChange(
+          `${(children || '').substring(0, start)}${tabSpaces}${(children || '').substring(end)}`
+        );
         event.preventDefault();
       }
     },
   }),
 
   withProps(({
-    children = '', rows, password, onChange, onKeyDown,
+    children, rows, password, onChange, onKeyDown,
     tabIndex = 0, onFocus, onBlur, setFocusElem, spellCheck, style,
   }) => ({
-    value: rows ? children : children.replace(/\n/g, ''),
+    value: rows ? (children || '') : (children || '').replace(/\n/g, ''),
     inputProps: {
-      value: rows ? children : children.replace(/\n/g, ''),
+      value: rows ? (children || '') : (children || '').replace(/\n/g, ''),
       onChange,
       type: password ? 'password' : 'text',
       onKeyDown,

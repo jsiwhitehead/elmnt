@@ -4,13 +4,13 @@ const text = [
 ];
 
 const box = [
-  'background', 'margin', 'padding', 'border', 'borderRadius', 'boxShadow', 'animation', 'spacing',
+  'background', 'padding', 'border', 'borderRadius', 'boxShadow', 'animation', 'spacing',
 ];
 
 const other = [
   'cursor', 'overflow', 'outline', 'position', 'top', 'right', 'bottom', 'left', 'width',
   'height', 'minWidth', 'maxWidth', 'minHeight', 'maxHeight', 'userSelect', 'float', 'zIndex',
-  'animation', 'display', 'visibility', 'opacity',
+  'animation', 'display', 'visibility', 'opacity', 'margin',
 ];
 
 export default {

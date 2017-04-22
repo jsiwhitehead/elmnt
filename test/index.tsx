@@ -4,11 +4,94 @@ import { withState } from 'recompose';
 
 import Div from '../src/div';
 import Txt from '../src/txt';
+import Input from '../src/input';
 
 const StateTxt = withState<any>('children', 'onTextChange', 'Hello world!')(Txt);
+const WrappedInput = withState<any>('value', 'onChange', null)(Input);
+
+const inputStyle = {
+  fontSize: 20,
+  border: '2px solid blue',
+  padding: 10,
+  spacing: '10px 20px',
+  hover: {
+    background: '#f6f6f6',
+  },
+  focus: {
+    borderColor: 'black',
+    active: {
+      background: '#ddd',
+      borderColor: 'lightblue',
+    },
+  },
+  selected: {
+    fontWeight: 'bold',
+  },
+  group: {
+    fontWeight: 'bold',
+  },
+  key: {
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+  },
+  alt: {
+    background: 'rgba(0,0,0,0.03)',
+    hover: {
+      background: '#eee',
+    },
+  },
+};
 
 ReactDOM.render(
   <div style={{ padding: 100 }}>
+
+    <WrappedInput type="String" style={inputStyle}/>
+
+    <br />
+
+    <WrappedInput
+      type="Boolean" onValue={true} text="Hello world" style={inputStyle}
+    />
+
+    <br />
+
+    <WrappedInput
+      type="String" options={['One', 'Two', 'Three']}
+      labels={['One', 'Two', '~Group', 'Three']} style={inputStyle}
+    />
+
+    <br />
+
+    <WrappedInput
+      type="StringList" options={['One', 'Two', 'Three']}
+      labels={['One', 'Two', '~Group', 'Three']} style={inputStyle}
+    />
+
+    <br />
+
+    <WrappedInput
+      type="String" options={['One', 'Two', 'Three']} modal
+      labels={['One', 'Two', '~Group', 'Three']} style={inputStyle}
+    />
+
+    <br />
+
+    <WrappedInput
+      type="StringList" options={['One', 'Two', 'Three']} modal
+      labels={['One', 'Two', '~Group', 'Three']} style={inputStyle}
+    />
+
+    <br />
+
+    <table>
+      <tbody>
+        <WrappedInput
+          type="String" label="Hello" options={['One', 'Two', 'Three']} style={inputStyle} alt
+        />
+      </tbody>
+    </table>
+
+    <br />
 
     <Div style={{ background: 'lightblue' }}>
       <div style={{ float: 'left', width: 60, height: 20, border: '1px solid blue' }} />

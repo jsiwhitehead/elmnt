@@ -1,11 +1,11 @@
 import { createTransform } from 'highstyle';
 
-const block = createTransform('props', style => ({
+const block = createTransform(style => ({
   ...style,
   display: style.display === 'inline' ? 'inline-block' : (style.display || 'block'),
 }));
 
-const lineHeightPx = createTransform('props', style => {
+const lineHeightPx = createTransform(style => {
 
   if (!style.fontSize || !style.lineHeight) return style;
 
