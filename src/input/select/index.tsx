@@ -2,9 +2,8 @@ import * as React from 'react';
 import { branch, compose, renderComponent, withProps } from 'recompose';
 import { mapStyle } from 'highstyle';
 
-import Modal from '../../modal';
 import { Comp, Obj } from '../../typings';
-import { renderLayer } from '../../utils';
+import { clickFocus, renderLayer, renderPortal } from '../../utils';
 
 import createItem from './Item';
 import withSelect from './withSelect';
@@ -12,7 +11,7 @@ import withToggle from './withToggle';
 
 const isGroup = l => typeof l === 'string' && l[0] === '~';
 
-export default function createSelect({ Group, Key, Label, Option, Select }: Obj<Comp<any>>) {
+export default function createSelect({ Group, Key, Label, Modal, Option, Select }: Obj<Comp<any>>) {
   const Item = createItem({ Option });
   return compose<any, any>(
 
@@ -24,10 +23,6 @@ export default function createSelect({ Group, Key, Label, Option, Select }: Obj<
 
     mapStyle(() => ({
       base: null,
-      tr: [
-        ['filter', 'background'],
-        ['merge', { outline: 'none' }],
-      ],
       group: [
         ['mergeKeys', 'group'],
       ],
@@ -55,48 +50,60 @@ export default function createSelect({ Group, Key, Label, Option, Select }: Obj<
 
     branch(
       ({ style: { base: { layout } } }) => layout === 'table',
-      renderComponent(({ onKeyDown, hoverProps, focusProps, setFocusElem, children, style }) =>
-        <tr
-          onKeyDown={onKeyDown} {...hoverProps} {...focusProps} ref={setFocusElem}
-          style={style.tr} children={children}
-        />
+      compose(
+
+        mapStyle(() => ({ base: {
+          tr: [
+            ['filter', 'background'],
+            ['merge', { outline: 'none' }],
+          ],
+        } })),
+
+        renderComponent(({ onKeyDown, hoverProps, focusProps, setFocusElem, children, style }) =>
+          <tr
+            onKeyDown={onKeyDown} {...hoverProps} {...focusProps} ref={setFocusElem}
+            style={style.tr} children={children}
+          />
+        ),
+
       ),
-      renderLayer(({ onKeyDown, hoverProps, focusProps, setFocusElem, children }) =>
-        <div
-          onKeyDown={onKeyDown} {...hoverProps} {...focusProps} ref={setFocusElem}
-          style={{ outline: 'none' }} children={children}
-        />
-      ),
+    ),
+
+    renderLayer(({ onKeyDown, hoverProps, focusProps, setFocusElem, children }) =>
+      <div
+        onKeyDown={onKeyDown} {...hoverProps} {...focusProps} ref={setFocusElem}
+        style={{ outline: 'none' }} children={children}
+      />
     ),
 
     branch(
-      ({ style: { base: { layout } } }) => layout === 'modal',
-      compose(
-        mapStyle(({ isFocused }) => ({ base: {
-          modal: [
-            ['scale', { fontSize: { padding: 0.5 } }],
-            ['filter', 'background', 'paddingTop', 'paddingBottom'],
-          ],
-          label: [
-            ['mergeKeys', { active: isFocused }],
-          ]
-        } })),
-        renderLayer(({
-          isList, labelText, hoverProps, openState, openModal, closeModal, setModalElem,
-          style, children,
-        }) =>
-          <Modal
-            isOpen={openState.isOpen} onClickBase={openModal} onClickOutside={closeModal}
-            {...hoverProps} style={style.modal} ref={setModalElem} children={children}
-            baseElement={
-              <Label text={labelText} icon={['', isList ? 'updown' : 'down']} style={style.label} />
-            }
-          />
-        ),
+      ({ style: { base: { layout } } }) => layout !== 'modal',
+      renderComponent(({ labels, style, children }) =>
+        <Select labels={labels} style={style.base}>{children}</Select>
       ),
     ),
 
-  )(({ labels, style, children }) =>
-    <Select labels={labels} style={style.base}>{children}</Select>
+    clickFocus,
+
+    mapStyle(({ isFocused }) => ({ base: {
+      overlay: [{ position: 'fixed', top: 0, right: 0, bottom: 0, left: 0 }],
+      label: [['mergeKeys', { active: isFocused }]],
+    } })),
+
+    renderPortal(({ openState, closeModal, onMouseDown, hoverProps, style, children }) =>
+      openState.isOpen && (
+        <div onClick={closeModal}>
+          <div style={style.overlay} />
+          <div onMouseDown={onMouseDown} {...hoverProps}>
+            <Modal style={style.base}>{children}</Modal>
+          </div>
+        </div>
+      )
+    ),
+
+  )(({ isList, labelText, openModal, setPortalBaseElem, style }) =>
+    <div onMouseDown={openModal} ref={setPortalBaseElem}>
+      <Label text={labelText} icon={['', isList ? 'updown' : 'down']} style={style.label} />
+    </div>
   );
 }

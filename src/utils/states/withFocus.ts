@@ -19,12 +19,12 @@ export default function withFocus<P>(InnerComponent: Comp<P & FocusProps>) {
   return compose<P & FocusProps, P & FocusOuterProps>(
     withState('isFocused', 'setIsFocused', false),
     withHandlers({
-      onFocus: ({ isFocused, setIsFocused, onFocus }) => ({ event }) => {
-        if (!isFocused) setIsFocused(true);
+      onFocus: ({ setIsFocused, onFocus }) => (event) => {
+        setIsFocused(true);
         if (onFocus) onFocus(event);
       },
-      onBlur: ({ isFocused, setIsFocused, onBlur }) => ({ event }) => {
-        if (isFocused) setIsFocused(false);
+      onBlur: ({ setIsFocused, onBlur }) => (event) => {
+        setIsFocused(false);
         if (onBlur) onBlur(event);
       },
     }),

@@ -6,6 +6,7 @@ import Txt from '../../txt';
 import { cssGroups} from '../../utils';
 
 import Label from './Label';
+import Modal from './Modal';
 import Option from './Option';
 
 const isGroup = l => typeof l === 'string' && l[0] === '~';
@@ -35,6 +36,8 @@ export default {
   ),
 
   Label,
+
+  Modal,
 
   Option,
 

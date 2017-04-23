@@ -1,23 +1,17 @@
-import getContext from './context/getContext';
-import withContext, { contextProvider } from './context/withContext';
-
-import focusable, { FocusableProps } from './states/focusable';
-import withFocus, { FocusProps } from './states/withFocus';
-import withHover, { HoverProps } from './states/withHover';
-
+import { contextProvider, getContext, withContext } from './context';
 import clickFocus from './clickFocus';
 import cssGroups from './cssGroups';
+import { PortalRoot, renderPortal } from './portal';
 import renderLayer from './renderLayer';
+import { focusable, withFocus, withHover } from './states';
+import withBounds from './withBounds';
 
 export {
-  getContext,
-  withContext, contextProvider,
-
-  focusable, FocusableProps,
-  withFocus, FocusProps,
-  withHover, HoverProps,
-
+  contextProvider, getContext, withContext,
   clickFocus,
   cssGroups,
+  PortalRoot, renderPortal,
   renderLayer,
+  focusable, withFocus, withHover,
+  withBounds,
 };

@@ -6,6 +6,8 @@ import { withState } from 'recompose';
 // import Txt from '../src/txt';
 import Input from '../src/input';
 
+import { PortalRoot } from '../src/utils';
+
 // const StateTxt = withState<any>('children', 'onTextChange', 'Hello world!')(Txt);
 const WrappedInput = withState<any>('value', 'onChange', null)(Input);
 
@@ -46,7 +48,14 @@ const inputStyle = {
 ReactDOM.render(
   <div style={{ padding: 100 }}>
 
-    <WrappedInput type="boolean" options={{}} text="Hello" style={inputStyle}/>
+    <PortalRoot>
+      <WrappedInput
+        type="textlist" options={['One two three four five six seven eight nine ten', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
+        style={{ ...inputStyle, layout: 'modal' }}
+      />
+    </PortalRoot>
+
+    {/*<WrappedInput type="boolean" options={{}} text="Hello" style={inputStyle}/>
 
     <br />
 
@@ -82,7 +91,7 @@ ReactDOM.render(
     <WrappedInput
       type="textlist" options={['One', 'Two', 'Three']} labels={['One', 'Two', '~Group', 'Three']}
       style={{ ...inputStyle, layout: 'modal' }}
-    />
+    />*/}
 
 {/*
     <br />

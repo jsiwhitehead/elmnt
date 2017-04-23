@@ -28,7 +28,9 @@ export default compose<any, InputProps>(
   })),
 
   mapStyle(({ invalid, isFocused, isHovered }) => [
-    ['defaults', { fontSize: 20, lineHeight: 1.5, color: 'black', layout: 'grid' }],
+    ['defaults', {
+      fontSize: 20, lineHeight: 1.5, color: 'black', layout: 'grid', background: 'white',
+    }],
     ['mergeKeys', { invalid, focus: isFocused, hover: isHovered }],
     ['filterKeys', 'active', 'selected', 'placeholder', 'group', 'key', 'alt'],
   ]),
