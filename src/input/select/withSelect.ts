@@ -34,7 +34,7 @@ export default compose(
 
   withHandlers({
     moveActiveIndex: ({
-      isList, activeIndex, setActiveIndex, selectIndex, options, layout,
+      isList, activeIndex, setActiveIndex, selectIndex, options, style: { layout },
     }) => (
       (move?: number, jumpTo?: boolean) => {
         if (move === undefined) {
@@ -49,7 +49,7 @@ export default compose(
   }),
 
   branch(
-    ({ layout }) => layout === 'modal',
+    ({ style: { layout } }) => layout === 'modal',
     compose(
 
       withState('openState', 'setOpenState', { isOpen: false, isOpening: false, timeout: null }),

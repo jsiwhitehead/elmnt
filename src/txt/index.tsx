@@ -14,7 +14,7 @@ import cssTransforms from './cssTransforms';
 
 const getMargin = style => {
   const gap = (parseFloat(style.lineHeight) - parseFloat(style.fontSize)) * 0.5;
-  return `-${Math.floor(gap) + 1}px 0px -${Math.ceil(gap) + 1}px`;
+  return `-${gap + 1}px 0px -${gap + 1}px`;
 };
 
 export interface TxtProps extends React.HTMLProps<{}> {

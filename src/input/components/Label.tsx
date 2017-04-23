@@ -29,8 +29,8 @@ export default compose<any, any>(
       ['filter', 'color'],
       ['merge', {
         fontSize: iconSize,
-        paddingTop: Math.round((fontSize - iconSize) * 0.5),
-        paddingBottom: Math.round((fontSize - iconSize) * 0.5),
+        paddingTop: (fontSize - iconSize) * 0.5,
+        paddingBottom: (fontSize - iconSize) * 0.5,
         paddingRight: icon && icon[0] && paddingLeft,
         paddingLeft: icon && !icon[0] && paddingRight,
       }],
@@ -40,8 +40,8 @@ export default compose<any, any>(
     ],
   })),
 
-)(({ text, icon, password, onTextChange, onMouseDown, focusProps, setFocusElem, style }) =>
-  <Div onMouseDown={onMouseDown} style={style.div}>
+)(({ text, icon, password, onTextChange, focusProps, setFocusElem, style }) =>
+  <Div style={style.div}>
     {(icon || ['']).map(i => i ?
       <Marker type={i} style={style.icon} key={i} /> :
       <Txt

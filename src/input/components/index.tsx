@@ -1,24 +1,38 @@
 import * as React from 'react';
 import { mapStyle } from 'highstyle';
 
-import Label from './Label';
-import Option from './Option';
-
 import Div from '../../div';
 import Txt from '../../txt';
 import { cssGroups} from '../../utils';
+
+import Label from './Label';
+import Option from './Option';
 
 const isGroup = l => typeof l === 'string' && l[0] === '~';
 
 export default {
 
-  Group: mapStyle(() => [
-    ['filter', ...cssGroups.text, 'padding'],
+  Group: mapStyle(({ style: { layout } }) => [
+    ['filter',
+      ...cssGroups.text, 'paddingTop', 'paddingBottom',
+      ...(layout === 'modal' ? ['paddingLeft', 'paddingRight'] : []),
+    ],
   ])(Txt),
 
-  Key: mapStyle(() => [
-    ['filter', ...cssGroups.text],
-  ])(Txt),
+  Key: mapStyle(() => ({
+    cell: [
+      ['scale', { fontSize: { paddingRight: 1 } }],
+      ['filter', 'padding'],
+      ['merge', { verticalAlign: 'middle' }],
+    ],
+    key: [
+      ['filter', ...cssGroups.text],
+    ],
+  }))(({ text, style }) =>
+    <td style={style.cell}>
+      <Txt style={style.key}>{text}</Txt>
+    </td>
+  ),
 
   Label,
 

@@ -186,9 +186,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     return (
       <div ref={c => this.base = c}>
-        {React.cloneElement(baseElement, {
-          onMouseDown: onClickBase, ...(isOpen ? {} : otherProps),
-        })}
+        <div onMouseDown={onClickBase} {...(isOpen ? {} : otherProps)}>{baseElement}</div>
         <Portal isOpen={isOpen}>
           <div className="kalambo">
             <div style={overlayStyle} onMouseDown={this.clickOverlay} />
@@ -196,12 +194,8 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
               style={modalStyle} ref={c => this.modal = c} {...(isOpen ? otherProps : {})}
               onMouseDown={this.onMouseDown}
             >
-              <div style={innerStyle} ref={c => this.inner = c}>
-                {children}
-              </div>
-              {footer &&
-                <div style={footerStyle}>{footer}</div>
-              }
+              <div style={innerStyle} ref={c => this.inner = c}>{children}</div>
+              {footer && <div style={footerStyle}>{footer}</div>}
             </div>
           </div>
         </Portal>

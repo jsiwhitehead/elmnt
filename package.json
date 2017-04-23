@@ -27,9 +27,6 @@
   "devDependencies": {
     "@types/enzyme": "^2.7.9",
     "@types/jest": "^19.2.2",
-    "@types/react": "^15.0.22",
-    "@types/react-dom": "^15.5.0",
-    "@types/recompose": "^0.22.0",
     "enzyme": "^2.8.2",
     "jest": "^19.0.2",
     "react": "^15.5.4",
@@ -48,6 +45,9 @@
     "react-dom": "^15.0.0"
   },
   "dependencies": {
+    "@types/react": "^15.0.22",
+    "@types/react-dom": "^15.5.0",
+    "@types/recompose": "^0.22.0",
     "highstyle": "^0.2.0",
     "lodash.omit": "^4.5.0",
     "recompose": "^0.23.1"

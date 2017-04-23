@@ -5,6 +5,7 @@ const text = [
 
 const box = [
   'background', 'padding', 'border', 'borderRadius', 'boxShadow', 'animation', 'spacing', 'layout',
+  'childWidths',
 ];
 
 const other = [

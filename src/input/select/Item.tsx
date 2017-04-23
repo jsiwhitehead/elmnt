@@ -8,7 +8,7 @@ export default function createItem({ Option }: Obj<Comp<any>>) {
   return compose<any, any>(
 
     branch(
-      ({ layout }) => layout === 'modal',
+      ({ style: { layout } }) => layout === 'modal',
       withHandlers({
         onMouseUp: ({ index, selectIndex }) => () => selectIndex(index),
         onMouseMove: ({ index, moveActiveIndex }) => () => moveActiveIndex(index, true),
@@ -18,20 +18,23 @@ export default function createItem({ Option }: Obj<Comp<any>>) {
       }),
     ),
 
-    withProps(({ index, isList, selected }) => ({
+    withProps(({ index, isList, selected, style: { layout } }) => ({
       isSelected: isList ? selected[index] : (selected === index),
+      Root: layout === 'table' ? 'td' : 'div',
     })),
 
-    mapStyle(({ index, activeIndex, isSelected, layout }) => [
+    mapStyle(({ index, activeIndex, isSelected, style: { layout } }) => [
       ['mergeKeys', { active: index === activeIndex, selected: isSelected && layout === 'modal' }],
     ]),
 
-  )(({ index, text, isList, isSelected, onMouseUp, onMouseDown, onMouseMove, layout, style }) =>
-    <div
+  )(({
+    index, text, isList, isSelected, onMouseUp, onMouseDown, onMouseMove, style, Root,
+  }) =>
+    <Root
       onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={onMouseMove}
-      data-modal-index={index}
+      data-modal-index={index} style={{ verticalAlign: 'middle' }}
     >
-      <Option text={text} isList={isList} isSelected={isSelected} layout={layout} style={style} />
-    </div>
+      <Option text={text} isList={isList} isSelected={isSelected} style={style} />
+    </Root>
   );
 }

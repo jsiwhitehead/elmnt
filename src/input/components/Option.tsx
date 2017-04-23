@@ -10,27 +10,33 @@ import Marker from './Marker';
 
 export default compose<any, any>(
 
-  withProps(({ isList, isSelected, layout }) => ({
+  withProps(({ isList, isSelected, style: { layout } }) => ({
     icon: isSelected && (isList || (layout === 'modal') ? 'tick' : 'disc')
   })),
 
-  mapStyle(({ isList, layout }) => [
+  mapStyle(({ isList }) => [
     !isList && ['merge', { borderRadius: 1000 }],
     ['scale', { fontSize: { iconSize: 0.9 } }],
-    layout !== 'modal' && ['scale', { padding: 0.2 }],
   ]),
 
-  mapStyle(({ layout }) => ({
+  mapStyle(({ style: { layout } }) => ({
     div: [
-      ['scale', { fontSize: { spacing: 0.5 }, iconSize: { childWidths: 1 } }],
-      ['filter', ...cssGroups.box, ...cssGroups.other, 'childWidths'],
+      ['filter', ...cssGroups.box, ...cssGroups.other],
       ['merge', {
-        layout: 'bar', cursor: 'pointer', userSelect: 'none', border: 0, borderRadius: 0,
-        ...((layout !== 'modal') ? { background: 'none', padding: 0 } : { width: '100%' }),
+        cursor: 'pointer', userSelect: 'none', border: 0, borderRadius: 0,
+        ...((layout !== 'modal' && layout !== 'table') ? { background: 'none', padding: 0 } : {}),
+        ...((layout === 'modal') ? { width: '100%' } : {}),
+        ...((layout === 'table') ? { background: 'none' } : {}),
       }],
+    ],
+    bar: [
+      ['scale', { fontSize: { spacing: 0.5 }, iconSize: { childWidths: 1 } }],
+      ['filter', 'spacing', 'childWidths'],
+      ['merge', { layout: 'bar' }],
     ],
     icon: [
       ['scale', { iconSize: { fontSize: 1 } }],
+      layout !== 'modal' && ['scale', { padding: 0.2 }],
       ['filter',
         'fontSize', 'color', 'background',
         ...((layout !== 'modal') ? ['padding', 'border', 'borderRadius'] : []),
@@ -42,8 +48,10 @@ export default compose<any, any>(
   })),
 
 )(({ text, icon, style }) =>
-  <Div style={style.div}>
-    <Marker type={icon} style={style.icon} />
-    <Txt style={style.text}>{text}</Txt>
-  </Div>
+  <div style={style.div}>
+    <Div style={style.bar}>
+      <Marker type={icon} style={style.icon} />
+      <Txt style={style.text}>{text}</Txt>
+    </Div>
+  </div>
 );
