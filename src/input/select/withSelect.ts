@@ -1,4 +1,9 @@
-import { branch, ComponentEnhancer, compose, withHandlers, withProps, withState } from 'recompose';
+import {
+  branch, ComponentEnhancer, compose, mapProps, pure, withHandlers, withProps, withState,
+} from 'recompose';
+import * as omit from 'lodash.omit';
+
+import { memoize } from '../../utils';
 
 const undefToNull = (v: any) => v === undefined ? null : v;
 
@@ -14,9 +19,15 @@ const getText = (isList, value, options, labels) => {
   return labels.filter((_, i) => (value || []).includes(options[i])).join(', ');
 }
 
+const createScrollState = memoize(isScrolling => memoize(scrollElem => ({
+  isScrolling, scrollElem,
+}), true), true);
+
 export default compose(
 
   withState('activeIndex', 'setActiveIndex', 0),
+
+  pure,
 
   withHandlers({
     selectIndex: ({ isList, value, onChange, setActiveIndex, options }) => (index) => {
@@ -49,11 +60,18 @@ export default compose(
   }),
 
   branch(
-    ({ style: { layout } }) => layout === 'modal',
+    ({ style }) => style.layout === 'modal',
     compose(
 
       withState('openState', 'setOpenState', { isOpen: false, isOpening: false, timeout: null }),
-      withState('scroll', 'setScroll', { isScrolling: false, scrollElem: null }),
+      withState('scroll', 'setScroll', createScrollState(false)(null)),
+
+      withHandlers({
+        setOpenState: ({ setOpenState }) => (openState) => {
+          document.body.style.overflow = openState.isOpen ? 'hidden' : 'auto';
+          setOpenState(openState);
+        },
+      }),
 
       withHandlers({
 
@@ -72,19 +90,24 @@ export default compose(
               moveActiveIndex(move, jumpTo);
             } else {
               if (scroll.isScrolling && jumpTo) {
-                setScroll({ ...scroll, isScrolling: false });
+                setScroll(createScrollState(false)(scroll.scrollElem));
               } else {
                 const newActiveIndex = moveActiveIndex(move, jumpTo);
-                setScroll({ ...scroll, isScrolling: true });
+                setScroll(createScrollState(true)(scroll.scrollElem));
                 if (scroll.scrollElem) scroll.scrollElem.scrollToIndex(newActiveIndex);
               }
             }
           }
         ),
 
-        setScrollElem: ({ scroll, setScroll }) => (c) => setScroll({ ...scroll, scrollElem: c }),
+        setScrollElem: ({ setScroll }) => (elem) => (
+          setScroll(scroll => createScrollState(scroll.isScrolling)(elem))
+        ),
 
       }),
+
+      mapProps(props => omit(props, 'scroll')),
+      pure,
 
       withHandlers({
         selectIndex: ({ isList, selectIndex, openState, closeModal }) => (i) => {

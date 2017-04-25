@@ -23,17 +23,14 @@ const inputStyle = {
     borderColor: 'black',
     active: {
       borderColor: 'lightblue',
+      background: '#ddd',
     },
-  },
-  active: {
-    background: '#ddd',
   },
   selected: {
     fontWeight: 'bold',
   },
   group: {
     fontWeight: 'bold',
-    userSelect: 'none',
   },
   key: {
     fontWeight: 'bold',
@@ -52,81 +49,50 @@ ReactDOM.render(
 
     <PortalRoot>
 
-      <div style={inputStyle} />
+      <WrappedInput type="text" style={inputStyle} />
 
       <br />
 
-      <select style={{ display: 'block', ...inputStyle }}>
-        <option>One</option>
-        <option>Two</option>
-        <option>Three</option>
-        <option>Four</option>
-        <option>Five</option>
-      </select>
-
-      <br />
-
-      <input type="text" style={{ display: 'block', ...inputStyle }} />
+      <WrappedInput type="boolean" options={{}} text="Hello" style={inputStyle}/>
 
       <br />
 
       <WrappedInput
-        type="text" options={['One two three four five six seven eight nine ten', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
+        type="text" options={['One', 'Two', 'Three']}
+        labels={['One', 'Two', '~Group', 'Three']} style={inputStyle}
+      />
+
+      <br />
+
+      <WrappedInput type="textlist" options={['One', 'Two', 'Three']} style={inputStyle} />
+
+      <br />
+
+      <table>
+        <tbody>
+          <WrappedInput
+            type="text" text="Hello" options={['One', 'Two', 'Three']}
+            style={{ ...inputStyle, layout: 'table' }}
+          />
+        </tbody>
+      </table>
+
+      <br />
+
+      <WrappedInput
+        type="text" options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
         style={{ ...inputStyle, layout: 'modal' }}
       />
 
       <br />
 
       <WrappedInput
-        type="textlist" options={['One two three four five six seven eight nine ten', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
+        type="textlist" options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
         style={{ ...inputStyle, layout: 'modal' }}
-      />
-
-      <br />
-
-      <WrappedInput
-        type="text" style={inputStyle}
       />
 
     </PortalRoot>
 
-    {/*<WrappedInput type="boolean" options={{}} text="Hello" style={inputStyle}/>
-
-    <br />
-
-    <WrappedInput
-      type="text" options={['One', 'Two', 'Three']}
-      labels={['One', 'Two', '~Group', 'Three']} style={inputStyle}
-    />
-
-    <br />
-
-    <WrappedInput type="textlist" options={['One', 'Two', 'Three']} style={inputStyle} />
-
-    <br />
-
-    <table>
-      <tbody>
-        <WrappedInput
-          type="text" text="Hello" options={['One', 'Two', 'Three']}
-          style={{ ...inputStyle, layout: 'table' }}
-        />
-      </tbody>
-    </table>
-
-    <br />
-
-    <WrappedInput
-      type="text" options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
-      style={{ ...inputStyle, layout: 'modal' }}
-    />
-
-    <br />
-
-    <WrappedInput
-      type="textlist" options={['One', 'Two', 'Three']} labels={['One', 'Two', '~Group', 'Three']}
-      style={{ ...inputStyle, layout: 'modal' }}
-    />*/}
 
 {/*
     <br />

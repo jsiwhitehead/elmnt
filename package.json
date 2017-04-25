@@ -35,7 +35,7 @@
     "react-test-renderer": "^15.5.4",
     "rimraf": "^2.6.1",
     "source-map-loader": "^0.2.1",
-    "ts-jest": "^19.0.10",
+    "ts-jest": "^19.0.11",
     "ts-loader": "^2.0.3",
     "typescript": "2.2.2",
     "webpack": "^2.4.1",
@@ -45,9 +45,9 @@
     "react": "^15.0.0"
   },
   "dependencies": {
-    "@types/react": "^15.0.22",
+    "@types/react": "^15.0.23",
     "@types/recompose": "^0.22.0",
-    "highstyle": "^0.2.1",
+    "highstyle": "^0.2.2",
     "lodash.omit": "^4.5.0",
     "recompose": "^0.23.1"
   }

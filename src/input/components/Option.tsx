@@ -14,12 +14,12 @@ export default compose<any, any>(
     icon: isSelected && (isList || (layout === 'modal') ? 'tick' : 'disc')
   })),
 
-  mapStyle(({ isList }) => [
+  mapStyle(['isList'], (isList) => [
     !isList && ['merge', { borderRadius: 1000 }],
     ['scale', { fontSize: { iconSize: 0.9 } }],
   ]),
 
-  mapStyle(({ style: { layout } }) => ({
+  mapStyle(['style.layout'], (layout) => ({
     div: [
       ['filter', ...cssGroups.box, ...cssGroups.other],
       ['merge', {

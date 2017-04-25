@@ -4,17 +4,17 @@ import { mapStyle } from 'highstyle';
 
 import { withBounds } from '../../utils';
 
-// const stopPropagation = e => e.stopPropagation();
-
 export default compose<any, any>(
 
   withBounds('inner', 'setInnerElem'),
   withBounds('root', 'setRootElem'),
   withBounds('screen'),
 
-  mapStyle(({
-    screen, root = { top: 0 } as any, inner = { height: 0 } as any, style: { fontSize },
-  }) => ({
+  mapStyle([
+    'screen', 'root', 'inner', 'style.fontSize'
+  ], (
+    screen, root = { top: 0 } as any, inner = { height: 0 } as any, fontSize,
+  ) => ({
     root: [{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }],
     overlay: [{
       position: 'fixed', top: 0, right: 0, bottom: 0, left: 0,

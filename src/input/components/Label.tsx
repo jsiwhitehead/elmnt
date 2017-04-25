@@ -10,12 +10,17 @@ import Marker from './Marker';
 
 export default compose<any, any>(
 
-  mapStyle(() => [
+  mapStyle([
     ['numeric', 'fontSize', 'paddingLeft', 'paddingRight'],
     ['scale', { fontSize: { iconSize: 0.9 } }]
   ]),
 
-  mapStyle(({ icon, style: { fontSize, iconSize, paddingLeft, paddingRight, cursor } }) => ({
+  mapStyle([
+    'icon', 'style.fontSize', 'style.iconSize', 'style.paddingLeft', 'style.paddingRight',
+    'style.cursor'
+  ], (
+    icon, fontSize, iconSize, paddingLeft, paddingRight, cursor,
+  ) => ({
     div: [
       ['filter', ...cssGroups.box, ...cssGroups.other],
       ['merge', {
@@ -40,13 +45,16 @@ export default compose<any, any>(
     ],
   })),
 
-)(({ text, icon, password, onTextChange, focusProps, setFocusElem, style }) =>
+)(({
+  text, icon, placeholder, rows, password, tab, onTextChange, focusProps, setFocusElem, style,
+}) =>
   <Div style={style.div}>
     {(icon || ['']).map(i => i ?
       <Marker type={i} style={style.icon} key={i} /> :
       <Txt
         onTextChange={onTextChange} {...focusProps} focusRef={setFocusElem}
-        password={password} style={style.text} key={i} children={text}
+        placeholder={placeholder} rows={rows} password={password} tab={tab}
+        style={style.text} key={i} children={text}
       />
     )}
   </Div>

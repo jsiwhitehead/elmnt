@@ -7,7 +7,7 @@ import { cssGroups } from '../../utils';
 
 export default compose<any, any>(
 
-  mapStyle(() => ({
+  mapStyle({
     div: [
       ['filter', ...cssGroups.box, ...cssGroups.other],
       ['merge', { display: 'block', position: 'relative' }],
@@ -15,7 +15,7 @@ export default compose<any, any>(
     icon: [
       ['filter', 'fontSize', 'color'],
     ],
-  })),
+  }),
 
 )(({ type, style }) =>
   <div style={style.div}>

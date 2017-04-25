@@ -13,14 +13,14 @@ const isGroup = l => typeof l === 'string' && l[0] === '~';
 
 export default {
 
-  Group: mapStyle(({ style: { layout } }) => [
+  Group: mapStyle(['style.layout'], (layout) => [
     ['filter',
       ...cssGroups.text, 'paddingTop', 'paddingBottom',
       ...(layout === 'modal' ? ['paddingLeft', 'paddingRight'] : []),
     ],
   ])(Txt),
 
-  Key: mapStyle(() => ({
+  Key: mapStyle({
     cell: [
       ['scale', { fontSize: { paddingRight: 1 } }],
       ['filter', 'padding'],
@@ -29,7 +29,7 @@ export default {
     key: [
       ['filter', ...cssGroups.text],
     ],
-  }))(({ text, style }) =>
+  })(({ text, style }) =>
     <td style={style.cell}>
       <Txt style={style.key}>{text}</Txt>
     </td>
@@ -41,7 +41,7 @@ export default {
 
   Option,
 
-  Select: mapStyle(({ labels, style: { layout, spacing } }) => [
+  Select: mapStyle(['labels', 'style.layout', 'style.spacing'], (labels, layout, spacing) => [
     ['filter', 'background'],
     ['merge', {
       layout: layout === 'modal' ? 'stack' : layout,

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { branch, compose, mapProps, renderNothing, setDisplayName } from 'recompose';
+import { branch, compose, renderNothing } from 'recompose';
 import { mapStyle } from 'highstyle';
 
 export interface PlaceholderProps {
@@ -9,11 +9,9 @@ export interface PlaceholderProps {
 }
 export default compose<any, PlaceholderProps>(
 
-  setDisplayName('Placeholder'),
-
   branch(({ text, value }) => !text || value, renderNothing),
 
-  mapStyle(() => [
+  mapStyle([
     ['merge', {
       position: 'absolute',
       top: 0, left: 0, width: '100%', height: '100%',
@@ -22,9 +20,6 @@ export default compose<any, PlaceholderProps>(
     }],
   ]),
 
-  mapProps(({ text, style }) => ({
-    style,
-    children: text,
-  })),
-
-)('span' as any);
+)(({ text, style }) =>
+  <span style={style}>{text}</span>
+);

@@ -43,15 +43,16 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
       withToggle,
     ),
 
-    mapStyle(() => ({
+    mapStyle({
       base: null,
       group: [
         ['mergeKeys', 'group'],
+        ['merge', { userSelect: 'none' }],
       ],
       key: [
         ['mergeKeys', 'key'],
       ],
-    })),
+    }),
 
     withProps(({
       text, isList, selectIndex, options, labels, labelIndices, selected,
@@ -63,19 +64,28 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
           <Group style={style.group} key={i}>{l.substring(1)}</Group> :
           <Item
             text={l} isList={isList} index={labelIndices[i]} selectIndex={selectIndex}
-            selected={selected} activeIndex={activeIndex} moveActiveIndex={moveActiveIndex}
-            style={style.base} key={i}
+            selected={selected} isActive={activeIndex === labelIndices[i]}
+            moveActiveIndex={moveActiveIndex} style={style.base} key={i}
           />
         ),
       ],
     })),
 
+    mapStyle({
+      base: {
+        tr: [
+          ['filter', 'background'],
+          ['merge', { outline: 'none' }],
+        ],
+      },
+    }),
+
     branch(
-      ({ style: { base: { layout } } }) => layout === 'table',
-      renderComponent(({ onKeyDown, hoverProps, focusProps, setFocusElem, children }) =>
+      ({ style }) => style.base.layout === 'table',
+      renderComponent(({ onKeyDown, hoverProps, focusProps, setFocusElem, style, children }) =>
         <tr
           onKeyDown={onKeyDown} {...hoverProps} {...focusProps} ref={setFocusElem}
-          style={{ outline: 'none' }} children={children}
+          style={style.tr} children={children}
         />
       ),
     ),
@@ -88,7 +98,7 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
     ),
 
     branch(
-      ({ style: { base: { layout } } }) => layout !== 'modal',
+      ({ style }) => style.base.layout !== 'modal',
       renderComponent(({ labels, style, children }) =>
         <Select labels={labels} style={style.base}>{children}</Select>
       ),
@@ -109,9 +119,13 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
       )
     ),
 
-    mapStyle(({ isFocused }) => ({ base: {
-      label: [['mergeKeys', { active: isFocused }]],
-    } })),
+    mapStyle(['isFocused'], (isFocused) => ({
+      base: {
+        label: [
+          ['mergeKeys', { active: isFocused }],
+        ],
+      },
+    })),
 
   )(({ isList, labelText, openModal, setPortalBaseElem, style }) =>
     <div onMouseDown={openModal} ref={setPortalBaseElem}>

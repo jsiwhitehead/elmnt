@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
-  branch, compose, lifecycle, mapProps, setDisplayName, renderComponent, withHandlers, withProps,
-  withState,
+  branch, compose, lifecycle, mapProps, pure, renderComponent, withHandlers, withProps, withState,
 } from 'recompose';
 import * as omit from 'lodash.omit';
 import { CSSTree, mapStyle } from 'highstyle';
@@ -29,18 +28,21 @@ export interface TxtProps extends React.HTMLProps<{}> {
 }
 export default compose<any, TxtProps>(
 
-  setDisplayName('Txt'),
   focusable,
+  pure,
+
   branch(
     ({ onTextChange }) => onTextChange,
     clickFocus,
   ),
 
-  mapStyle(),
-  mapStyle(({ onTextChange }) => [
+  withProps(({ onTextChange }) => ({
+    isInput: !!onTextChange,
+  })),
+  mapStyle(['isInput'], (isInput) => [
     ['defaults', {
       fontFamily: 'inherit', fontSize: 20, lineHeight: 1.5,
-      cursor: onTextChange ? 'text' : undefined,
+      cursor: isInput ? 'text' : undefined,
     }],
     ['block'],
     ['lineHeightPx'],
@@ -48,17 +50,17 @@ export default compose<any, TxtProps>(
 
   renderLayer(
     compose(
-      mapStyle(({ style }) => ({
+      mapStyle(['style.fontSize'], (fontSize) => ({
         outer: [
           ['filterKeys'],
           ['filter', ...cssGroups.box, ...cssGroups.other],
         ],
         inner: [
-          { padding: '1px 0px', display: 'block', minHeight: style.fontSize },
+          { padding: '1px 0px', display: 'block', minHeight: fontSize },
         ],
       })),
       mapProps(props => omit(props,
-        'onTextChange', 'placeholder', 'rows', 'password', 'tab',
+        'isInput', 'onTextChange', 'placeholder', 'rows', 'password', 'tab',
         'tabIndex', 'onFocus', 'onBlur', 'focusElem', 'setFocusElem', 'focusRef', 'spellCheck',
       )),
     )(({ style, ...props }: any) => (
@@ -68,7 +70,7 @@ export default compose<any, TxtProps>(
     )),
   ),
 
-  mapStyle(() => ({
+  mapStyle({
     text: [
       ['filterKeys'],
       ['filter', ...cssGroups.text],
@@ -77,7 +79,7 @@ export default compose<any, TxtProps>(
       ['mergeKeys', 'placeholder'],
       ['filter', ...cssGroups.text],
     ],
-  })),
+  }),
 
   branch(
     ({ onTextChange }) => !onTextChange,
@@ -92,7 +94,7 @@ export default compose<any, TxtProps>(
     ),
   ),
 
-  mapStyle(({ rows }) => ({
+  mapStyle(['rows'], (rows) => ({
     text: {
       input: [
         ['merge', {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { branch, compose, withHandlers, withProps } from 'recompose';
+import { branch, compose, pure, withHandlers, withProps } from 'recompose';
 import { mapStyle } from 'highstyle';
 
 import { Comp, Obj } from '../../typings';
@@ -7,8 +7,10 @@ import { Comp, Obj } from '../../typings';
 export default function createItem({ Option }: Obj<Comp<any>>) {
   return compose<any, any>(
 
+    pure,
+
     branch(
-      ({ style: { layout } }) => layout === 'modal',
+      ({ style }) => style.layout === 'modal',
       withHandlers({
         onMouseUp: ({ index, selectIndex }) => () => selectIndex(index),
         onMouseMove: ({ index, moveActiveIndex }) => () => moveActiveIndex(index, true),
@@ -23,8 +25,8 @@ export default function createItem({ Option }: Obj<Comp<any>>) {
       Root: layout === 'table' ? 'td' : 'div',
     })),
 
-    mapStyle(({ index, activeIndex, isSelected, style: { layout } }) => [
-      ['mergeKeys', { active: index === activeIndex, selected: isSelected && layout === 'modal' }],
+    mapStyle(['isActive', 'isSelected', 'style.layout'], (isActive, isSelected, layout) => [
+      ['mergeKeys', { active: isActive, selected: isSelected && layout === 'modal' }],
     ]),
 
   )(({

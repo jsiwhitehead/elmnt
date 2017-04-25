@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { branch, compose, mapProps, renderNothing, setDisplayName } from 'recompose';
+import { branch, compose, renderNothing } from 'recompose';
 import { mapStyle } from 'highstyle';
 
 export interface AutosizeStyle extends React.CSSProperties {
@@ -12,23 +12,18 @@ export interface AutosizeProps {
 }
 export default compose<any, AutosizeProps>(
 
-  setDisplayName('Autosize'),
-
   branch(({ rows }) => !rows, renderNothing),
 
-  mapStyle(({ rows, style }) => [
+  mapStyle(['rows', 'style.lineHeight'], (rows, lineHeight) => [
     ['merge', {
       visibility: 'hidden',
       whiteSpace: 'pre-wrap',
       wordBreak: 'break-word',
-      minHeight: parseFloat(style.lineHeight) * rows,
+      minHeight: parseFloat(lineHeight) * rows,
       display: 'block',
     }],
   ]),
 
-  mapProps(({ value, style }) => ({
-    style,
-    children: value.replace(/\n$/, '\n.'),
-  })),
-
-)('span' as any);
+)(({ value, style }) =>
+  <span style={style}>{value.replace(/\n$/, '\n.')}</span>
+);

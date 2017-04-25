@@ -75,17 +75,19 @@ export default function createText({ Label }: Obj<Comp<any>>) {
       })),
     ),
 
-    mapStyle(({ isFocused }) => [
+    mapStyle(['isFocused'], (isFocused) => [
       ['mergeKeys', { active: isFocused }],
       ['merge', { cursor: 'text' }],
     ]),
 
   )(({
-    text, onTextChange, icon, password, onMouseDown, hoverProps, focusProps, setFocusElem, style
+    text, onTextChange, icon, placeholder, rows, password, tab,
+    onMouseDown, hoverProps, focusProps, setFocusElem, style
   }) =>
     <div onMouseDown={onMouseDown} {...hoverProps}>
       <Label
-        text={text} onTextChange={onTextChange} icon={icon} password={password}
+        text={text} onTextChange={onTextChange} icon={icon}
+        placeholder={placeholder} rows={rows} password={password} tab={tab}
         focusProps={focusProps} setFocusElem={setFocusElem} style={style}
       />
     </div>

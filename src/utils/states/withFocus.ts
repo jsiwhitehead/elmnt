@@ -2,6 +2,12 @@ import { compose, mapProps, withHandlers, withState } from 'recompose';
 
 import { Comp } from '../../typings';
 
+import memoize from '../memoize';
+
+const createFocusProps = memoize(tabIndex => memoize(onFocus => memoize(onBlur => ({
+  tabIndex, onFocus, onBlur,
+}))), true);
+
 export interface FocusProps {
   isFocused: boolean;
   focusProps: {
@@ -30,7 +36,7 @@ export default function withFocus<P>(InnerComponent: Comp<P & FocusProps>) {
     }),
     mapProps(({ tabIndex = 0, onFocus, onBlur, setIsFocused: _, ...props }) => ({
       ...props,
-      focusProps: { tabIndex, onFocus, onBlur },
+      focusProps: createFocusProps(tabIndex)(onFocus)(onBlur),
     })),
   )(InnerComponent);
 }

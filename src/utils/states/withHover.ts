@@ -3,6 +3,12 @@ import * as omit from 'lodash.omit';
 
 import { Comp } from '../../typings';
 
+import memoize from '../memoize';
+
+const createHoverProps = memoize(onMouseMove => memoize(onMouseLeave => ({
+  onMouseEnter: onMouseMove, onMouseMove, onMouseLeave,
+})));
+
 export interface HoverProps {
   isHovered: boolean;
   hoverProps: {
@@ -30,7 +36,7 @@ export default function withHover<P>(InnerComponent: Comp<P & HoverProps>) {
     mapProps(props => omit(props, 'setIsHovered')),
     mapProps(({ onMouseMove, onMouseLeave, setIsHovered: _, ...props }) => ({
       ...props,
-      hoverProps: { onMouseEnter: onMouseMove, onMouseMove, onMouseLeave },
+      hoverProps: createHoverProps(onMouseMove)(onMouseLeave),
     })),
   )(InnerComponent);
 }
