@@ -53,7 +53,7 @@ export default compose(
     compose(
 
       withState('openState', 'setOpenState', { isOpen: false, isOpening: false, timeout: null }),
-      withState('scroll', 'setScroll', { isScrolling: false, modalElem: null }),
+      withState('scroll', 'setScroll', { isScrolling: false, scrollElem: null }),
 
       withHandlers({
 
@@ -76,13 +76,13 @@ export default compose(
               } else {
                 const newActiveIndex = moveActiveIndex(move, jumpTo);
                 setScroll({ ...scroll, isScrolling: true });
-                if (scroll.modalElem) scroll.modalElem.scrollToIndex(newActiveIndex);
+                if (scroll.scrollElem) scroll.scrollElem.scrollToIndex(newActiveIndex);
               }
             }
           }
         ),
 
-        setModalElem: ({ scroll, setScroll }) => (c) => setScroll({ ...scroll, modalElem: c }),
+        setScrollElem: ({ scroll, setScroll }) => (c) => setScroll({ ...scroll, scrollElem: c }),
 
       }),
 

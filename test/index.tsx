@@ -22,9 +22,11 @@ const inputStyle = {
   focus: {
     borderColor: 'black',
     active: {
-      background: '#ddd',
       borderColor: 'lightblue',
     },
+  },
+  active: {
+    background: '#ddd',
   },
   selected: {
     fontWeight: 'bold',
@@ -49,10 +51,43 @@ ReactDOM.render(
   <div style={{ padding: 100 }}>
 
     <PortalRoot>
+
+      <div style={inputStyle} />
+
+      <br />
+
+      <select style={{ display: 'block', ...inputStyle }}>
+        <option>One</option>
+        <option>Two</option>
+        <option>Three</option>
+        <option>Four</option>
+        <option>Five</option>
+      </select>
+
+      <br />
+
+      <input type="text" style={{ display: 'block', ...inputStyle }} />
+
+      <br />
+
+      <WrappedInput
+        type="text" options={['One two three four five six seven eight nine ten', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
+        style={{ ...inputStyle, layout: 'modal' }}
+      />
+
+      <br />
+
       <WrappedInput
         type="textlist" options={['One two three four five six seven eight nine ten', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
         style={{ ...inputStyle, layout: 'modal' }}
       />
+
+      <br />
+
+      <WrappedInput
+        type="text" style={inputStyle}
+      />
+
     </PortalRoot>
 
     {/*<WrappedInput type="boolean" options={{}} text="Hello" style={inputStyle}/>

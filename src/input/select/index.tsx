@@ -11,6 +11,28 @@ import withToggle from './withToggle';
 
 const isGroup = l => typeof l === 'string' && l[0] === '~';
 
+class ScrollWrapper extends React.Component<any, any> {
+  private elem: Element;
+  private setElem = c => this.elem = c;
+  public scrollToIndex = (index) => {
+    if (this.elem) {
+      const modal = this.elem.querySelector('[data-modal]') as HTMLElement
+      const item = this.elem.querySelector(`[data-modal-index="${index}"]`) as HTMLElement;
+      const top = item.offsetTop;
+      const bottom = top + item.offsetHeight;
+      if (top < modal.scrollTop) {
+        modal.scrollTop = top;
+      }
+      if (bottom > modal.scrollTop + modal.offsetHeight) {
+        modal.scrollTop = (bottom - modal.offsetHeight);
+      }
+    }
+  }
+  public render() {
+    return <div ref={this.setElem}>{this.props.children}</div>;
+  }
+}
+
 export default function createSelect({ Group, Key, Label, Modal, Option, Select }: Obj<Comp<any>>) {
   const Item = createItem({ Option });
   return compose<any, any>(
@@ -50,22 +72,11 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
 
     branch(
       ({ style: { base: { layout } } }) => layout === 'table',
-      compose(
-
-        mapStyle(() => ({ base: {
-          tr: [
-            ['filter', 'background'],
-            ['merge', { outline: 'none' }],
-          ],
-        } })),
-
-        renderComponent(({ onKeyDown, hoverProps, focusProps, setFocusElem, children, style }) =>
-          <tr
-            onKeyDown={onKeyDown} {...hoverProps} {...focusProps} ref={setFocusElem}
-            style={style.tr} children={children}
-          />
-        ),
-
+      renderComponent(({ onKeyDown, hoverProps, focusProps, setFocusElem, children }) =>
+        <tr
+          onKeyDown={onKeyDown} {...hoverProps} {...focusProps} ref={setFocusElem}
+          style={{ outline: 'none' }} children={children}
+        />
       ),
     ),
 
@@ -85,21 +96,22 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
 
     clickFocus,
 
-    mapStyle(({ isFocused }) => ({ base: {
-      overlay: [{ position: 'fixed', top: 0, right: 0, bottom: 0, left: 0 }],
-      label: [['mergeKeys', { active: isFocused }]],
-    } })),
-
-    renderPortal(({ openState, closeModal, onMouseDown, hoverProps, style, children }) =>
+    renderPortal(({
+      openState, closeModal, onMouseDown, hoverProps, setScrollElem, style, children,
+    }) =>
       openState.isOpen && (
-        <div onClick={closeModal}>
-          <div style={style.overlay} />
-          <div onMouseDown={onMouseDown} {...hoverProps}>
-            <Modal style={style.base}>{children}</Modal>
-          </div>
-        </div>
+        <ScrollWrapper ref={setScrollElem}>
+          <Modal
+            closeModal={closeModal} modalProps={{ 'data-modal': true, onMouseDown, ...hoverProps }}
+            style={style.base} children={children}
+          />
+        </ScrollWrapper>
       )
     ),
+
+    mapStyle(({ isFocused }) => ({ base: {
+      label: [['mergeKeys', { active: isFocused }]],
+    } })),
 
   )(({ isList, labelText, openModal, setPortalBaseElem, style }) =>
     <div onMouseDown={openModal} ref={setPortalBaseElem}>

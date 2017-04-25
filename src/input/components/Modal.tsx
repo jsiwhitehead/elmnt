@@ -4,7 +4,7 @@ import { mapStyle } from 'highstyle';
 
 import { withBounds } from '../../utils';
 
-const stopPropagation = e => e.stopPropagation();
+// const stopPropagation = e => e.stopPropagation();
 
 export default compose<any, any>(
 
@@ -44,10 +44,10 @@ export default compose<any, any>(
     ],
   })),
 
-)(({ style, setRootElem, setInnerElem, children }) =>
+)(({ closeModal, modalProps, style, setRootElem, setInnerElem, children }) =>
   <div style={style.root} ref={setRootElem}>
-    <div style={style.overlay} />
-    <div onClick={stopPropagation} style={style.outer}>
+    <div onClick={closeModal} style={style.overlay} />
+    <div {...modalProps} style={style.outer}>
       <div style={style.inner} ref={setInnerElem}>
         {children}
       </div>

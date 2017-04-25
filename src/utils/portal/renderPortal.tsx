@@ -7,21 +7,22 @@ export default function renderPortal(mapPropsToContent: (props: any) => React.Re
 
     getContext('portal'),
 
+    withProps((props: any) => {
+      const portalContent = mapPropsToContent(props);
+      return { portalContent, setPortalBaseElem: portalContent && props.portal.setBaseElem };
+    }),
+
     lifecycle({
       componentDidMount() {
-        this.props.portal.render(mapPropsToContent(this.props));
+        this.props.portal.render(this.props.portalContent);
       },
       componentWillReceiveProps(nextProps) {
-        nextProps.portal.render(mapPropsToContent(nextProps));
+        nextProps.portal.render(nextProps.portalContent);
       },
       componentWillUnmount() {
         this.props.portal.render(null);
       }
     }),
-
-    withProps(({ portal }) => ({
-      setPortalBaseElem: portal.setBaseElem,
-    })),
 
   ) as ComponentEnhancer<any, any>;
 }
