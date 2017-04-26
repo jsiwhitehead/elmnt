@@ -47,7 +47,7 @@
   "dependencies": {
     "@types/react": "^15.0.23",
     "@types/recompose": "^0.22.0",
-    "highstyle": "^0.2.2",
+    "highstyle": "^0.2.3",
     "lodash.omit": "^4.5.0",
     "recompose": "^0.23.1"
   }

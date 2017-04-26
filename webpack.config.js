@@ -24,6 +24,7 @@ module.exports = {
         loader: 'ts-loader',
         options: {
           compilerOptions: {
+            "sourceMap": true,
             "rootDir": "",
           },
         },
