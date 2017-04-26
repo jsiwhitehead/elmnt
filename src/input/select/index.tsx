@@ -6,32 +6,11 @@ import { Comp, Obj } from '../../typings';
 import { clickFocus, renderLayer, renderPortal } from '../../utils';
 
 import createItem from './Item';
+import ScrollWrapper from './ScrollWrapper';
 import withSelect from './withSelect';
 import withToggle from './withToggle';
 
 const isGroup = l => typeof l === 'string' && l[0] === '~';
-
-class ScrollWrapper extends React.Component<any, any> {
-  private elem: Element;
-  private setElem = c => this.elem = c;
-  public scrollToIndex = (index) => {
-    if (this.elem) {
-      const modal = this.elem.querySelector('[data-modal]') as HTMLElement
-      const item = this.elem.querySelector(`[data-modal-index="${index}"]`) as HTMLElement;
-      const top = item.offsetTop;
-      const bottom = top + item.offsetHeight;
-      if (top < modal.scrollTop) {
-        modal.scrollTop = top;
-      }
-      if (bottom > modal.scrollTop + modal.offsetHeight) {
-        modal.scrollTop = (bottom - modal.offsetHeight);
-      }
-    }
-  }
-  public render() {
-    return <div ref={this.setElem}>{this.props.children}</div>;
-  }
-}
 
 export default function createSelect({ Group, Key, Label, Modal, Option, Select }: Obj<Comp<any>>) {
   const Item = createItem({ Option });
@@ -110,7 +89,7 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
       openState, closeModal, onMouseDown, hoverProps, setScrollElem, style, children,
     }) =>
       openState.isOpen && (
-        <ScrollWrapper ref={setScrollElem}>
+        <ScrollWrapper style={style.base} ref={setScrollElem}>
           <Modal
             closeModal={closeModal} modalProps={{ 'data-modal': true, onMouseDown, ...hoverProps }}
             style={style.base} children={children}

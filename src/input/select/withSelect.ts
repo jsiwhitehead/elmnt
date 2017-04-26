@@ -71,6 +71,18 @@ export default compose(
           document.body.style.overflow = openState.isOpen ? 'hidden' : 'auto';
           setOpenState(openState);
         },
+        setScroll: ({ isList, value, options, openState, setScroll }) => (newScroll) => {
+          setScroll(scroll => {
+            const result = typeof newScroll === 'function' ? newScroll(scroll) : newScroll;
+            if (value && openState.isOpening && !scroll.scrollElem && result.scrollElem) {
+              result.scrollElem.scrollToIndex(options.indexOf(isList ? value[0] : value));
+              // setTimeout(() => {
+
+              // }, 100);
+            }
+            return result;
+          });
+        },
       }),
 
       withHandlers({

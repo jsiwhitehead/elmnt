@@ -39,8 +39,6 @@ export default compose<any, any>(
     inner: [
       ['scale', { fontSize: { padding: 0.5 } }],
       ['filter', 'background', 'paddingTop', 'paddingBottom'],
-      ['merge', {
-      }],
     ],
   })),
 
