@@ -41,7 +41,7 @@ export default function createText({ Label }: Obj<Comp<any>>) {
 
     lifecycle({
       componentWillReceiveProps(nextProps) {
-        const { type, value, textState, setTextState } = this.props;
+        const { type, value, textState, setTextState } = (this as any).props;
         if (value !== nextProps.value) {
           if (textState.parsing) {
             setTextState({ ...textState, parsing: false });
@@ -71,24 +71,29 @@ export default function createText({ Label }: Obj<Comp<any>>) {
       ({ type }) => type === 'date',
       withProps(({ isNull, placeholder, noDay }) => ({
         placeholder: placeholder || (noDay ? 'MM/YY' : 'DD/MM/YY'),
-        icon: (isNull !== null) && ['', isNull ? 'remove' : 'ok'],
+        icon: (isNull !== null) && ['', isNull ? 'cross' : 'tick'],
       })),
     ),
 
-    mapStyle(['isFocused'], (isFocused) => [
-      ['mergeKeys', { active: isFocused }],
-      ['merge', { cursor: 'text' }],
-    ]),
+    mapStyle(['isFocused'], (isFocused) => ({
+      div: [
+        ['filter', 'width', 'height', 'maxWidth', 'maxHeight'],
+      ],
+      label: [
+        ['mergeKeys', { active: isFocused }],
+        ['merge', { cursor: 'text' }],
+      ],
+    })),
 
   )(({
     text, onTextChange, icon, placeholder, rows, password, tab,
     onMouseDown, hoverProps, focusProps, setFocusElem, style
   }) =>
-    <div onMouseDown={onMouseDown} {...hoverProps}>
+    <div onMouseDown={onMouseDown} {...hoverProps} style={style.div}>
       <Label
         text={text} onTextChange={onTextChange} icon={icon}
         placeholder={placeholder} rows={rows} password={password} tab={tab}
-        focusProps={focusProps} setFocusElem={setFocusElem} style={style}
+        focusProps={focusProps} setFocusElem={setFocusElem} style={style.label}
       />
     </div>
   );

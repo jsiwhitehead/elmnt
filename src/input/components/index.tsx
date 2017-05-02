@@ -41,14 +41,11 @@ export default {
 
   Option,
 
-  Select: mapStyle(['labels', 'style.layout', 'style.spacing'], (labels, layout, spacing) => [
-    ['filter', 'background'],
-    ['merge', {
-      layout: layout === 'modal' ? 'stack' : layout,
-      childWidths: layout !== 'modal' && labels.map(l => isGroup(l) ? '100%' : 'auto').join(' '),
-      spacing: layout === 'modal' ? 0 : spacing,
-    }],
-  ])(({ style, children }) =>
+  Select: mapStyle(['labels', 'style.layout', 'style.spacing'], (labels, layout, spacing) => [{
+    layout: layout === 'modal' ? 'stack' : layout,
+    childWidths: layout !== 'modal' && labels.map(l => isGroup(l) ? '100%' : 'auto').join(' '),
+    spacing: layout === 'modal' ? 0 : spacing,
+  }])(({ style, children }) =>
     <Div style={style}>{children}</Div>
   ),
 

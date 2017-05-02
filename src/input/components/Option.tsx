@@ -23,7 +23,7 @@ export default compose<any, any>(
     div: [
       ['filter', ...cssGroups.box, ...cssGroups.other],
       ['merge', {
-        cursor: 'pointer', userSelect: 'none', border: 0, borderRadius: 0,
+        cursor: 'pointer', userSelect: 'none', border: 0, borderRadius: 0, boxShadow: 0,
         ...((layout !== 'modal' && layout !== 'table') ? { background: 'none', padding: 0 } : {}),
         ...((layout === 'modal') ? { width: '100%' } : {}),
         ...((layout === 'table') ? { background: 'none' } : {}),

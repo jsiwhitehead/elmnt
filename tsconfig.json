@@ -11,10 +11,8 @@
     "paths": {
       "*": [ "node_modules/@types/*", "*"]
     },
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "strict": true,
     "noImplicitAny": false
   },
-  "include": ["typings.d.ts", "src/**/*"]
+  "include": ["src/**/*"]
 }

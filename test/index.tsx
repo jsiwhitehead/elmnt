@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { withState } from 'recompose';
+import { compose, withHandlers, withProps, withState } from 'recompose';
 
 // import Div from '../src/div';
 // import Txt from '../src/txt';
@@ -8,11 +8,8 @@ import Input from '../src/input';
 
 import { PortalRoot } from '../src/utils';
 
-// const StateTxt = withState<any>('children', 'onTextChange', 'Hello world!')(Txt);
-const WrappedInput = withState<any>('value', 'onChange', null)(Input);
-
 const inputStyle = {
-  fontSize: 20,
+  fontSize: 16,
   border: '2px solid blue',
   padding: 10,
   spacing: '10px 20px',
@@ -36,41 +33,64 @@ const inputStyle = {
     fontWeight: 'bold',
     fontStyle: 'italic',
   },
-  alt: {
+  row: {
     background: 'rgba(0,0,0,0.03)',
-    hover: {
-      background: '#eee',
-    },
   },
 };
 
-ReactDOM.render(
+const TestApp = compose<any, any>(
+
+  withState('state', 'setState', {}),
+
+  withHandlers({
+    value: ({ state }) => (name) => (
+      state[name] === undefined ? null : state[name]
+    ),
+    onChange: ({ setState }) => (name) => (
+      (value) => setState(state => ({ ...state, [name]: value }))
+    ),
+  }),
+
+  withProps(({ state }) => console.log(state)),
+
+)(({ value, onChange }) => (
   <div style={{ padding: 100 }}>
 
     <PortalRoot>
 
-      <WrappedInput type="text" style={inputStyle} />
+      <Input
+        value={value(1) as string} onChange={onChange(1)}
+        type="text" style={inputStyle}
+      />
 
       <br />
 
-      <WrappedInput type="boolean" options={{}} text="Hello" style={inputStyle}/>
+      <Input
+        value={value(2) as boolean} onChange={onChange(2)}
+        type="boolean" options={{ on: true }} label="Hello" style={inputStyle}
+      />
 
       <br />
 
-      <WrappedInput
+      <Input
+        value={value(3) as string} onChange={onChange(3)}
         type="text" options={['One', 'Two', 'Three']}
         labels={['One', 'Two', '~Group', 'Three']} style={inputStyle}
       />
 
       <br />
 
-      <WrappedInput type="textlist" options={['One', 'Two', 'Three']} style={inputStyle} />
+      <Input
+        value={value(4) as string[]} onChange={onChange(4)}
+        type="textlist" options={['One', 'Two', 'Three']} style={inputStyle}
+      />
 
       <br />
 
       <table>
         <tbody>
-          <WrappedInput
+          <Input
+            value={value(5) as string} onChange={onChange(5)}
             type="text" text="Hello" options={['One', 'Two', 'Three']}
             style={{ ...inputStyle, layout: 'table' }}
           />
@@ -79,14 +99,16 @@ ReactDOM.render(
 
       <br />
 
-      <WrappedInput
+      <Input
+        value={value(6) as string} onChange={onChange(6)}
         type="text" options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
         style={{ ...inputStyle, layout: 'modal' }}
       />
 
       <br />
 
-      <WrappedInput
+      <Input
+        value={value(7) as string[]} onChange={onChange(7)}
         type="textlist" options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
         style={{ ...inputStyle, layout: 'modal' }}
       />
@@ -182,6 +204,10 @@ ReactDOM.render(
     <StateTxt rows={1} style={{ background:'lightblue', border: '1px solid blue' }} />
     <StateTxt rows={3} style={{ background:'lightblue', border: '1px solid blue' }} />*/}
 
-  </div>,
+  </div>
+));
+
+ReactDOM.render(
+  <TestApp />,
   document.getElementById('root'),
 );

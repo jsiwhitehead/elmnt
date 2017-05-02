@@ -5,7 +5,11 @@ import logChanges from './logChanges';
 import memoize from './memoize';
 import { PortalRoot, renderPortal } from './portal';
 import renderLayer from './renderLayer';
-import { focusable, withFocus, withHover } from './states';
+import {
+  focusable, FocusableOuterProps, FocusableProps,
+  withFocus, FocusOuterProps, FocusProps,
+  withHover, HoverOuterProps, HoverProps,
+} from './states';
 import withBounds from './withBounds';
 
 export {
@@ -16,6 +20,8 @@ export {
   memoize,
   PortalRoot, renderPortal,
   renderLayer,
-  focusable, withFocus, withHover,
+  focusable, FocusableOuterProps, FocusableProps,
+  withFocus, FocusOuterProps, FocusProps,
+  withHover, HoverOuterProps, HoverProps,
   withBounds,
 };

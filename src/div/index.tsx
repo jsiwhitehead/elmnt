@@ -11,7 +11,7 @@ const Div = compose<any, DivProps>(
 
   branch(
     ({ style }) => !style || !style.layout,
-    renderComponent(({ children, ...otherProps }: React.HTMLProps<{}>) =>
+    renderComponent(({ children, ...otherProps }: DivProps) =>
       <div {...otherProps}>
         {children}
         <div style={{ display: 'table', clear: 'both' }} />

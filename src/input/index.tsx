@@ -7,13 +7,8 @@ import { focusable, withFocus, withHover } from '../utils';
 import components from './components';
 import createText from './text';
 import createSelect from './select';
+import { InputProps } from './typings';
 
-export interface InputProps {
-  value: string;
-  onChange: (value: string) => void;
-  options: string[];
-  style?: React.CSSProperties;
-}
 export default compose<any, InputProps>(
 
   focusable,
@@ -32,7 +27,6 @@ export default compose<any, InputProps>(
       fontSize: 20, lineHeight: 1.5, color: 'black', layout: 'grid', background: 'white',
     }],
     ['mergeKeys', { invalid, focus: isFocused, hover: isHovered }],
-    ['filterKeys', 'active', 'selected', 'placeholder', 'group', 'key', 'alt'],
   ]),
 
   branch(

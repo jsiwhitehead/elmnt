@@ -20,13 +20,14 @@ export default function getContext<P, T>(name: string) {
     ),
     lifecycle({
       componentDidMount() {
-        const { contextStores, setContextValue } = this.props;
+        const { contextStores, setContextValue } = (this as any).props;
         if (contextStores && contextStores[name]) {
-          this.unsubscribe = contextStores[name].subscribe(value => setContextValue(value));
+          (this as any).unsubscribe =
+            contextStores[name].subscribe(value => setContextValue(value));
         }
       },
       componentWillUnmount() {
-        this.unsubscribe && this.unsubscribe();
+        (this as any).unsubscribe && (this as any).unsubscribe();
       },
     }),
     mapProps(props => omit(props, 'contextStores', 'setContextValue')),

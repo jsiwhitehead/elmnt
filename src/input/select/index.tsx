@@ -3,7 +3,7 @@ import { branch, compose, renderComponent, withProps } from 'recompose';
 import { mapStyle } from 'highstyle';
 
 import { Comp, Obj } from '../../typings';
-import { clickFocus, renderLayer, renderPortal } from '../../utils';
+import { clickFocus, cssGroups, renderLayer, renderPortal } from '../../utils';
 
 import createItem from './Item';
 import ScrollWrapper from './ScrollWrapper';
@@ -38,7 +38,7 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
       activeIndex, moveActiveIndex, style,
     }) => ({
       children: [
-        ...(text && Array.isArray(options) ? [<Key text={text} style={style.key} key={-1} />] : []),
+        ...(style.base.layout === 'table' ? [<Key text={text} style={style.key} key={-1} />] : []),
         ...labels.map((l, i) => isGroup(l) ?
           <Group style={style.group} key={i}>{l.substring(1)}</Group> :
           <Item
@@ -50,29 +50,30 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
       ],
     })),
 
-    mapStyle({
+    mapStyle(['style.base.layout'], (layout) => ({
       base: {
-        tr: [
-          ['filter', 'background'],
+        div: [
+          ['filter', ...cssGroups.other],
+          (layout === 'table') && ['mergeKeys', 'row'],
           ['merge', { outline: 'none' }],
         ],
       },
-    }),
+    })),
 
     branch(
       ({ style }) => style.base.layout === 'table',
       renderComponent(({ onKeyDown, hoverProps, focusProps, setFocusElem, style, children }) =>
         <tr
           onKeyDown={onKeyDown} {...hoverProps} {...focusProps} ref={setFocusElem}
-          style={style.tr} children={children}
+          style={style.div} children={children}
         />
       ),
     ),
 
-    renderLayer(({ onKeyDown, hoverProps, focusProps, setFocusElem, children }) =>
+    renderLayer(({ onKeyDown, hoverProps, focusProps, setFocusElem, style, children }) =>
       <div
         onKeyDown={onKeyDown} {...hoverProps} {...focusProps} ref={setFocusElem}
-        style={{ outline: 'none' }} children={children}
+        style={style.div} children={children}
       />
     ),
 

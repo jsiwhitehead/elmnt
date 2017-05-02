@@ -42,7 +42,7 @@ export default function focusable<P extends FocusableOuterProps>(
     public render() {
       return (
         <InnerComponent
-          {...this.props} focusElem={this.state.focusElem} setFocusElem={this.setFocusElem}
+          {...this.props as any} focusElem={this.state.focusElem} setFocusElem={this.setFocusElem}
         />
       );
     }

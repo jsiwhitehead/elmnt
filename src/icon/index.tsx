@@ -4,12 +4,13 @@ import icons from './icons';
 
 export interface IconProps {
   type: string;
-  style: {
-    fontSize: number | string;
-    color: string;
+  style?: {
+    fontSize?: number | string;
+    color?: string;
   }
 }
-export default function Icon({ type, style: { fontSize = 20, color = 'black' } = {} }: IconProps) {
+export default function Icon({ type, style }: IconProps) {
+  const { fontSize = 20, color = 'black' } = style || {};
   if (!icons[type]) {
     return <span style={{ display: 'block', width: fontSize, height: fontSize }} />;
   }

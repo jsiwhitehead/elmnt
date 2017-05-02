@@ -3,7 +3,7 @@ import { ComponentEnhancer, compose, withHandlers, withProps } from 'recompose';
 export default compose(
 
   withHandlers({
-    selectIndex: ({ value, options: { on = true, off = null }, onChange }) => (
+    selectIndex: ({ value, options: { on, off = null }, onChange }) => (
       () => onChange(value === on ? off : on)
     ),
   }),
@@ -17,11 +17,11 @@ export default compose(
     },
   }),
 
-  withProps(({ value, text, options: { on = true } }) => ({
+  withProps(({ value, label, options: { on } }) => ({
     activeIndex: 0,
     selected: { 0: value === on },
     isList: true,
-    labels: [text],
+    labels: [label],
     labelIndices: [0],
   })),
 

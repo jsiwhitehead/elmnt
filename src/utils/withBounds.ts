@@ -2,8 +2,7 @@ import { compose, ComponentEnhancer, lifecycle, mapProps, withProps, withState }
 import * as omit from 'lodash.omit';
 
 const screenRect = () => ({
-  top: 0, height: document.documentElement.clientHeight,
-  left: 0, width: document.documentElement.clientWidth,
+  top: 0, height: window.innerHeight, left: 0, width: window.innerWidth,
 });
 
 export default function withBounds(boundsName: string, setBoundsElemName?: string) {
@@ -19,7 +18,7 @@ export default function withBounds(boundsName: string, setBoundsElemName?: strin
 
       componentDidMount() {
 
-        this.updateBounds = ({ [boundsName]: bounds, setBounds, boundsElem }) => {
+        (this as any).updateBounds = ({ [boundsName]: bounds, setBounds, boundsElem }) => {
           if (boundsElem) {
             const rect = (({ top, left, height, width }) => ({ top, left, height, width }))(
               setBoundsElemName ? boundsElem.getBoundingClientRect() : screenRect()
@@ -29,18 +28,18 @@ export default function withBounds(boundsName: string, setBoundsElemName?: strin
             setBounds(undefined);
           }
         }
-        this.updateBounds(this.props);
+        (this as any).updateBounds((this as any).props);
 
-        this.windowUpdateBounds = () => this.updateBounds(this.props);
-        window.addEventListener('resize', this.windowUpdateBounds);
+        (this as any).windowUpdateBounds = () => (this as any).updateBounds((this as any).props);
+        window.addEventListener('resize', (this as any).windowUpdateBounds);
       },
 
       componentWillReceiveProps(nextProps) {
-        this.updateBounds(nextProps);
+        (this as any).updateBounds(nextProps);
       },
 
       componentWillUnmount() {
-        window.removeEventListener('resize', this.windowUpdateBounds);
+        window.removeEventListener('resize', (this as any).windowUpdateBounds);
       },
 
     }),

@@ -1,12 +1,11 @@
+import { DateExtraProps } from '../typings';
+
 const padString = (s, pad) => (pad && !s[1] ? `0${s}` : s);
 
 interface DateOptions {
   padDate: boolean;
   padMonth: boolean;
   fullYear: boolean;
-}
-export interface DateProps {
-  noDay: boolean;
 }
 
 const formatNull = (func: (v, ...args) => string) => (
@@ -61,7 +60,7 @@ export default {
     format: formatNull((
       value: Date,
       { padDate = true, padMonth = true, fullYear = false }: DateOptions,
-      { noDay }: DateProps,
+      { noDay }: DateExtraProps,
     ) => {
       const dd = padString(value.getDate().toString(), padDate);
       const mm = padString((value.getMonth() + 1).toString(), padMonth);
@@ -69,7 +68,7 @@ export default {
       if (!fullYear) { yy = yy.substring(2); }
       return noDay ? `${mm}/${yy}` : `${dd}/${mm}/${yy}`;
     }),
-    parse: (text: string, { noDay }: DateProps) => {
+    parse: (text: string, { noDay }: DateExtraProps) => {
 
       let options = { padDate: true, padMonth: true, fullYear: false };
 

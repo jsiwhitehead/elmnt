@@ -12,7 +12,7 @@ export default compose<any, any>(
 
   mapStyle([
     ['numeric', 'fontSize', 'paddingLeft', 'paddingRight'],
-    ['scale', { fontSize: { iconSize: 0.9 } }]
+    ['scale', { fontSize: { iconSize: 1 } }]
   ]),
 
   mapStyle([

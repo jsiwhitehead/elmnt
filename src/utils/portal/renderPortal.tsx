@@ -14,13 +14,13 @@ export default function renderPortal(mapPropsToContent: (props: any) => React.Re
 
     lifecycle({
       componentDidMount() {
-        this.props.portal.render(this.props.portalContent);
+        (this as any).props.portal.render((this as any).props.portalContent);
       },
       componentWillReceiveProps(nextProps) {
         nextProps.portal.render(nextProps.portalContent);
       },
       componentWillUnmount() {
-        this.props.portal.render(null);
+        (this as any).props.portal.render(null);
       }
     }),
 
