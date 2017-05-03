@@ -25,4 +25,4 @@ export default compose(
     labelIndices: [0],
   })),
 
-) as ComponentEnhancer<any, any>;
+);

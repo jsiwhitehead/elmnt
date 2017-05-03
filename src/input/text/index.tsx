@@ -1,16 +1,14 @@
 import * as React from 'react';
 import { branch, compose, lifecycle, withHandlers, withProps, withState } from 'recompose';
 import { mapStyle } from 'highstyle';
-
-import { Comp, Obj } from '../../typings';
-import { clickFocus } from '../../utils';
+import { Comp, focusOnMouse, Obj } from 'mishmash';
 
 import parsers from './parsers';
 
-export default function createText({ Label }: Obj<Comp<any>>) {
+export default function createText({ Label }: Obj<Comp>) {
   return compose<any, any>(
 
-    clickFocus,
+    focusOnMouse,
 
     withState(
       'textState', 'setTextState',

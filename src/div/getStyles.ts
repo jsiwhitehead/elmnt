@@ -1,7 +1,5 @@
 import { ComponentEnhancer, withProps } from 'recompose';
 
-export { ComponentEnhancer };
-
 export interface DivStyle extends React.CSSProperties {
   layout?: 'bar' | 'grid' | 'stack';
   spacing?: number | string;

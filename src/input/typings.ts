@@ -1,6 +1,5 @@
 import { CSSTree } from 'highstyle';
-
-import { FocusableProps, FocusProps, HoverProps } from '../utils';
+import { FocusableProps, FocusProps, HoverProps } from 'mishmash';
 
 export type StyleKeys = "invalid" | "focus" | "hover" | "active";
 

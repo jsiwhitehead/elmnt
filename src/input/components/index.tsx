@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { mapStyle } from 'highstyle';
+import { cssGroups} from 'mishmash';
 
 import Div from '../../div';
 import Txt from '../../txt';
-import { cssGroups} from '../../utils';
 
 import Label from './Label';
 import Modal from './Modal';

@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { branch, compose, renderComponent, withProps } from 'recompose';
 import { mapStyle } from 'highstyle';
-
-import { Comp, Obj } from '../../typings';
-import { clickFocus, cssGroups, renderLayer, renderPortal } from '../../utils';
+import { Comp, cssGroups, focusOnMouse, Obj, renderLayer, renderLifted } from 'mishmash';
 
 import createItem from './Item';
 import ScrollWrapper from './ScrollWrapper';
@@ -12,7 +10,7 @@ import withToggle from './withToggle';
 
 const isGroup = l => typeof l === 'string' && l[0] === '~';
 
-export default function createSelect({ Group, Key, Label, Modal, Option, Select }: Obj<Comp<any>>) {
+export default function createSelect({ Group, Key, Label, Modal, Option, Select }: Obj<Comp>) {
   const Item = createItem({ Option });
   return compose<any, any>(
 
@@ -84,9 +82,9 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
       ),
     ),
 
-    clickFocus,
+    focusOnMouse,
 
-    renderPortal(({
+    renderLifted(({
       openState, closeModal, onMouseDown, hoverProps, setScrollElem, style, children,
     }) =>
       openState.isOpen && (
@@ -107,8 +105,8 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
       },
     })),
 
-  )(({ isList, labelText, openModal, setPortalBaseElem, style }) =>
-    <div onMouseDown={openModal} ref={setPortalBaseElem}>
+  )(({ isList, labelText, openModal, setLiftBaseElem, style }) =>
+    <div onMouseDown={openModal} ref={setLiftBaseElem}>
       <Label text={labelText} icon={['', isList ? 'updown' : 'down']} style={style.label} />
     </div>
   );

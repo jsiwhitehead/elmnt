@@ -2,10 +2,8 @@ import * as React from 'react';
 import {
   branch, compose, lifecycle, mapProps, pure, renderComponent, withHandlers, withProps, withState,
 } from 'recompose';
-import * as omit from 'lodash.omit';
 import { CSSTree, mapStyle } from 'highstyle';
-
-import { clickFocus, cssGroups, focusable, renderLayer } from '../utils';
+import { cssGroups, focusable, focusOnMouse, omitProps, renderLayer } from 'mishmash';
 
 import Autosize from './Autosize';
 import Placeholder from './Placeholder';
@@ -33,7 +31,7 @@ export default compose<any, TxtProps>(
 
   branch(
     ({ onTextChange }) => onTextChange,
-    clickFocus,
+    focusOnMouse,
   ),
 
   withProps(({ onTextChange }) => ({
@@ -59,10 +57,10 @@ export default compose<any, TxtProps>(
           { padding: '1px 0px', display: 'block', minHeight: fontSize },
         ],
       })),
-      mapProps(props => omit(props,
+      omitProps(
         'isInput', 'onTextChange', 'placeholder', 'rows', 'password', 'tab',
         'tabIndex', 'onFocus', 'onBlur', 'focusElem', 'setFocusElem', 'focusRef', 'spellCheck',
-      )),
+      ),
     )(({ style, ...props }: any) => (
       <span style={style.outer} {...props}>
         <span style={style.inner}>{props.children}</span>
@@ -89,7 +87,11 @@ export default compose<any, TxtProps>(
         style: children ? style.text : style.placeholder,
       })),
       renderComponent(({ children, style }) =>
-        <span style={{ ...style, display: 'block', margin: getMargin(style) }}>{children}</span>
+        <span style={{ ...style, display: 'block', margin: getMargin(style) }}>
+          {(children || '').split('\n').reduce(
+            (res, line, i) => res.concat(i === 0 ? line : [<br />, line]), [],
+          )}
+        </span>
       ),
     ),
   ),

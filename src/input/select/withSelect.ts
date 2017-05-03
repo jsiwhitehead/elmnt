@@ -1,9 +1,7 @@
 import {
   branch, ComponentEnhancer, compose, mapProps, pure, withHandlers, withProps, withState,
 } from 'recompose';
-import * as omit from 'lodash.omit';
-
-import { memoize } from '../../utils';
+import { memoize, omitProps } from 'mishmash';
 
 const undefToNull = (v: any) => v === undefined ? null : v;
 
@@ -118,7 +116,7 @@ export default compose(
 
       }),
 
-      mapProps(props => omit(props, 'scroll')),
+      omitProps('scroll'),
       pure,
 
       withHandlers({
@@ -174,4 +172,4 @@ export default compose(
     };
   }),
 
-) as ComponentEnhancer<any, any>;
+);

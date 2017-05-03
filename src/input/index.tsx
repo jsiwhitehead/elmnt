@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { branch, compose, pure, renderComponent, withProps } from 'recompose';
 import { mapStyle } from 'highstyle';
-
-import { focusable, withFocus, withHover } from '../utils';
+import { focusable, withFocus, withHover } from 'mishmash';
 
 import components from './components';
 import createText from './text';

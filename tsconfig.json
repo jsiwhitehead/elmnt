@@ -7,10 +7,6 @@
     "jsx": "react",
     "rootDir": "src",
     "outDir": "lib",
-    "baseUrl": "./",
-    "paths": {
-      "*": [ "node_modules/@types/*", "*"]
-    },
     "strict": true,
     "noImplicitAny": false
   },

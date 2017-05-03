@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { compose } from 'recompose';
 import { mapStyle } from 'highstyle';
+import { cssGroups} from 'mishmash';
 
 import Icon from '../../icon';
-import { cssGroups } from '../../utils';
 
 export default compose<any, any>(
 

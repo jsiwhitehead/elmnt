@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { branch, compose, pure, withHandlers, withProps } from 'recompose';
 import { mapStyle } from 'highstyle';
+import { Comp, Obj } from 'mishmash';
 
-import { Comp, Obj } from '../../typings';
-
-export default function createItem({ Option }: Obj<Comp<any>>) {
+export default function createItem({ Option }: Obj<Comp>) {
   return compose<any, any>(
 
     pure,

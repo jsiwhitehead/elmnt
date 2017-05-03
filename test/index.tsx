@@ -1,12 +1,11 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { compose, withHandlers, withProps, withState } from 'recompose';
+import { LiftRoot } from 'mishmash';
 
 // import Div from '../src/div';
 // import Txt from '../src/txt';
 import Input from '../src/input';
-
-import { PortalRoot } from '../src/utils';
 
 const inputStyle = {
   fontSize: 16,
@@ -56,7 +55,7 @@ const TestApp = compose<any, any>(
 )(({ value, onChange }) => (
   <div style={{ padding: 100 }}>
 
-    <PortalRoot>
+    <LiftRoot>
 
       <Input
         value={value(1) as string} onChange={onChange(1)}
@@ -113,7 +112,7 @@ const TestApp = compose<any, any>(
         style={{ ...inputStyle, layout: 'modal' }}
       />
 
-    </PortalRoot>
+    </LiftRoot>
 
 
 {/*
