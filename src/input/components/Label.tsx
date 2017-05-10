@@ -46,14 +46,15 @@ export default compose<any, any>(
   })),
 
 )(({
-  text, icon, placeholder, rows, password, tab, onTextChange, focusProps, setFocusElem, style,
+  text, icon, placeholder, rows, password, tab, spellCheck, onTextChange,
+  focusProps, setFocusElem, style,
 }) =>
   <Div style={style.div}>
     {(icon || ['']).map(i => i ?
       <Marker type={i} style={style.icon} key={i} /> :
       <Txt
         onTextChange={onTextChange} {...focusProps} focusRef={setFocusElem}
-        placeholder={placeholder} rows={rows} password={password} tab={tab}
+        placeholder={placeholder} rows={rows} password={password} tab={tab} spellCheck={spellCheck}
         style={style.text} key={i} children={text}
       />
     )}

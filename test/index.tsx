@@ -12,6 +12,9 @@ const inputStyle = {
   border: '2px solid blue',
   padding: 10,
   spacing: '10px 20px',
+  placeholder: {
+    color: 'rgba(0,0,0,0.35)',
+  },
   hover: {
     background: '#f6f6f6',
   },
@@ -59,7 +62,7 @@ const TestApp = compose<any, any>(
 
       <Input
         value={value(1) as string} onChange={onChange(1)}
-        type="text" style={inputStyle}
+        type="text" style={inputStyle} spellCheck={false}
       />
 
       <br />

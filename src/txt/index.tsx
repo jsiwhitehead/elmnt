@@ -15,7 +15,7 @@ const getMargin = style => {
 };
 
 export interface TxtProps extends React.HTMLProps<{}> {
-  children?: string | null;
+  children?: any;
   onTextChange?: (text: string) => void;
   placeholder?: string;
   rows?: number;
@@ -34,9 +34,11 @@ export default compose<any, TxtProps>(
     focusOnMouse,
   ),
 
-  withProps(({ onTextChange }) => ({
+  withProps(({ children, onTextChange }) => ({
+    children: (children === null || children === undefined) ? null : children.toString(),
     isInput: !!onTextChange,
   })),
+
   mapStyle(['isInput'], (isInput) => [
     ['defaults', {
       fontFamily: 'inherit', fontSize: 20, lineHeight: 1.5,

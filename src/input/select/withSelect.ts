@@ -1,5 +1,5 @@
 import {
-  branch, ComponentEnhancer, compose, mapProps, pure, withHandlers, withProps, withState,
+  branch, ComponentEnhancer, compose, pure, withHandlers, withProps, withState,
 } from 'recompose';
 import { memoize, omitProps } from 'mishmash';
 
@@ -172,4 +172,4 @@ export default compose(
     };
   }),
 
-);
+) as ComponentEnhancer<any, any>;

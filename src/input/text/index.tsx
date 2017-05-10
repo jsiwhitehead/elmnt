@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { branch, compose, lifecycle, withHandlers, withProps, withState } from 'recompose';
+import { branch, compose, createEventHandler, mapPropsStream, withProps } from 'recompose';
+import * as most from 'most';
 import { mapStyle } from 'highstyle';
 import { Comp, focusOnMouse, Obj } from 'mishmash';
 
@@ -10,53 +11,48 @@ export default function createText({ Label }: Obj<Comp>) {
 
     focusOnMouse,
 
-    withState(
-      'textState', 'setTextState',
-      props => ({
-        text: parsers[props.type].format(props.value, {}, props),
-        options: {},
-        parsing: false,
-      }),
-    ),
+    mapPropsStream(plainProps$ => {
+      const props$ = most.from<any>(plainProps$ as any);
 
-    withHandlers({
-      onTextChange: (props: any) => (inputText: string) => {
-        const { type, onChange, textState, setTextState } = props;
-        if (!inputText) {
-          setTextState(
-            { text: '', options: textState.options, parsing: true },
-            () => onChange(null),
-          );
-        } else {
-          const { value, text, options } = parsers[type].parse(inputText, props);
-          setTextState(
-            { text, options, parsing: true },
-            () => onChange(value),
-          );
-        }
-      },
-    }),
+      let config = {};
+      const state: { props: any, text: string } = { props: {}, text: '' };
 
-    lifecycle({
-      componentWillReceiveProps(nextProps) {
-        const { type, value, textState, setTextState } = (this as any).props;
-        if (value !== nextProps.value) {
-          if (textState.parsing) {
-            setTextState({ ...textState, parsing: false });
-          } else if (!(parsers[type].allowNull && (nextProps.value === null))) {
-            setTextState({
-              ...textState,
-              text: parsers[type].format(nextProps.value, textState.options, nextProps),
-            });
+      const { handler: textHandler, stream: plainText$ } = createEventHandler();
+      const text$ = most.from<string>(plainText$ as any);
+
+      let lastText = '';
+      const onTextChange = (text) => {
+
+        const { type, value, onChange } = state.props;
+
+        const parsed = text ? parsers[type].parse(text, state.props) : { value: null };
+        config = parsed.config || {};
+        lastText = parsed.text !== undefined ? parsed.text : text;
+
+        if (!parsers[type].equals(value, parsed.value)) onChange(parsed.value);
+        else textHandler(lastText);
+      }
+
+      props$.observe(props => {
+        if (props.value !== state.props.value) {
+          if (props.value === null && parsers[props.type].parse(lastText, props).value === null) {
+            textHandler(lastText);
+          } else {
+            textHandler(parsers[props.type].format(props.value, config, props));
           }
         }
-      },
-    }),
+        state.props = props;
+      });
+      text$.observe(text => state.text = text);
 
-    withProps(({ value, textState }) => ({
-      isNull: textState.text ? (value === null) : null,
-      text: textState.text,
-    })),
+      return props$.combine((props, text) => ({
+        ...props,
+        text,
+        onTextChange,
+        isNull: text ? (props.value === null) : null,
+      }), text$.startWith(''));
+
+    }),
 
     branch(
       ({ password }) => password,
@@ -84,13 +80,13 @@ export default function createText({ Label }: Obj<Comp>) {
     })),
 
   )(({
-    text, onTextChange, icon, placeholder, rows, password, tab,
+    text, onTextChange, icon, placeholder, rows, password, tab, spellCheck,
     onMouseDown, hoverProps, focusProps, setFocusElem, style
   }) =>
     <div onMouseDown={onMouseDown} {...hoverProps} style={style.div}>
       <Label
-        text={text} onTextChange={onTextChange} icon={icon}
-        placeholder={placeholder} rows={rows} password={password} tab={tab}
+        text={text} onTextChange={onTextChange} icon={icon} placeholder={placeholder}
+        rows={rows} password={password} tab={tab} spellCheck={spellCheck}
         focusProps={focusProps} setFocusElem={setFocusElem} style={style.label}
       />
     </div>

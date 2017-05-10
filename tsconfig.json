@@ -8,6 +8,7 @@
     "rootDir": "src",
     "outDir": "lib",
     "strict": true,
+    "noUnusedLocals": true,
     "noImplicitAny": false
   },
   "include": ["src/**/*"]

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { branch, compose, pure, renderComponent, withProps } from 'recompose';
 import { mapStyle } from 'highstyle';
 import { focusable, withFocus, withHover } from 'mishmash';

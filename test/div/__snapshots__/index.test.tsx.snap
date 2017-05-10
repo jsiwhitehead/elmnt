@@ -410,6 +410,7 @@ exports[`div grid layout with numeric spacing 1`] = `
             "float": "left",
             "marginLeft": 10,
             "marginTop": 10,
+            "width": "auto",
           }
         }
       >
@@ -421,6 +422,7 @@ exports[`div grid layout with numeric spacing 1`] = `
             "float": "left",
             "marginLeft": 10,
             "marginTop": 10,
+            "width": "auto",
           }
         }
       >
@@ -432,6 +434,7 @@ exports[`div grid layout with numeric spacing 1`] = `
             "float": "left",
             "marginLeft": 10,
             "marginTop": 10,
+            "width": "auto",
           }
         }
       >
@@ -480,6 +483,7 @@ exports[`div grid layout with string multi-spacing 1`] = `
             "float": "left",
             "marginLeft": "20px",
             "marginTop": "10px",
+            "width": "auto",
           }
         }
       >
@@ -491,6 +495,7 @@ exports[`div grid layout with string multi-spacing 1`] = `
             "float": "left",
             "marginLeft": "20px",
             "marginTop": "10px",
+            "width": "auto",
           }
         }
       >
@@ -502,6 +507,7 @@ exports[`div grid layout with string multi-spacing 1`] = `
             "float": "left",
             "marginLeft": "20px",
             "marginTop": "10px",
+            "width": "auto",
           }
         }
       >
@@ -550,6 +556,7 @@ exports[`div grid layout with string spacing 1`] = `
             "float": "left",
             "marginLeft": "10px",
             "marginTop": "10px",
+            "width": "auto",
           }
         }
       >
@@ -561,6 +568,7 @@ exports[`div grid layout with string spacing 1`] = `
             "float": "left",
             "marginLeft": "10px",
             "marginTop": "10px",
+            "width": "auto",
           }
         }
       >
@@ -572,6 +580,7 @@ exports[`div grid layout with string spacing 1`] = `
             "float": "left",
             "marginLeft": "10px",
             "marginTop": "10px",
+            "width": "auto",
           }
         }
       >
@@ -627,6 +636,7 @@ exports[`div stack layout with numeric spacing 1`] = `
     style={
       Object {
         "paddingTop": 0,
+        "width": "auto",
       }
     }
   >
@@ -644,6 +654,7 @@ exports[`div stack layout with numeric spacing 1`] = `
     style={
       Object {
         "paddingTop": 10,
+        "width": "auto",
       }
     }
   >
@@ -661,6 +672,7 @@ exports[`div stack layout with numeric spacing 1`] = `
     style={
       Object {
         "paddingTop": 10,
+        "width": "auto",
       }
     }
   >
@@ -689,6 +701,7 @@ exports[`div stack layout with string multi-spacing 1`] = `
     style={
       Object {
         "paddingTop": 0,
+        "width": "auto",
       }
     }
   >
@@ -706,6 +719,7 @@ exports[`div stack layout with string multi-spacing 1`] = `
     style={
       Object {
         "paddingTop": "10px",
+        "width": "auto",
       }
     }
   >
@@ -723,6 +737,7 @@ exports[`div stack layout with string multi-spacing 1`] = `
     style={
       Object {
         "paddingTop": "10px",
+        "width": "auto",
       }
     }
   >
@@ -751,6 +766,7 @@ exports[`div stack layout with string spacing 1`] = `
     style={
       Object {
         "paddingTop": 0,
+        "width": "auto",
       }
     }
   >
@@ -768,6 +784,7 @@ exports[`div stack layout with string spacing 1`] = `
     style={
       Object {
         "paddingTop": "10px",
+        "width": "auto",
       }
     }
   >
@@ -785,6 +802,7 @@ exports[`div stack layout with string spacing 1`] = `
     style={
       Object {
         "paddingTop": "10px",
+        "width": "auto",
       }
     }
   >

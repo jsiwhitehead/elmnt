@@ -28,4 +28,4 @@ export default withProps(
       childWidths: getChildWidths(childWidths),
     },
   })
-);
+) as ComponentEnhancer<any, any>;

@@ -1,5 +1,4 @@
 import { CSSTree } from 'highstyle';
-import { FocusableProps, FocusProps, HoverProps } from 'mishmash';
 
 export type StyleKeys = "invalid" | "focus" | "hover" | "active";
 
@@ -59,6 +58,7 @@ export type TextExtraProps = {
   rows?: number;
   password?: boolean;
   tab?: number;
+  spellCheck?: boolean;
 };
 export type TextProps = { type: 'text' } &
   (TextInputBase<string> & TextExtraProps) | SelectInputBase<string>;
@@ -72,5 +72,5 @@ export type DateProps = { type: 'date' } &
 export type TextlistProps = { type: 'textlist' } &
   TextInputBase<string[]> | SelectInputBase<string[]>;
 
-export type InputProps =
-  BooleanProps | IntProps | FloatProps | TextProps | DateProps | TextlistProps;
+export type InputProps = { invalid?: boolean } &
+  (BooleanProps | IntProps | FloatProps | TextProps | DateProps | TextlistProps);

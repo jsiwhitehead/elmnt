@@ -32,7 +32,7 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
     }),
 
     withProps(({
-      text, isList, selectIndex, options, labels, labelIndices, selected,
+      text, isList, selectIndex, labels, labelIndices, selected,
       activeIndex, moveActiveIndex, style,
     }) => ({
       children: [
