@@ -91,7 +91,7 @@ export default compose<any, TxtProps>(
       renderComponent(({ children, style }) =>
         <span style={{ ...style, display: 'block', margin: getMargin(style) }}>
           {(children || '').split('\n').reduce(
-            (res, line, i) => res.concat(i === 0 ? line : [<br />, line]), [],
+            (res, line, i) => res.concat(i === 0 ? line : [<br key={i} />, line]), [],
           )}
         </span>
       ),

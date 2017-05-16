@@ -12,7 +12,6 @@ const modMove = (start: number, delta: number, max: number) => {
 };
 
 const getText = (isList, value, options, labels) => {
-  if (!value) return '';
   if (!isList) return labels[options.indexOf(value)] || '';
   return labels.filter((_, i) => (value || []).includes(options[i])).join(', ');
 }
@@ -74,9 +73,6 @@ export default compose(
             const result = typeof newScroll === 'function' ? newScroll(scroll) : newScroll;
             if (value && openState.isOpening && !scroll.scrollElem && result.scrollElem) {
               result.scrollElem.scrollToIndex(options.indexOf(isList ? value[0] : value));
-              // setTimeout(() => {
-
-              // }, 100);
             }
             return result;
           });

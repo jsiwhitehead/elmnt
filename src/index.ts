@@ -1,5 +1,3 @@
-import { LiftRoot } from 'mishmash';
-
 import Div from './div';
 import Icon from './icon';
 import Input from './input';
@@ -10,6 +8,4 @@ export {
   Icon,
   Input,
   Txt,
-
-  LiftRoot,
 };

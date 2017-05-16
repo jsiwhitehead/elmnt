@@ -32,16 +32,17 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
     }),
 
     withProps(({
-      text, isList, selectIndex, labels, labelIndices, selected,
+      text, isList, selectIndex, options, labels, labelIndices, selected,
       activeIndex, moveActiveIndex, style,
     }) => ({
-      children: [
+      items: [
         ...(style.base.layout === 'table' ? [<Key text={text} style={style.key} key={-1} />] : []),
         ...labels.map((l, i) => isGroup(l) ?
           <Group style={style.group} key={i}>{l.substring(1)}</Group> :
           <Item
             text={l} isList={isList} index={labelIndices[i]} selectIndex={selectIndex}
             selected={selected} isActive={activeIndex === labelIndices[i]}
+            isNone={Array.isArray(options) && !options[labelIndices[i]]}
             moveActiveIndex={moveActiveIndex} style={style.base} key={i}
           />
         ),
@@ -60,10 +61,10 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
 
     branch(
       ({ style }) => style.base.layout === 'table',
-      renderComponent(({ onKeyDown, hoverProps, focusProps, setFocusElem, style, children }) =>
+      renderComponent(({ onKeyDown, hoverProps, focusProps, setFocusElem, style, items }) =>
         <tr
           onKeyDown={onKeyDown} {...hoverProps} {...focusProps} ref={setFocusElem}
-          style={style.div} children={children}
+          style={style.div} children={items}
         />
       ),
     ),
@@ -77,24 +78,23 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
 
     branch(
       ({ style }) => style.base.layout !== 'modal',
-      renderComponent(({ labels, style, children }) =>
-        <Select labels={labels} style={style.base}>{children}</Select>
+      renderComponent(({ labels, style, items }) =>
+        <Select labels={labels} style={style.base}>{items}</Select>
       ),
     ),
 
     focusOnMouse,
 
-    renderLifted(({
-      openState, closeModal, onMouseDown, hoverProps, setScrollElem, style, children,
-    }) =>
-      openState.isOpen && (
+    renderLifted(
+      ({ openState }) => openState.isOpen,
+      ({ closeModal, onMouseDown, hoverProps, setScrollElem, style, items }) => (
         <ScrollWrapper style={style.base} ref={setScrollElem}>
           <Modal
             closeModal={closeModal} modalProps={{ 'data-modal': true, onMouseDown, ...hoverProps }}
-            style={style.base} children={children}
+            style={style.base} children={items}
           />
         </ScrollWrapper>
-      )
+      ),
     ),
 
     mapStyle(['isFocused'], (isFocused) => ({
@@ -105,9 +105,13 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
       },
     })),
 
-  )(({ isList, labelText, openModal, setLiftBaseElem, style }) =>
+  )(({ value, isList, labelText, openModal, setLiftBaseElem, placeholder, style }) =>
     <div onMouseDown={openModal} ref={setLiftBaseElem}>
-      <Label text={labelText} icon={['', isList ? 'updown' : 'down']} style={style.label} />
+      <Label
+        text={value && labelText} icon={['', isList ? 'updown' : 'down']}
+        placeholder={placeholder || labelText}
+        style={style.label}
+      />
     </div>
   );
 }

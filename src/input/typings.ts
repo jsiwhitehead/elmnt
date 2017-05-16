@@ -19,7 +19,7 @@ export type BooleanInputBase<T> = ValueType<T> & {
 export type OptionsInputBase<T> = ValueType<T> & {
   options: T[];
   labels?: string[];
-  style?: CSSTree<StyleKeys | "group"> & {
+  style?: CSSTree<StyleKeys | "group" | "none"> & {
     layout: 'bar' | 'grid' | 'stack';
     spacing?: number | string;
     childWidths?: number | string;
@@ -29,7 +29,7 @@ export type TableInputBase<T> = ValueType<T> & {
   options: T[];
   labels?: string[];
   text: string;
-  style?: CSSTree<StyleKeys | "row" | "key"> & {
+  style?: CSSTree<StyleKeys | "row" | "key" | "none"> & {
     layout: 'table';
     spacing?: number | string;
     childWidths?: number | string;
@@ -39,7 +39,7 @@ export type ModalInputBase<T> = ValueType<T> & {
   options: T[];
   labels?: string[];
   placeholder?: string;
-  style?: CSSTree<StyleKeys | "selected" | "placeholder"> & { layout: 'modal' };
+  style?: CSSTree<StyleKeys | "selected" | "placeholder" | "none"> & { layout: 'modal' };
 };
 
 export type SelectInputBase<T> =

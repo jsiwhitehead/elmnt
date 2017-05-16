@@ -7,6 +7,20 @@ export interface DivProps extends React.HTMLProps<{}> {
   style?: DivStyle;
 }
 
+const mapChildren = (children: React.ReactNode, map: (child, i, first) => any) => {
+  let first = true;
+  return React.Children.map(
+    children,
+    (child, i) => {
+      if (child) {
+        const result = map(child, i, first);
+        first = false;
+        return result;
+      }
+    },
+  );
+}
+
 const Div = compose<any, DivProps>(
 
   branch(
@@ -26,11 +40,11 @@ const Div = compose<any, DivProps>(
     compose(
       renderComponent(({ style, divStyles: { spacing, childWidths }, children, ...otherProps }) =>
         <div style={{ ...style, display: 'table', verticalAlign: undefined }} {...otherProps}>
-          {React.Children.map(children, (child, i) => child &&
+          {mapChildren(children, (child, i, first) =>
             <div key={i} style={{
               display: 'table-cell',
               verticalAlign: (style && style.verticalAlign) || 'middle',
-              paddingLeft: (i !== 0 ? spacing[1] : 0),
+              paddingLeft: (first ? 0 : spacing[1]),
               width: childWidths[i] || 'auto',
               boxSizing: 'content-box',
             }}>
@@ -52,7 +66,7 @@ const Div = compose<any, DivProps>(
               marginTop: `-${parseFloat(spacing[0]) + 1}px`,
               marginLeft: `-${parseFloat(spacing[1]) + 1}px`,
             }}>
-              {React.Children.map(children, (child, i) => child &&
+              {mapChildren(children, (child, i) =>
                 <div key={i} style={{
                   float: 'left',
                   marginTop: spacing[0], marginLeft: spacing[1],
@@ -73,9 +87,9 @@ const Div = compose<any, DivProps>(
     compose(
       renderComponent(({ divStyles: { spacing, childWidths }, children, ...otherProps }) =>
         <div {...otherProps}>
-          {React.Children.map(children, (child, i) => child &&
+          {mapChildren(children, (child, i, first) =>
             <Div key={i} style={{
-              paddingTop: (i !== 0 ? spacing[0] : 0),
+              paddingTop: (first ? 0 : spacing[0]),
               width: childWidths[i] || 'auto',
             }}>
               {child}

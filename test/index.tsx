@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { compose, withHandlers, withProps, withState } from 'recompose';
-import { LiftRoot } from 'mishmash';
 
 // import Div from '../src/div';
 // import Txt from '../src/txt';
@@ -38,6 +37,9 @@ const inputStyle = {
   row: {
     background: 'rgba(0,0,0,0.03)',
   },
+  none: {
+    fontStyle: 'italic',
+  },
 };
 
 const TestApp = compose<any, any>(
@@ -58,64 +60,61 @@ const TestApp = compose<any, any>(
 )(({ value, onChange }) => (
   <div style={{ padding: 100 }}>
 
-    <LiftRoot>
+    <Input
+      value={value(1) as string} onChange={onChange(1)}
+      type="text" style={inputStyle} spellCheck={false} placeholder="Enter value"
+    />
 
-      <Input
-        value={value(1) as string} onChange={onChange(1)}
-        type="text" style={inputStyle} spellCheck={false}
-      />
+    <br />
 
-      <br />
+    <Input
+      value={value(2) as boolean} onChange={onChange(2)}
+      type="boolean" options={{ on: true }} label="Hello" style={inputStyle}
+    />
 
-      <Input
-        value={value(2) as boolean} onChange={onChange(2)}
-        type="boolean" options={{ on: true }} label="Hello" style={inputStyle}
-      />
+    <br />
 
-      <br />
+    <Input
+      value={value(3) as string} onChange={onChange(3)}
+      type="text" options={[null, 'One', 'Two', 'Three']}
+      labels={['-- None --', 'One', 'Two', '~Group', 'Three']} style={inputStyle}
+    />
 
-      <Input
-        value={value(3) as string} onChange={onChange(3)}
-        type="text" options={['One', 'Two', 'Three']}
-        labels={['One', 'Two', '~Group', 'Three']} style={inputStyle}
-      />
+    <br />
 
-      <br />
+    <Input
+      value={value(4) as string[]} onChange={onChange(4)}
+      type="textlist" options={['One', 'Two', 'Three']} style={inputStyle}
+    />
 
-      <Input
-        value={value(4) as string[]} onChange={onChange(4)}
-        type="textlist" options={['One', 'Two', 'Three']} style={inputStyle}
-      />
+    <br />
 
-      <br />
+    <table>
+      <tbody>
+        <Input
+          value={value(5) as string} onChange={onChange(5)} type="text" text="Hello"
+          options={[null, 'One', 'Two', 'Three']} labels={['-- None --', 'One', 'Two', 'Three']}
+          style={{ ...inputStyle, layout: 'table' }}
+        />
+      </tbody>
+    </table>
 
-      <table>
-        <tbody>
-          <Input
-            value={value(5) as string} onChange={onChange(5)}
-            type="text" text="Hello" options={['One', 'Two', 'Three']}
-            style={{ ...inputStyle, layout: 'table' }}
-          />
-        </tbody>
-      </table>
+    <br />
 
-      <br />
+    <Input
+      value={value(6) as string} onChange={onChange(6)} type="text"
+      options={[null, 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
+      labels={['-- None --', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
+      style={{ ...inputStyle, layout: 'modal' }}
+    />
 
-      <Input
-        value={value(6) as string} onChange={onChange(6)}
-        type="text" options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
-        style={{ ...inputStyle, layout: 'modal' }}
-      />
+    <br />
 
-      <br />
-
-      <Input
-        value={value(7) as string[]} onChange={onChange(7)}
-        type="textlist" options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
-        style={{ ...inputStyle, layout: 'modal' }}
-      />
-
-    </LiftRoot>
+    <Input
+      value={value(7) as string[]} onChange={onChange(7)}
+      type="textlist" options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
+      placeholder="Enter value" style={{ ...inputStyle, layout: 'modal' }}
+    />
 
 
 {/*

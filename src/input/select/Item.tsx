@@ -24,9 +24,14 @@ export default function createItem({ Option }: Obj<Comp>) {
       Root: layout === 'table' ? 'td' : 'div',
     })),
 
-    mapStyle(['isActive', 'isSelected', 'style.layout'], (isActive, isSelected, layout) => [
-      ['mergeKeys', { active: isActive, selected: isSelected && layout === 'modal' }],
-    ]),
+    mapStyle(
+      ['isActive', 'isSelected', 'style.layout', 'isNone'],
+      (isActive, isSelected, layout, isNone) => [
+        ['mergeKeys',
+          { active: isActive, selected: isSelected && layout === 'modal', none: isNone },
+        ],
+      ],
+    ),
 
   )(({
     index, text, isList, isSelected, onMouseUp, onMouseDown, onMouseMove, style, Root,
