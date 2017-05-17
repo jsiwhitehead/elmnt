@@ -1,7 +1,6 @@
-import {
-  branch, ComponentEnhancer, compose, pure, withHandlers, withProps, withState,
-} from 'recompose';
-import { memoize, omitProps } from 'mishmash';
+import { ComponentEnhancer } from 'recompose';
+import * as most from 'most';
+import { mapPropsStream, streamState } from 'mishmash';
 
 const undefToNull = (v: any) => v === undefined ? null : v;
 
@@ -11,161 +10,147 @@ const modMove = (start: number, delta: number, max: number) => {
   return mod(delta > 0 ? delta - 1 : delta, max);
 };
 
-const getText = (isList, value, options, labels) => {
-  if (!isList) return labels[options.indexOf(value)] || '';
-  return labels.filter((_, i) => (value || []).includes(options[i])).join(', ');
-}
+export default mapPropsStream<any, any>((props$, handlers) => {
 
-const createScrollState = memoize(isScrolling => memoize(scrollElem => ({
-  isScrolling, scrollElem,
-}), true), true);
+  const { state$: activeIndex$, setState: setActiveIndex } = streamState(0);
 
-export default compose(
+  const { state$: isOpen$, setState: setIsOpen } = streamState(false);
+  const isOpening = { value: false, timeout: null as number | null };
+  isOpen$.observe(isOpen => {
+    document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+    isOpening.value = isOpen;
+    if (!isOpen) clearTimeout(isOpening.timeout!);
+    isOpening.timeout = isOpen ? setTimeout(() => isOpening.value = false, 400) : null;
+  });
 
-  withState('activeIndex', 'setActiveIndex', 0),
+  let isScrolling = false;
+  let scrollElem: any = null;
+  const { state$: noScrollRefBase$, setState: setNoScrollRef } =
+    streamState<boolean>(undefined, false);
+  const noScrollRef$ = noScrollRefBase$.chain(() => most.from([true, false])).startWith(false);
 
-  pure,
-
-  withHandlers({
-    selectIndex: ({ isList, value, onChange, setActiveIndex, options }) => (index) => {
-      setActiveIndex(index);
-      if (!isList) {
-        onChange(undefToNull(options[index]));
+  const scrollToIndex = (index, padding) => {
+    if (scrollElem) {
+      if (!scrollElem.offsetHeight) {
+        setNoScrollRef(true);
       } else {
-        const newValue = options.filter((o, i) => (
-          i === index ? !(value || []).includes(o) : (value || []).includes(o)
-        ));
-        onChange(newValue.length > 0 ? newValue : null);
+        const item =
+          scrollElem.querySelector(`[data-modal-index="${index}"]`) as HTMLElement;
+        const top = item.offsetTop - padding;
+        const bottom = top + item.offsetHeight + (padding * 2);
+        if (top < scrollElem.scrollTop) {
+          scrollElem.scrollTop = top;
+        }
+        if (bottom > scrollElem.scrollTop + scrollElem.offsetHeight) {
+          scrollElem.scrollTop = (bottom - scrollElem.offsetHeight);
+        }
       }
-    },
-  }),
+    }
+  }
 
-  withHandlers({
-    moveActiveIndex: ({
-      isList, activeIndex, setActiveIndex, selectIndex, options, style: { layout },
-    }) => (
-      (move?: number, jumpTo?: boolean) => {
+  return props$.combine((props, activeIndex, isOpen, noScrollRef) => {
+
+    const { isList, value, onChange, options, labels, style: { fontSize, layout } } = props;
+
+    const { selectIndex } = handlers({
+      selectIndex: (index) => {
+        if (!isOpening.value) {
+          setActiveIndex(index);
+          if (!isList) {
+            onChange(undefToNull(options[index]));
+          } else {
+            const newValue = options.filter((o, i) => (
+              i === index ? !(value || []).includes(o) : (value || []).includes(o)
+            ));
+            onChange(newValue.length > 0 ? newValue : null);
+          }
+          if (!isList) setIsOpen(false);
+        }
+      },
+    });
+
+    const { moveActiveIndex } = handlers({
+      moveActiveIndex: (move?: number, jumpTo?: boolean) => {
         if (move === undefined) {
           selectIndex(activeIndex);
         } else {
-          const newActiveIndex = jumpTo ? move : modMove(activeIndex, move, options.length);
-          (isList || (layout === 'modal') ? setActiveIndex : selectIndex)(newActiveIndex);
-          return newActiveIndex;
-        }
-      }
-    ),
-  }),
-
-  branch(
-    ({ style }) => style.layout === 'modal',
-    compose(
-
-      withState('openState', 'setOpenState', { isOpen: false, isOpening: false, timeout: null }),
-      withState('scroll', 'setScroll', createScrollState(false)(null)),
-
-      withHandlers({
-        setOpenState: ({ setOpenState }) => (openState) => {
-          document.body.style.overflow = openState.isOpen ? 'hidden' : 'auto';
-          setOpenState(openState);
-        },
-        setScroll: ({ isList, value, options, openState, setScroll }) => (newScroll) => {
-          setScroll(scroll => {
-            const result = typeof newScroll === 'function' ? newScroll(scroll) : newScroll;
-            if (value && openState.isOpening && !scroll.scrollElem && result.scrollElem) {
-              result.scrollElem.scrollToIndex(options.indexOf(isList ? value[0] : value));
-            }
-            return result;
-          });
-        },
-      }),
-
-      withHandlers({
-
-        openModal: ({ setOpenState }) => () => {
-          const timeout = setTimeout(() => setOpenState({ isOpen: true, isOpening: false }), 400);
-          setOpenState({ isOpen: true, isOpening: true, timeout });
-        },
-        closeModal: ({ openState, setOpenState }) => () => {
-          clearTimeout(openState.timeout);
-          setOpenState({ isOpen: false, isOpening: false, timeout: null });
-        },
-
-        moveActiveIndex: ({ moveActiveIndex, scroll, setScroll }) => (
-          (move?: number, jumpTo?: boolean) => {
-            if (move === undefined) {
-              moveActiveIndex(move, jumpTo);
-            } else {
-              if (scroll.isScrolling && jumpTo) {
-                setScroll(createScrollState(false)(scroll.scrollElem));
-              } else {
-                const newActiveIndex = moveActiveIndex(move, jumpTo);
-                setScroll(createScrollState(true)(scroll.scrollElem));
-                if (scroll.scrollElem) scroll.scrollElem.scrollToIndex(newActiveIndex);
-              }
-            }
+          if (isScrolling && jumpTo) {
+            isScrolling = false;
+          } else {
+            const newActiveIndex = jumpTo ? move : modMove(activeIndex, move, options.length);
+            (isList || (layout === 'modal') ? setActiveIndex : selectIndex)(newActiveIndex);
+            if (layout === 'modal') isScrolling = true;
+            scrollToIndex(newActiveIndex, parseFloat(fontSize) * 0.5);
           }
-        ),
+        }
+      },
+    });
 
-        setScrollElem: ({ setScroll }) => (elem) => (
-          setScroll(scroll => createScrollState(scroll.isScrolling)(elem))
-        ),
-
-      }),
-
-      omitProps('scroll'),
-      pure,
-
-      withHandlers({
-        selectIndex: ({ isList, selectIndex, openState, closeModal }) => (i) => {
-          if (!openState.isOpening) {
-            if (!isList) closeModal();
-            selectIndex(i);
+    const { onKeyDown } = handlers({
+      onKeyDown: (event) => {
+        if (layout === 'modal' && !isOpen) {
+          if ((event.keyCode === 13) || (event.keyCode === 32)) {
+            setIsOpen(true);
+            event.preventDefault();
           }
-        },
-      }),
-
-    ),
-  ),
-
-  withHandlers({
-    onKeyDown: ({ isList, moveActiveIndex, openState, openModal, closeModal }) => (event) => {
-      if (openState && !openState.isOpen) {
-        if ((event.keyCode === 13) || (event.keyCode === 32)) {
-          openModal();
-          event.preventDefault();
+        } else {
+          if ((event.keyCode === 13) || (event.keyCode === 32)) {
+            moveActiveIndex();
+            if (!isList) setIsOpen(false);
+            event.preventDefault();
+          } else if ((event.keyCode === 37) || (event.keyCode === 38)) {
+            moveActiveIndex(-1);
+            event.preventDefault();
+          } else if ((event.keyCode === 39) || (event.keyCode === 40)) {
+            moveActiveIndex(1);
+            event.preventDefault();
+          } else if ((event.keyCode === 9) || (event.keyCode === 27)) {
+            setIsOpen(false);
+          }
         }
-      } else {
-        if ((event.keyCode === 13) || (event.keyCode === 32)) {
-          moveActiveIndex();
-          if (!isList && closeModal) closeModal();
-          event.preventDefault();
-        } else if ((event.keyCode === 37) || (event.keyCode === 38)) {
-          moveActiveIndex(-1);
-          event.preventDefault();
-        } else if ((event.keyCode === 39) || (event.keyCode === 40)) {
-          moveActiveIndex(1);
-          event.preventDefault();
-        } else if ((event.keyCode === 9) || (event.keyCode === 27)) {
-          if (closeModal) closeModal();
+        if (event.keyCode === 13) {
+          event.stopPropagation();
         }
-      }
-      if (event.keyCode === 13) {
-        event.stopPropagation();
-      }
-    },
-  }),
+      },
+    });
 
-  withProps(({ isList, value, options, labels }) => {
     const newLabels = (labels || options || []).map(o => o.toString()) as string[];
     const filteredLabels = newLabels.filter(l => !(typeof l === 'string' && l[0] === '~'));
     const labelIndices = newLabels.map(l => filteredLabels.indexOf(l));
+
     return {
+
+      ...props,
+
+      activeIndex,
       labels: newLabels,
       labelIndices,
-      labelText: getText(isList, value, options, filteredLabels),
+      labelText: !isList ? filteredLabels[options.indexOf(value)] || '' :
+        filteredLabels.filter((_, i) => (value || []).includes(options[i])).join(', '),
       selected: !isList ? options.indexOf(value) :
         (value || []).reduce((result, v) => ({ ...result, [options.indexOf(v)]: true }), {}),
-    };
-  }),
 
-) as ComponentEnhancer<any, any>;
+      selectIndex,
+      moveActiveIndex,
+      onKeyDown,
+
+      ...(layout === 'modal' ? {
+        isOpen,
+        ...handlers({
+          openModal: () => setIsOpen(true),
+          closeModal: () => setIsOpen(false),
+          setScrollElem: (elem) => {
+            scrollElem = elem;
+            if (value) {
+              scrollToIndex(options.indexOf(isList ? value[0] : value), parseFloat(fontSize) * 0.5);
+            }
+          },
+        }),
+        ...(noScrollRef ? { setScrollElem: null } : {})
+      } : {}),
+
+    };
+
+  }, activeIndex$, isOpen$, noScrollRef$);
+
+}) as ComponentEnhancer<any, any>;

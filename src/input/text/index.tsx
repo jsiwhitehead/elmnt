@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { branch, compose, createEventHandler, mapPropsStream, withProps } from 'recompose';
-import * as most from 'most';
+import { branch, compose, withProps } from 'recompose';
 import { mapStyle } from 'highstyle';
-import { Comp, focusOnMouse, Obj } from 'mishmash';
+import { Comp, focusOnMouse, mapPropsStream, Obj, streamState } from 'mishmash';
 
 import parsers from './parsers';
 
@@ -11,46 +10,42 @@ export default function createText({ Label }: Obj<Comp>) {
 
     focusOnMouse,
 
-    mapPropsStream(plainProps$ => {
-      const props$ = most.from<any>(plainProps$ as any);
+    mapPropsStream<any, any>(props$ => {
 
-      let config = {};
-      const state: { props: any, text: string } = { props: {}, text: '' };
+      const state = { props: {} as any, text: '', config: {} as Obj };
 
-      const { handler: textHandler, stream: plainText$ } = createEventHandler();
-      const text$ = most.from<string>(plainText$ as any);
+      const { state$: text$, setState: setText } = streamState('');
 
-      let lastText = '';
       const onTextChange = (text) => {
 
         const { type, value, onChange } = state.props;
 
         const parsed = text ? parsers[type].parse(text, state.props) : { value: null };
-        config = parsed.config || {};
-        lastText = parsed.text !== undefined ? parsed.text : text;
+        state.config = parsed.config || {};
+        state.text = parsed.text !== undefined ? parsed.text : text;
 
         if (!parsers[type].equals(value, parsed.value)) onChange(parsed.value);
-        else textHandler(lastText);
+        else setText(state.text);
+
       }
 
       props$.observe(props => {
         if (props.value !== state.props.value) {
-          if (props.value === null && parsers[props.type].parse(lastText, props).value === null) {
-            textHandler(lastText);
+          if (props.value === null && parsers[props.type].parse(state.text, props).value === null) {
+            setText(state.text);
           } else {
-            textHandler(parsers[props.type].format(props.value, config, props));
+            setText(parsers[props.type].format(props.value, state.config, props));
           }
         }
         state.props = props;
       });
-      text$.observe(text => state.text = text);
 
       return props$.combine((props, text) => ({
         ...props,
         text,
         onTextChange,
         isNull: text ? (props.value === null) : null,
-      }), text$.startWith(''));
+      }), text$);
 
     }),
 

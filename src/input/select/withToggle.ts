@@ -1,28 +1,36 @@
-import { ComponentEnhancer, compose, withHandlers, withProps } from 'recompose';
+import { ComponentEnhancer } from 'recompose';
+import { mapPropsStream } from 'mishmash';
 
-export default compose(
+export default mapPropsStream<any, any>((props$, handlers) => {
 
-  withHandlers({
-    selectIndex: ({ value, options: { on, off = null }, onChange }) => (
-      () => onChange(value === on ? off : on)
-    ),
-  }),
+  return props$.map(props => {
 
-  withHandlers({
-    onKeyDown: ({ selectIndex }) => (event) => {
-      if ((event.keyCode === 13) || (event.keyCode === 32)) {
-        selectIndex(0);
-        event.preventDefault();
-      }
-    },
-  }),
+    const { value, label, options: { on, off = null }, onChange } = props;
 
-  withProps(({ value, label, options: { on } }) => ({
-    activeIndex: 0,
-    selected: { 0: value === on },
-    isList: true,
-    labels: [label],
-    labelIndices: [0],
-  })),
+    const { selectIndex } = handlers({
+      selectIndex: () => onChange(value === on ? off : on),
+    });
 
-) as ComponentEnhancer<any, any>;
+    const { onKeyDown } = handlers({
+      onKeyDown: (event) => {
+        if ((event.keyCode === 13) || (event.keyCode === 32)) {
+          selectIndex();
+          event.preventDefault();
+        }
+      },
+    });
+
+    return {
+      ...props,
+      activeIndex: 0,
+      selected: { 0: value === on },
+      isList: true,
+      labels: [label],
+      labelIndices: [0],
+      selectIndex,
+      onKeyDown,
+    };
+
+  });
+
+}) as ComponentEnhancer<any, any>;

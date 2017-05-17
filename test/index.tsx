@@ -68,22 +68,30 @@ const TestApp = compose<any, any>(
     <br />
 
     <Input
-      value={value(2) as boolean} onChange={onChange(2)}
+      value={value(2) as Date} onChange={onChange(2)}
+      type="date" style={inputStyle} placeholder="Enter date"
+    />
+
+    <br />
+
+    <Input
+      value={value(3) as boolean} onChange={onChange(3)}
       type="boolean" options={{ on: true }} label="Hello" style={inputStyle}
     />
 
     <br />
 
     <Input
-      value={value(3) as string} onChange={onChange(3)}
+      value={value(4) as string} onChange={onChange(4)}
       type="text" options={[null, 'One', 'Two', 'Three']}
       labels={['-- None --', 'One', 'Two', '~Group', 'Three']} style={inputStyle}
     />
 
+
     <br />
 
     <Input
-      value={value(4) as string[]} onChange={onChange(4)}
+      value={value(5) as string[]} onChange={onChange(5)}
       type="textlist" options={['One', 'Two', 'Three']} style={inputStyle}
     />
 
@@ -92,7 +100,7 @@ const TestApp = compose<any, any>(
     <table>
       <tbody>
         <Input
-          value={value(5) as string} onChange={onChange(5)} type="text" text="Hello"
+          value={value(6) as string} onChange={onChange(6)} type="text" text="Hello"
           options={[null, 'One', 'Two', 'Three']} labels={['-- None --', 'One', 'Two', 'Three']}
           style={{ ...inputStyle, layout: 'table' }}
         />
@@ -102,7 +110,7 @@ const TestApp = compose<any, any>(
     <br />
 
     <Input
-      value={value(6) as string} onChange={onChange(6)} type="text"
+      value={value(7) as string} onChange={onChange(7)} type="text"
       options={[null, 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
       labels={['-- None --', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
       style={{ ...inputStyle, layout: 'modal' }}
@@ -111,7 +119,7 @@ const TestApp = compose<any, any>(
     <br />
 
     <Input
-      value={value(7) as string[]} onChange={onChange(7)}
+      value={value(8) as string[]} onChange={onChange(8)}
       type="textlist" options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
       placeholder="Enter value" style={{ ...inputStyle, layout: 'modal' }}
     />

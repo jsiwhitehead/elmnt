@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { compose } from 'recompose';
 import { mapStyle } from 'highstyle';
-import { withBounds} from 'mishmash';
+import { withBounds } from 'mishmash';
 
 export default compose<any, any>(
 

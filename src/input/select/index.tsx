@@ -4,7 +4,6 @@ import { mapStyle } from 'highstyle';
 import { Comp, cssGroups, focusOnMouse, Obj, renderLayer, renderLifted } from 'mishmash';
 
 import createItem from './Item';
-import ScrollWrapper from './ScrollWrapper';
 import withSelect from './withSelect';
 import withToggle from './withToggle';
 
@@ -86,14 +85,13 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
     focusOnMouse,
 
     renderLifted(
-      ({ openState }) => openState.isOpen,
+      ({ isOpen }) => isOpen,
       ({ closeModal, onMouseDown, hoverProps, setScrollElem, style, items }) => (
-        <ScrollWrapper style={style.base} ref={setScrollElem}>
-          <Modal
-            closeModal={closeModal} modalProps={{ 'data-modal': true, onMouseDown, ...hoverProps }}
-            style={style.base} children={items}
-          />
-        </ScrollWrapper>
+        <Modal
+          closeModal={closeModal}
+          modalProps={{ onMouseDown, ...hoverProps, ref: setScrollElem }}
+          style={style.base} children={items}
+        />
       ),
     ),
 

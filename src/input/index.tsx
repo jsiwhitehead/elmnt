@@ -11,10 +11,10 @@ export default compose<any, InputProps>(
 
   focusable,
 
+  pure,
+
   withFocus,
   withHover,
-
-  pure,
 
   withProps(({ type }) => ({
     isList: type.endsWith('list'),
