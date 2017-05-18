@@ -50,39 +50,40 @@ const TestApp = compose<any, any>(
     value: ({ state }) => (name) => (
       state[name] === undefined ? null : state[name]
     ),
-    onChange: ({ setState }) => (name) => (
-      (value) => setState(state => ({ ...state, [name]: value }))
-    ),
+    ...([1, 2, 3, 4, 5, 6, 7, 8].reduce((res, i) => ({ ...res,
+      [`onChange${i}`]: ({ setState }) => (
+        (value) => setState(state => ({ ...state, [i]: value }))
+      ),
+    }), {})),
   }),
 
   withProps(({ state }) => console.log(state)),
 
-)(({ value, onChange }) => (
+)(({ value, ...props }) => (
   <div style={{ padding: 100 }}>
 
     <Input
-      value={value(1) as string} onChange={onChange(1)}
+      value={value(1) as string} onChange={props.onChange1}
       type="text" style={inputStyle} spellCheck={false} placeholder="Enter value"
     />
 
     <br />
 
     <Input
-      value={value(2) as Date} onChange={onChange(2)}
-      type="date" style={inputStyle} placeholder="Enter date"
+      value={value(2) as Date} onChange={props.onChange2} type="date" style={inputStyle}
     />
 
     <br />
 
     <Input
-      value={value(3) as boolean} onChange={onChange(3)}
+      value={value(3) as boolean} onChange={props.onChange3}
       type="boolean" options={{ on: true }} label="Hello" style={inputStyle}
     />
 
     <br />
 
     <Input
-      value={value(4) as string} onChange={onChange(4)}
+      value={value(4) as string} onChange={props.onChange4}
       type="text" options={[null, 'One', 'Two', 'Three']}
       labels={['-- None --', 'One', 'Two', '~Group', 'Three']} style={inputStyle}
     />
@@ -91,7 +92,7 @@ const TestApp = compose<any, any>(
     <br />
 
     <Input
-      value={value(5) as string[]} onChange={onChange(5)}
+      value={value(5) as string[]} onChange={props.onChange5}
       type="textlist" options={['One', 'Two', 'Three']} style={inputStyle}
     />
 
@@ -100,7 +101,7 @@ const TestApp = compose<any, any>(
     <table>
       <tbody>
         <Input
-          value={value(6) as string} onChange={onChange(6)} type="text" text="Hello"
+          value={value(6) as string} onChange={props.onChange6} type="text" text="Hello"
           options={[null, 'One', 'Two', 'Three']} labels={['-- None --', 'One', 'Two', 'Three']}
           style={{ ...inputStyle, layout: 'table' }}
         />
@@ -110,7 +111,7 @@ const TestApp = compose<any, any>(
     <br />
 
     <Input
-      value={value(7) as string} onChange={onChange(7)} type="text"
+      value={value(7) as string} onChange={props.onChange7} type="text"
       options={[null, 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
       labels={['-- None --', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
       style={{ ...inputStyle, layout: 'modal' }}
@@ -119,7 +120,7 @@ const TestApp = compose<any, any>(
     <br />
 
     <Input
-      value={value(8) as string[]} onChange={onChange(8)}
+      value={value(8) as string[]} onChange={props.onChange8}
       type="textlist" options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
       placeholder="Enter value" style={{ ...inputStyle, layout: 'modal' }}
     />

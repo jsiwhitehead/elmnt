@@ -19,8 +19,7 @@ export default function createItem({ Option }: Obj<Comp>) {
       }),
     ),
 
-    withProps(({ index, isList, selected, style: { layout } }) => ({
-      isSelected: isList ? selected[index] : (selected === index),
+    withProps(({ style: { layout } }) => ({
       Root: layout === 'table' ? 'td' : 'div',
     })),
 

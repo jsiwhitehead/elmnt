@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { branch, compose, withProps } from 'recompose';
+import { compose } from 'recompose';
 import { mapStyle } from 'highstyle';
 import { Comp, focusOnMouse, mapPropsStream, Obj, streamState } from 'mishmash';
 
@@ -41,28 +41,24 @@ export default function createText({ Label }: Obj<Comp>) {
       });
 
       return props$.combine((props, text) => ({
+
         ...props,
+
         text,
         onTextChange,
-        isNull: text ? (props.value === null) : null,
+
+        ...(props.password ? {
+          icon: ['', 'lock'],
+        } : {}),
+
+        ...(props.type === 'date' ? {
+          placeholder: props.placeholder || (props.noDay ? 'MM/YY' : 'DD/MM/YY'),
+          icon: text && ['', (props.value === null) ? 'cross' : 'tick'],
+        } : {}),
+
       }), text$);
 
     }),
-
-    branch(
-      ({ password }) => password,
-      withProps(() => ({
-        icon: ['', 'lock'],
-      })),
-    ),
-
-    branch(
-      ({ type }) => type === 'date',
-      withProps(({ isNull, placeholder, noDay }) => ({
-        placeholder: placeholder || (noDay ? 'MM/YY' : 'DD/MM/YY'),
-        icon: (isNull !== null) && ['', isNull ? 'cross' : 'tick'],
-      })),
-    ),
 
     mapStyle(['isFocused'], (isFocused) => ({
       div: [

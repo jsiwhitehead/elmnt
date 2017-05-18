@@ -40,7 +40,8 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
           <Group style={style.group} key={i}>{l.substring(1)}</Group> :
           <Item
             text={l} isList={isList} index={labelIndices[i]} selectIndex={selectIndex}
-            selected={selected} isActive={activeIndex === labelIndices[i]}
+            isSelected={isList ? selected[labelIndices[i]] : (selected === labelIndices[i])}
+            isActive={activeIndex === labelIndices[i]}
             isNone={Array.isArray(options) && !options[labelIndices[i]]}
             moveActiveIndex={moveActiveIndex} style={style.base} key={i}
           />

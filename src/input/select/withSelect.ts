@@ -142,7 +142,9 @@ export default mapPropsStream<any, any>((props$, handlers) => {
           setScrollElem: (elem) => {
             scrollElem = elem;
             if (value) {
-              scrollToIndex(options.indexOf(isList ? value[0] : value), parseFloat(fontSize) * 0.5);
+              const index = options.indexOf(isList ? value[0] : value);
+              setActiveIndex(index);
+              scrollToIndex(index, parseFloat(fontSize) * 0.5);
             }
           },
         }),

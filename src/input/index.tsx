@@ -1,6 +1,6 @@
 import { branch, compose, pure, renderComponent, withProps } from 'recompose';
 import { mapStyle } from 'highstyle';
-import { focusable, withFocus, withHover } from 'mishmash';
+import { focusable, memoizeProps, withFocus, withHover } from 'mishmash';
 
 import components from './components';
 import createText from './text';
@@ -10,6 +10,8 @@ import { InputProps } from './typings';
 export default compose<any, InputProps>(
 
   focusable,
+
+  memoizeProps('options', 'labels'),
 
   pure,
 
