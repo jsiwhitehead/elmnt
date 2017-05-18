@@ -10,7 +10,7 @@ const modMove = (start: number, delta: number, max: number) => {
   return mod(delta > 0 ? delta - 1 : delta, max);
 };
 
-export default mapPropsStream<any, any>((props$, handlers) => {
+export default mapPropsStream((props$, handlers) => {
 
   const { state$: activeIndex$, setState: setActiveIndex } = streamState(0);
 

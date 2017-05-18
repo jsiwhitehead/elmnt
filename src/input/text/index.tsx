@@ -10,7 +10,7 @@ export default function createText({ Label }: Obj<Comp>) {
 
     focusOnMouse,
 
-    mapPropsStream<any, any>(props$ => {
+    mapPropsStream(props$ => {
 
       const state = { props: {} as any, text: '', config: {} as Obj };
 

@@ -1,6 +1,6 @@
 import { mapPropsStream } from 'mishmash';
 
-export default mapPropsStream<any, any>((props$, handlers) => props$.map(props => {
+export default mapPropsStream((props$, handlers) => props$.map(props => {
 
   const { value, label, options: { on, off = null }, onChange } = props;
 

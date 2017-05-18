@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "es6", "es2016.array.include"],
+    "lib": ["dom", "esnext"],
     "module": "commonjs",
     "declaration": true,
     "jsx": "react",
@@ -10,7 +10,8 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "downlevelIteration": true
   },
   "include": ["src/**/*"]
 }

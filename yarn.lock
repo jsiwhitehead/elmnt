@@ -874,13 +874,13 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
-debug@2.6.7, debug@^2.1.1, debug@^2.2.0, debug@^2.6.3:
+debug@2.6.7, debug@^2.1.1, debug@^2.6.3:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.7.tgz#92bad1f6d05bbb6bba22cca88bcd0ec894c2861e"
   dependencies:
     ms "2.0.0"
 
-debug@~2.2.0:
+debug@^2.2.0, debug@~2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.2.0.tgz#f87057e995b1a1f6ae6a4960664137bc56f039da"
   dependencies:
@@ -2477,9 +2477,9 @@ minimist@^1.1.1, minimist@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
 
-mishmash@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/mishmash/-/mishmash-0.2.1.tgz#dc5d2f65449a45e73a8fd07821b9f91200d3cf17"
+mishmash@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/mishmash/-/mishmash-0.2.2.tgz#da2bd08b529fbcce86d8f952eef29457ec80359f"
   dependencies:
     "@types/react" "^15.0.24"
     "@types/recompose" "^0.22.0"
