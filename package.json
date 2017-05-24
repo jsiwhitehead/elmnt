@@ -36,10 +36,10 @@
     "react-test-renderer": "^15.5.4",
     "rimraf": "^2.6.1",
     "source-map-loader": "^0.2.1",
-    "ts-jest": "^20.0.3",
-    "ts-loader": "^2.0.3",
-    "typescript": "2.4.0-dev.20170512",
-    "webpack": "^2.5.1",
+    "ts-jest": "^20.0.4",
+    "ts-loader": "^2.1.0",
+    "typescript": "^2.3.3",
+    "webpack": "^2.6.0",
     "webpack-dev-server": "^2.4.5"
   },
   "peerDependencies": {
@@ -49,7 +49,7 @@
     "@types/react": "^15.0.24",
     "@types/recompose": "^0.22.0",
     "highstyle": "^0.2.4",
-    "mishmash": "^0.2.2",
+    "mishmash": "^0.2.5",
     "most": "^1.3.0",
     "recompose": "^0.23.4"
   }

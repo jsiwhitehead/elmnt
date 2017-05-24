@@ -1,6 +1,5 @@
-import { ComponentEnhancer } from 'recompose';
 import * as most from 'most';
-import { mapPropsStream, streamState } from 'mishmash';
+import { HOC, mapPropsStream, streamState } from 'mishmash';
 
 const undefToNull = (v: any) => v === undefined ? null : v;
 
@@ -10,7 +9,7 @@ const modMove = (start: number, delta: number, max: number) => {
   return mod(delta > 0 ? delta - 1 : delta, max);
 };
 
-export default mapPropsStream((props$, handlers) => {
+export default mapPropsStream(props$ => {
 
   const { state$: activeIndex$, setState: setActiveIndex } = streamState(0);
 
@@ -52,67 +51,61 @@ export default mapPropsStream((props$, handlers) => {
 
     const { isList, value, onChange, options, labels, style: { fontSize, layout } } = props;
 
-    const { selectIndex } = handlers({
-      selectIndex: (index) => {
-        if (!isOpening.value) {
-          setActiveIndex(index);
-          if (!isList) {
-            onChange(undefToNull(options[index]));
-          } else {
-            const newValue = options.filter((o, i) => (
-              i === index ? !(value || []).includes(o) : (value || []).includes(o)
-            ));
-            onChange(newValue.length > 0 ? newValue : null);
-          }
+    const selectIndex = (index) => {
+      if (!isOpening.value) {
+        setActiveIndex(index);
+        if (!isList) {
+          onChange(undefToNull(options[index]));
+        } else {
+          const newValue = options.filter((o, i) => (
+            i === index ? !(value || []).includes(o) : (value || []).includes(o)
+          ));
+          onChange(newValue.length > 0 ? newValue : null);
+        }
+        if (!isList) setIsOpen(false);
+      }
+    };
+
+    const moveActiveIndex = (move?: number, jumpTo?: boolean) => {
+      if (move === undefined) {
+        selectIndex(activeIndex);
+      } else {
+        if (isScrolling && jumpTo) {
+          isScrolling = false;
+        } else {
+          const newActiveIndex = jumpTo ? move : modMove(activeIndex, move, options.length);
+          (isList || (layout === 'modal') ? setActiveIndex : selectIndex)(newActiveIndex);
+          if (layout === 'modal') isScrolling = true;
+          scrollToIndex(newActiveIndex, parseFloat(fontSize) * 0.5);
+        }
+      }
+    };
+
+    const onKeyDown = (event) => {
+      if (layout === 'modal' && !isOpen) {
+        if ((event.keyCode === 13) || (event.keyCode === 32)) {
+          setIsOpen(true);
+          event.preventDefault();
+        }
+      } else {
+        if ((event.keyCode === 13) || (event.keyCode === 32)) {
+          moveActiveIndex();
           if (!isList) setIsOpen(false);
+          event.preventDefault();
+        } else if ((event.keyCode === 37) || (event.keyCode === 38)) {
+          moveActiveIndex(-1);
+          event.preventDefault();
+        } else if ((event.keyCode === 39) || (event.keyCode === 40)) {
+          moveActiveIndex(1);
+          event.preventDefault();
+        } else if ((event.keyCode === 9) || (event.keyCode === 27)) {
+          setIsOpen(false);
         }
-      },
-    });
-
-    const { moveActiveIndex } = handlers({
-      moveActiveIndex: (move?: number, jumpTo?: boolean) => {
-        if (move === undefined) {
-          selectIndex(activeIndex);
-        } else {
-          if (isScrolling && jumpTo) {
-            isScrolling = false;
-          } else {
-            const newActiveIndex = jumpTo ? move : modMove(activeIndex, move, options.length);
-            (isList || (layout === 'modal') ? setActiveIndex : selectIndex)(newActiveIndex);
-            if (layout === 'modal') isScrolling = true;
-            scrollToIndex(newActiveIndex, parseFloat(fontSize) * 0.5);
-          }
-        }
-      },
-    });
-
-    const { onKeyDown } = handlers({
-      onKeyDown: (event) => {
-        if (layout === 'modal' && !isOpen) {
-          if ((event.keyCode === 13) || (event.keyCode === 32)) {
-            setIsOpen(true);
-            event.preventDefault();
-          }
-        } else {
-          if ((event.keyCode === 13) || (event.keyCode === 32)) {
-            moveActiveIndex();
-            if (!isList) setIsOpen(false);
-            event.preventDefault();
-          } else if ((event.keyCode === 37) || (event.keyCode === 38)) {
-            moveActiveIndex(-1);
-            event.preventDefault();
-          } else if ((event.keyCode === 39) || (event.keyCode === 40)) {
-            moveActiveIndex(1);
-            event.preventDefault();
-          } else if ((event.keyCode === 9) || (event.keyCode === 27)) {
-            setIsOpen(false);
-          }
-        }
-        if (event.keyCode === 13) {
-          event.stopPropagation();
-        }
-      },
-    });
+      }
+      if (event.keyCode === 13) {
+        event.stopPropagation();
+      }
+    };
 
     const newLabels = (labels || options || []).map(o => o.toString()) as string[];
     const filteredLabels = newLabels.filter(l => !(typeof l === 'string' && l[0] === '~'));
@@ -136,18 +129,16 @@ export default mapPropsStream((props$, handlers) => {
 
       ...(layout === 'modal' ? {
         isOpen,
-        ...handlers({
-          openModal: () => setIsOpen(true),
-          closeModal: () => setIsOpen(false),
-          setScrollElem: (elem) => {
-            scrollElem = elem;
-            if (value) {
-              const index = options.indexOf(isList ? value[0] : value);
-              setActiveIndex(index);
-              scrollToIndex(index, parseFloat(fontSize) * 0.5);
-            }
-          },
-        }),
+        openModal: () => setIsOpen(true),
+        closeModal: () => setIsOpen(false),
+        setScrollElem: (elem) => {
+          scrollElem = elem;
+          if (value) {
+            const index = options.indexOf(isList ? value[0] : value);
+            setActiveIndex(index);
+            scrollToIndex(index, parseFloat(fontSize) * 0.5);
+          }
+        },
         ...(noScrollRef ? { setScrollElem: null } : {})
       } : {}),
 
@@ -155,4 +146,4 @@ export default mapPropsStream((props$, handlers) => {
 
   }, activeIndex$, isOpen$, noScrollRef$);
 
-}) as ComponentEnhancer<any, any>;
+}, true) as HOC;

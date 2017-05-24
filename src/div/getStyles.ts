@@ -1,4 +1,5 @@
-import { ComponentEnhancer, withProps } from 'recompose';
+import { withProps } from 'recompose';
+import { HOC } from 'mishmash';
 
 export interface DivStyle extends React.CSSProperties {
   layout?: 'bar' | 'grid' | 'stack';
@@ -28,4 +29,4 @@ export default withProps(
       childWidths: getChildWidths(childWidths),
     },
   })
-) as ComponentEnhancer<any, any>;
+) as HOC;

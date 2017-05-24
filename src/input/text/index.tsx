@@ -14,7 +14,7 @@ export default function createText({ Label }: Obj<Comp>) {
 
       const state = { props: {} as any, text: '', config: {} as Obj };
 
-      const { state$: text$, setState: setText } = streamState('');
+      const { state$: text$, setState: setText } = streamState();
 
       const onTextChange = (text) => {
 

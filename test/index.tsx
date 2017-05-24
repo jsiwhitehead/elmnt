@@ -44,7 +44,7 @@ const inputStyle = {
 
 const TestApp = compose<any, any>(
 
-  withState('state', 'setState', {}),
+  withState('state', 'setState', { 1: 'hello' }),
 
   withHandlers({
     value: ({ state }) => (name) => (

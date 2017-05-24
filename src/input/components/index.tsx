@@ -23,7 +23,7 @@ export default {
   Key: mapStyle({
     cell: [
       ['scale', { fontSize: { paddingRight: 1 } }],
-      ['filter', 'padding'],
+      ['filter', 'padding', 'width'],
       ['merge', { verticalAlign: 'middle' }],
     ],
     key: [
