@@ -114,7 +114,7 @@ export default compose<any, TxtProps>(
 
   withState('cursor', 'setCursor', null),
   lifecycle({
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: any) {
       const { children, cursor, setCursor, focusElem } = (this as any).props;
       if (children !== prevProps.children && cursor !== null) {
         setCursor(null, () => focusElem.selectionStart = focusElem.selectionEnd = cursor);

@@ -38,10 +38,10 @@ describe('div', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('bar layout with numeric childWidths', () => {
+  it('bar layout with child width', () => {
     const tree = renderer.create(
-      <Div style={{ layout: 'bar', spacing: 10, childWidths: 100, background:'red' }}>
-        <div></div>
+      <Div style={{ layout: 'bar', spacing: 10, background:'red' }}>
+        <div style={{ width: 100 }}></div>
         <div></div>
         {null}
         <div></div>
@@ -50,25 +50,13 @@ describe('div', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('bar layout with string childWidths', () => {
+  it('bar layout with multiple child width', () => {
     const tree = renderer.create(
-      <Div style={{ layout: 'bar', spacing: 10, childWidths: '100px', background:'red' }}>
-        <div></div>
+      <Div style={{ layout: 'bar', spacing: 10, background:'red' }}>
+        <div style={{ width: '10px' }}></div>
         <div></div>
         {null}
-        <div></div>
-      </Div>
-    ).toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-
-  it('bar layout with string multi-childWidths', () => {
-    const tree = renderer.create(
-      <Div style={{ layout: 'bar', spacing: 10, childWidths: '10px auto 20px', background:'red' }}>
-        <div></div>
-        <div></div>
-        {null}
-        <div></div>
+        <div style={{ width: '20px' }}></div>
       </Div>
     ).toJSON();
     expect(tree).toMatchSnapshot();

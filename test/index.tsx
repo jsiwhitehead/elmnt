@@ -40,6 +40,17 @@ const inputStyle = {
   none: {
     fontStyle: 'italic',
   },
+  button: {
+    color: 'white',
+    background: 'blue',
+    fontWeight: 'bold',
+    letterSpacing: 0.5,
+    textAlign: 'center',
+    width: 150,
+    focus: {
+      background: 'black',
+    },
+  },
 };
 
 const TestApp = compose<any, any>(
@@ -50,7 +61,7 @@ const TestApp = compose<any, any>(
     value: ({ state }) => (name) => (
       state[name] === undefined ? null : state[name]
     ),
-    ...([1, 2, 3, 4, 5, 6, 7, 8].reduce((res, i) => ({ ...res,
+    ...([0, 1, 2, 3, 4, 5, 6, 7, 8].reduce((res, i) => ({ ...res,
       [`onChange${i}`]: ({ setState }) => (
         (value) => setState(state => ({ ...state, [i]: value }))
       ),
@@ -61,6 +72,20 @@ const TestApp = compose<any, any>(
 
 )(({ value, ...props }) => (
   <div style={{ padding: 100 }}>
+
+    <Input
+      value={value(0) as any} onChange={props.onChange0}
+      type="file" style={inputStyle} placeholder="Choose file" fileType="pdf"
+      config={{
+        uploader: 'google' as 'google',
+        bucket: 'hub-test1',
+        prepareUrl: 'http://localhost:3000/storage/upload',
+        successUrl: 'http://localhost:3000/storage/success',
+        accessId: 'kalambo-storage@hub-meteor-platform.iam.gserviceaccount.com',
+      }}
+    />
+{/*
+    <br />
 
     <Input
       value={value(1) as string} onChange={props.onChange1}
@@ -122,8 +147,8 @@ const TestApp = compose<any, any>(
     <Input
       value={value(8) as string[]} onChange={props.onChange8}
       type="textlist" options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
-      placeholder="Enter value" style={{ ...inputStyle, layout: 'modal' }}
-    />
+      placeholder="Select options" style={{ ...inputStyle, layout: 'modal' }}
+    />*/}
 
 
 {/*

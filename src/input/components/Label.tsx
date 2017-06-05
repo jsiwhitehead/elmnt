@@ -12,7 +12,7 @@ export default compose<any, any>(
 
   mapStyle([
     ['numeric', 'fontSize', 'paddingLeft', 'paddingRight'],
-    ['scale', { fontSize: { iconSize: 1 } }]
+    ['scale', { iconSize: { fontSize: 1 } }]
   ]),
 
   mapStyle([
@@ -26,8 +26,6 @@ export default compose<any, any>(
       ['merge', {
         layout: 'bar', spacing: 0, width: '100%',
         cursor: cursor || 'pointer',
-        childWidths: icon &&
-          icon[0] ? iconSize + paddingLeft : `auto ${iconSize + paddingRight}px`,
       }],
     ],
     icon: [
@@ -38,6 +36,7 @@ export default compose<any, any>(
         paddingBottom: (fontSize - iconSize) * 0.5,
         paddingRight: icon && icon[0] && paddingLeft,
         paddingLeft: icon && !icon[0] && paddingRight,
+        width: icon && icon[0] ? iconSize + paddingLeft : iconSize + paddingRight,
       }],
     ],
     text: [

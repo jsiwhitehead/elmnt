@@ -9,8 +9,6 @@ import Label from './Label';
 import Modal from './Modal';
 import Option from './Option';
 
-const isGroup = l => typeof l === 'string' && l[0] === '~';
-
 export default {
 
   Group: mapStyle(['style.layout'], (layout) => [
@@ -22,7 +20,7 @@ export default {
 
   Key: mapStyle({
     cell: [
-      ['scale', { fontSize: { paddingRight: 1 } }],
+      ['scale', { paddingRight: { fontSize: 1 } }],
       ['filter', 'padding', 'width'],
       ['merge', { verticalAlign: 'middle' }],
     ],
@@ -41,9 +39,8 @@ export default {
 
   Option,
 
-  Select: mapStyle(['labels', 'style.layout', 'style.spacing'], (labels, layout, spacing) => [{
+  Select: mapStyle(['style.layout', 'style.spacing'], (layout, spacing) => [{
     layout: layout === 'modal' ? 'stack' : layout,
-    childWidths: layout !== 'modal' && labels.map(l => isGroup(l) ? '100%' : 'auto').join(' '),
     spacing: layout === 'modal' ? 0 : spacing,
   }])(({ style, children }) =>
     <Div style={style}>{children}</Div>

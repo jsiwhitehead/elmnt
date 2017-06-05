@@ -16,7 +16,7 @@ export default compose<any, any>(
 
   mapStyle(['isList'], (isList) => [
     !isList && ['merge', { borderRadius: 1000 }],
-    ['scale', { fontSize: { iconSize: 0.9 } }],
+    ['scale', { iconSize: { fontSize: 0.9 } }],
   ]),
 
   mapStyle(['style.layout'], (layout) => ({
@@ -30,15 +30,21 @@ export default compose<any, any>(
       }],
     ],
     bar: [
-      ['scale', { fontSize: { spacing: 0.5 }, iconSize: { childWidths: 1 } }],
-      ['filter', 'spacing', 'childWidths'],
+      ['scale', { spacing: { fontSize: 0.5 } }],
+      ['filter', 'spacing'],
       ['merge', { layout: 'bar' }],
     ],
     icon: [
-      ['scale', { iconSize: { fontSize: 1 } }],
-      layout !== 'modal' && ['scale', { padding: 0.2 }],
+      ['scale', { fontSize: { iconSize: 1 }, ...(layout !== 'modal' ? { padding: 0.2 } : {}) }],
+      ['scale',
+        {
+          width: {
+            iconSize: 1, paddingLeft: 1, paddingRight: 1, borderLeftWidth: 1, borderRightWidth: 1,
+          },
+        },
+      ],
       ['filter',
-        'fontSize', 'color', 'background',
+        'fontSize', 'color', 'background', 'width',
         ...((layout !== 'modal') ? ['padding', 'border', 'borderRadius'] : []),
       ],
     ],

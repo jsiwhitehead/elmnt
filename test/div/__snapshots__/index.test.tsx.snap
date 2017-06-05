@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`div bar layout with numeric childWidths 1`] = `
+exports[`div bar layout with child width 1`] = `
 <div
   style={
     Object {
@@ -28,7 +28,13 @@ exports[`div bar layout with numeric childWidths 1`] = `
         }
       }
     >
-      <div />
+      <div
+        style={
+          Object {
+            "width": 100,
+          }
+        }
+      />
     </div>
   </div>
   <div
@@ -71,6 +77,94 @@ exports[`div bar layout with numeric childWidths 1`] = `
       }
     >
       <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`div bar layout with multiple child width 1`] = `
+<div
+  style={
+    Object {
+      "background": "red",
+      "display": "table",
+      "verticalAlign": undefined,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 0,
+        "verticalAlign": "middle",
+        "width": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "width": "10px",
+          }
+        }
+      />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 10,
+        "verticalAlign": "middle",
+        "width": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "boxSizing": "content-box",
+        "display": "table-cell",
+        "paddingLeft": 10,
+        "verticalAlign": "middle",
+        "width": "20px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "boxSizing": "border-box",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "width": "20px",
+          }
+        }
+      />
     </div>
   </div>
 </div>
@@ -94,158 +188,6 @@ exports[`div bar layout with numeric spacing 1`] = `
         "paddingLeft": 0,
         "verticalAlign": "middle",
         "width": "auto",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
-    >
-      <div />
-    </div>
-  </div>
-  <div
-    style={
-      Object {
-        "boxSizing": "content-box",
-        "display": "table-cell",
-        "paddingLeft": 10,
-        "verticalAlign": "middle",
-        "width": "auto",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
-    >
-      <div />
-    </div>
-  </div>
-  <div
-    style={
-      Object {
-        "boxSizing": "content-box",
-        "display": "table-cell",
-        "paddingLeft": 10,
-        "verticalAlign": "middle",
-        "width": "auto",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
-    >
-      <div />
-    </div>
-  </div>
-</div>
-`;
-
-exports[`div bar layout with string childWidths 1`] = `
-<div
-  style={
-    Object {
-      "background": "red",
-      "display": "table",
-      "verticalAlign": undefined,
-    }
-  }
->
-  <div
-    style={
-      Object {
-        "boxSizing": "content-box",
-        "display": "table-cell",
-        "paddingLeft": 0,
-        "verticalAlign": "middle",
-        "width": "100px",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
-    >
-      <div />
-    </div>
-  </div>
-  <div
-    style={
-      Object {
-        "boxSizing": "content-box",
-        "display": "table-cell",
-        "paddingLeft": 10,
-        "verticalAlign": "middle",
-        "width": "auto",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
-    >
-      <div />
-    </div>
-  </div>
-  <div
-    style={
-      Object {
-        "boxSizing": "content-box",
-        "display": "table-cell",
-        "paddingLeft": 10,
-        "verticalAlign": "middle",
-        "width": "auto",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
-    >
-      <div />
-    </div>
-  </div>
-</div>
-`;
-
-exports[`div bar layout with string multi-childWidths 1`] = `
-<div
-  style={
-    Object {
-      "background": "red",
-      "display": "table",
-      "verticalAlign": undefined,
-    }
-  }
->
-  <div
-    style={
-      Object {
-        "boxSizing": "content-box",
-        "display": "table-cell",
-        "paddingLeft": 0,
-        "verticalAlign": "middle",
-        "width": "10px",
       }
     }
   >

@@ -23,7 +23,7 @@ export default function createSelect({ Group, Key, Label, Modal, Option, Select 
       base: null,
       group: [
         ['mergeKeys', 'group'],
-        ['merge', { userSelect: 'none' }],
+        ['merge', { width: '100%', userSelect: 'none' }],
       ],
       key: [
         ['mergeKeys', 'key'],

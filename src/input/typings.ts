@@ -2,6 +2,11 @@ import { CSSTree } from 'highstyle';
 
 export type StyleKeys = "invalid" | "focus" | "hover" | "active";
 
+export interface FileValue {
+  fileName: string;
+  fileId: string;
+};
+
 export type ValueType<T> = {
   value: T;
   onChange: (value: T) => void;
@@ -22,7 +27,6 @@ export type OptionsInputBase<T> = ValueType<T> & {
   style?: CSSTree<StyleKeys | "group" | "none"> & {
     layout: 'bar' | 'grid' | 'stack';
     spacing?: number | string;
-    childWidths?: number | string;
   };
 };
 export type TableInputBase<T> = ValueType<T> & {
@@ -32,7 +36,6 @@ export type TableInputBase<T> = ValueType<T> & {
   style?: CSSTree<StyleKeys | "row" | "key" | "none"> & {
     layout: 'table';
     spacing?: number | string;
-    childWidths?: number | string;
   };
 };
 export type ModalInputBase<T> = ValueType<T> & {
@@ -49,10 +52,10 @@ export type BooleanProps = { type: 'boolean' } &
   SelectInputBase<boolean>;
 
 export type IntProps = { type: 'int' } &
-  TextInputBase<number> | SelectInputBase<number>;
+  (TextInputBase<number> | SelectInputBase<number>);
 
 export type FloatProps = { type: 'float' } &
-  TextInputBase<number> | SelectInputBase<number>;
+  (TextInputBase<number> | SelectInputBase<number>);
 
 export type TextExtraProps = {
   rows?: number;
@@ -61,16 +64,31 @@ export type TextExtraProps = {
   spellCheck?: boolean;
 };
 export type TextProps = { type: 'text' } &
-  (TextInputBase<string> & TextExtraProps) | SelectInputBase<string>;
+  ((TextInputBase<string> & TextExtraProps) | SelectInputBase<string>);
 
 export type DateExtraProps = {
   noDay?: boolean;
 };
 export type DateProps = { type: 'date' } &
-  (TextInputBase<Date> & DateExtraProps) | SelectInputBase<Date>;
+  ((TextInputBase<Date> & DateExtraProps) | SelectInputBase<Date>);
+
+export interface FileUploaderGoogle {
+  uploader: 'google';
+  bucket: string;
+  prepareUrl: string;
+  successUrl: string;
+  accessId: string;
+}
+export type FileExtraProps = {
+  maxKb?: number;
+  fileType?: string | string[];
+  config: FileUploaderGoogle;
+};
+export type FileProps = { type: 'file' } &
+  TextInputBase<FileValue> & FileExtraProps;
 
 export type TextlistProps = { type: 'textlist' } &
-  TextInputBase<string[]> | SelectInputBase<string[]>;
+  (TextInputBase<string[]> | SelectInputBase<string[]>);
 
 export type InputProps = { invalid?: boolean } &
-  (BooleanProps | IntProps | FloatProps | TextProps | DateProps | TextlistProps);
+  (BooleanProps | IntProps | FloatProps | TextProps | DateProps | FileProps | TextlistProps);
