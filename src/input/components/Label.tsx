@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { compose } from 'recompose';
 import { mapStyle } from 'highstyle';
-import { cssGroups } from 'mishmash';
+import { cssGroups, Hover } from 'mishmash';
 
 import Div from '../../div';
 import Txt from '../../txt';
@@ -10,19 +10,12 @@ import Marker from './Marker';
 
 export default compose<any, any>(
   mapStyle([
-    ['numeric', 'fontSize', 'paddingLeft', 'paddingRight'],
-    ['scale', { iconSize: { fontSize: 1 } }],
+    ['numeric', 'fontSize'],
+    ['scale', { iconSize: { fontSize: 0.9 } }],
   ]),
   mapStyle(
-    [
-      'icon',
-      'style.fontSize',
-      'style.iconSize',
-      'style.paddingLeft',
-      'style.paddingRight',
-      'style.cursor',
-    ],
-    (icon, fontSize, iconSize, paddingLeft, paddingRight, cursor) => ({
+    ['style.fontSize', 'style.iconSize', 'style.cursor'],
+    (fontSize, iconSize, cursor) => ({
       div: [
         ['filter', ...cssGroups.box, ...cssGroups.other],
         [
@@ -43,13 +36,32 @@ export default compose<any, any>(
             fontSize: iconSize,
             paddingTop: (fontSize - iconSize) * 0.5,
             paddingBottom: (fontSize - iconSize) * 0.5,
-            paddingRight: icon && icon[0] && paddingLeft,
-            paddingLeft: icon && !icon[0] && paddingRight,
-            width: icon && icon[0]
-              ? iconSize + paddingLeft
-              : iconSize + paddingRight,
           },
         ],
+      ],
+      iconHover: [
+        ['scale', { padding: 0.5, margin: { padding: -0.5 } }],
+        ['filter', 'padding', 'margin'],
+      ],
+      iconLeft: [
+        [
+          'scale',
+          {
+            paddingRight: { fontSize: 0.4 },
+            width: { iconSize: 1, fontSize: 0.4 },
+          },
+        ],
+        ['filter', 'paddingRight', 'width'],
+      ],
+      iconRight: [
+        [
+          'scale',
+          {
+            paddingLeft: { fontSize: 0.4 },
+            width: { iconSize: 1, fontSize: 0.4 },
+          },
+        ],
+        ['filter', 'paddingLeft', 'width'],
       ],
       text: [['filter', ...cssGroups.text]],
     }),
@@ -57,36 +69,52 @@ export default compose<any, any>(
 )(
   ({
     text,
-    icon,
+    iconLeft,
+    iconRight,
     placeholder,
     rows,
     password,
     tab,
     spellCheck,
     onTextChange,
+    onClickLeft,
+    onClickRight,
     focusProps,
     setFocusElem,
     style,
   }) =>
     <Div style={style.div}>
-      {(icon || [''])
-        .map(
-          i =>
-            i
-              ? <Marker type={i} style={style.icon} key={i} />
-              : <Txt
-                  onTextChange={onTextChange}
-                  {...focusProps}
-                  focusRef={setFocusElem}
-                  placeholder={placeholder}
-                  rows={rows}
-                  password={password}
-                  tab={tab}
-                  spellCheck={spellCheck}
-                  style={style.text}
-                  key={i}
-                  children={text}
-                />,
-        )}
+      {iconLeft &&
+        (onClickLeft
+          ? <div onMouseDown={onClickLeft} style={style.iconLeft}>
+              <Hover hoverKey="icon" style={style.iconHover}>
+                <div><Marker type={iconLeft} style={style.icon} /></div>
+              </Hover>
+            </div>
+          : <div style={style.iconLeft}>
+              <Marker type={iconLeft} style={style.icon} />
+            </div>)}
+      <Txt
+        onTextChange={onTextChange}
+        {...focusProps}
+        focusRef={setFocusElem}
+        placeholder={placeholder}
+        rows={rows}
+        password={password}
+        tab={tab}
+        spellCheck={spellCheck}
+        style={style.text}
+        children={text}
+      />
+      {iconRight &&
+        (onClickRight
+          ? <div onMouseDown={onClickRight} style={style.iconRight}>
+              <Hover hoverKey="icon" style={style.iconHover}>
+                <div><Marker type={iconRight} style={style.icon} /></div>
+              </Hover>
+            </div>
+          : <div style={style.iconRight}>
+              <Marker type={iconRight} style={style.icon} />
+            </div>)}
     </Div>,
 ) as React.ComponentClass<any>;

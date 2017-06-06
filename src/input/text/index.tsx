@@ -51,7 +51,7 @@ export default function createText({ Label }: Obj<Comp>) {
 
           ...props.password
             ? {
-                icon: ['', 'lock'],
+                iconRight: 'lock',
               }
             : {},
 
@@ -59,7 +59,7 @@ export default function createText({ Label }: Obj<Comp>) {
             ? {
                 placeholder:
                   props.placeholder || (props.noDay ? 'MM/YY' : 'DD/MM/YY'),
-                icon: text && ['', props.value === null ? 'cross' : 'tick'],
+                iconRight: text && (props.value === null ? 'cross' : 'tick'),
               }
             : {},
         }),
@@ -77,7 +77,8 @@ export default function createText({ Label }: Obj<Comp>) {
     ({
       text,
       onTextChange,
-      icon,
+      iconLeft,
+      iconRight,
       placeholder,
       rows,
       password,
@@ -93,7 +94,8 @@ export default function createText({ Label }: Obj<Comp>) {
         <Label
           text={text}
           onTextChange={onTextChange}
-          icon={icon}
+          iconLeft={iconLeft}
+          iconRight={iconRight}
           placeholder={placeholder}
           rows={rows}
           password={password}

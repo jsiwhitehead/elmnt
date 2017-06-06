@@ -9,8 +9,9 @@ import Input from '../src/input';
 const inputStyle = {
   fontSize: 16,
   border: '2px solid blue',
-  padding: 10,
+  padding: '8px 10px',
   spacing: '10px 20px',
+  borderRadius: 3,
   placeholder: {
     color: 'rgba(0,0,0,0.35)',
   },
@@ -18,7 +19,7 @@ const inputStyle = {
     background: '#f6f6f6',
   },
   focus: {
-    borderColor: 'black',
+    borderColor: 'darkblue',
     active: {
       borderColor: 'lightblue',
       background: '#ddd',
@@ -40,25 +41,35 @@ const inputStyle = {
   none: {
     fontStyle: 'italic',
   },
+  icon: {
+    background: '#ccc',
+    borderRadius: 3,
+  },
+  processing: {
+    background: 'red',
+  },
   button: {
     color: 'white',
     background: 'blue',
     fontWeight: 'bold',
     letterSpacing: 0.5,
     textAlign: 'center',
-    width: 150,
+    width: 120,
     focus: {
-      background: 'black',
+      background: 'darkblue',
     },
   },
 };
 
 const TestApp = compose<any, any>(
-  withState('state', 'setState', { 1: 'hello' }),
+  withState('state', 'setState', {
+    1: 'hello',
+    9: { fileName: 'test.pdf', fileId: 'asdf' },
+  }),
   withHandlers({
     value: ({ state }) => name =>
       state[name] === undefined ? null : state[name],
-    ...[0, 1, 2, 3, 4, 5, 6, 7, 8].reduce(
+    ...[1, 2, 3, 4, 5, 6, 7, 8, 9].reduce(
       (res, i) => ({
         ...res,
         [`onChange${i}`]: ({ setState }) => value =>
@@ -72,55 +83,53 @@ const TestApp = compose<any, any>(
   <div style={{ padding: 100 }}>
 
     <Input
-      value={value(0) as any}
-      onChange={props.onChange0}
-      type="file"
+      value={value(1) as string}
+      onChange={props.onChange1}
+      type="text"
       style={inputStyle}
-      placeholder="Choose file"
-      fileType="pdf"
-      config={{
-        uploader: 'google' as 'google',
-        bucket: 'hub-test1',
-        prepareUrl: 'http://localhost:3000/storage/upload',
-        successUrl: 'http://localhost:3000/storage/success',
-        accessId: 'kalambo-storage@hub-meteor-platform.iam.gserviceaccount.com',
-      }}
-    />
-    {/*
-    <br />
-
-    <Input
-      value={value(1) as string} onChange={props.onChange1}
-      type="text" style={inputStyle} spellCheck={false} placeholder="Enter value"
+      spellCheck={false}
+      placeholder="Enter value"
     />
 
     <br />
 
     <Input
-      value={value(2) as Date} onChange={props.onChange2} type="date" style={inputStyle}
+      value={value(2) as Date}
+      onChange={props.onChange2}
+      type="date"
+      style={inputStyle}
     />
 
     <br />
 
     <Input
-      value={value(3) as boolean} onChange={props.onChange3}
-      type="boolean" options={{ on: true }} label="Hello" style={inputStyle}
+      value={value(3) as boolean}
+      onChange={props.onChange3}
+      type="boolean"
+      options={{ on: true }}
+      label="Hello"
+      style={inputStyle}
     />
 
     <br />
 
     <Input
-      value={value(4) as string} onChange={props.onChange4}
-      type="text" options={[null, 'One', 'Two', 'Three']}
-      labels={['-- None --', 'One', 'Two', '~Group', 'Three']} style={inputStyle}
+      value={value(4) as string}
+      onChange={props.onChange4}
+      type="text"
+      options={[null, 'One', 'Two', 'Three']}
+      labels={['-- None --', 'One', 'Two', '~Group', 'Three']}
+      style={inputStyle}
     />
-
 
     <br />
 
     <Input
-      value={value(5) as string[]} onChange={props.onChange5}
-      type="textlist" options={['One', 'Two', 'Three']} style={inputStyle}
+      value={value(5) as string[]}
+      onChange={props.onChange5}
+      type="textlist"
+      options={['One', 'Two', 'Three']}
+      style={inputStyle}
     />
 
     <br />
@@ -128,8 +137,12 @@ const TestApp = compose<any, any>(
     <table>
       <tbody>
         <Input
-          value={value(6) as string} onChange={props.onChange6} type="text" text="Hello"
-          options={[null, 'One', 'Two', 'Three']} labels={['-- None --', 'One', 'Two', 'Three']}
+          value={value(6) as string}
+          onChange={props.onChange6}
+          type="text"
+          text="Hello"
+          options={[null, 'One', 'Two', 'Three']}
+          labels={['-- None --', 'One', 'Two', 'Three']}
           style={{ ...inputStyle, layout: 'table' }}
         />
       </tbody>
@@ -138,19 +151,63 @@ const TestApp = compose<any, any>(
     <br />
 
     <Input
-      value={value(7) as string} onChange={props.onChange7} type="text"
-      options={[null, 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
-      labels={['-- None --', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
+      value={value(7) as string}
+      onChange={props.onChange7}
+      type="text"
+      options={[
+        null,
+        'One',
+        'Two',
+        'Three',
+        'Four',
+        'Five',
+        'Six',
+        'Seven',
+        'Eight',
+      ]}
+      labels={[
+        '-- None --',
+        'One',
+        'Two',
+        'Three',
+        'Four',
+        'Five',
+        'Six',
+        'Seven',
+        'Eight',
+      ]}
       style={{ ...inputStyle, layout: 'modal' }}
     />
 
     <br />
 
     <Input
-      value={value(8) as string[]} onChange={props.onChange8}
-      type="textlist" options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
-      placeholder="Select options" style={{ ...inputStyle, layout: 'modal' }}
-    />*/}
+      value={value(8) as string[]}
+      onChange={props.onChange8}
+      type="textlist"
+      options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
+      placeholder="Select options"
+      style={{ ...inputStyle, layout: 'modal' }}
+    />
+
+    <br />
+
+    <Input
+      value={value(9) as any}
+      onChange={props.onChange9}
+      type="file"
+      style={inputStyle}
+      placeholder="Choose file"
+      fileType="pdf"
+      maxKb={100000}
+      config={{
+        uploader: 'google' as 'google',
+        bucket: 'hub-test1',
+        prepareUrl: 'http://localhost:3000/storage/upload',
+        successUrl: 'http://localhost:3000/storage/success',
+        accessId: 'kalambo-storage@hub-meteor-platform.iam.gserviceaccount.com',
+      }}
+    />
 
     {/*
     <br />

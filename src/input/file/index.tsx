@@ -15,10 +15,10 @@ const hiddenStyle = {
   right: '200%',
 };
 
-const getFileIcon = fileName =>
-  `file${{ pdf: '-pdf', txt: '-txt' }[fileName.split('.').pop()] || ''}`;
+const fileIcons = { pdf: '-pdf', txt: '-txt' };
 
 let counter = 0;
+
 export default function createFile({ Label }: Obj<Comp>) {
   return compose<any, any>(
     withState('state', 'setState', {}),
@@ -29,24 +29,29 @@ export default function createFile({ Label }: Obj<Comp>) {
       let focusOnReset = false;
       let successful = false;
       let prevValue;
+      let listener;
+
+      props$.take(1).observe(({ value }) => (prevValue = value || null));
 
       const uploadIndex = counter++;
-      props$.observe(({ config }) => {
-        window.addEventListener('message', event => {
-          if (
-            config.successUrl.startsWith(event.origin) &&
-            event.data === uploadIndex
-          ) {
-            successful = true;
-          }
-        });
-      });
+      props$
+        .observe(({ config }) => {
+          window.removeEventListener('message', listener);
+          listener = window.addEventListener('message', event => {
+            if (
+              config.successUrl.startsWith(event.origin) &&
+              event.data === uploadIndex
+            ) {
+              successful = true;
+            }
+          });
+        })
+        .then(() => window.removeEventListener('message', listener));
 
       return props$
         .map(({ state, ...props }) => ({
           ...props,
           ...state,
-          uploadIndex,
         }))
         .map(props => {
           const {
@@ -57,12 +62,9 @@ export default function createFile({ Label }: Obj<Comp>) {
             config,
             fileName,
             setState,
-            clear,
             triggerClear,
             setFocusElem,
-            hoverProps,
-            focusProps,
-            style,
+            ...otherProps,
           } = props;
 
           const { prepareUpload, getUploadInfo } = uploaders[config.uploader](
@@ -70,13 +72,11 @@ export default function createFile({ Label }: Obj<Comp>) {
           );
           const info = getUploadInfo(props);
 
-          const reset = (loadPrev?: boolean) => {
+          const reset = () => {
             focusOnReset = document.activeElement === input;
             successful = false;
             triggerClear();
             setState({});
-            if (loadPrev) onChange(prevValue);
-            else prevValue = value;
           };
 
           return {
@@ -84,14 +84,12 @@ export default function createFile({ Label }: Obj<Comp>) {
             processing: !!fileName,
             uploadIndex,
             info,
-            clear,
-            hoverProps,
-            focusProps,
-            style,
+            ...otherProps,
 
             onChange: async () => {
               if (input.value) {
                 if (checkFile(input.files, input.value, maxKb, fileType)) {
+                  onChange(null);
                   const fileName = input.value
                     .split('/')
                     .pop()
@@ -108,20 +106,21 @@ export default function createFile({ Label }: Obj<Comp>) {
               setTimeout(() => {
                 if (info.fileId) {
                   if (successful) {
-                    onChange({ fileName, fileId: info.fileId });
+                    prevValue = { fileName, fileId: info.fileId };
                   } else {
                     alert(
-                      'Upload failed. ' +
-                        "It's likely that the file you chose is too big, please try again",
+                      "Upload failed. It's likely that the file you chose is too big, please try again",
                     );
                   }
-                  reset(!successful);
+                  onChange(prevValue);
+                  reset();
                 }
               }),
 
             onClick: event => {
               if (!value && fileName) {
-                reset(true);
+                onChange(prevValue);
+                reset();
                 event.preventDefault();
               }
             },
@@ -130,6 +129,11 @@ export default function createFile({ Label }: Obj<Comp>) {
                 input.click();
                 event.preventDefault();
               }
+            },
+            onClear: event => {
+              if (value) onChange(null);
+              if (input) input.focus();
+              event.preventDefault();
             },
 
             setFormElem: c => (form = c),
@@ -144,13 +148,26 @@ export default function createFile({ Label }: Obj<Comp>) {
           };
         });
     }, true),
-    mapStyle(['isFocused'], isFocused => ({
+    mapStyle(['isFocused', 'processing'], (isFocused, processing) => ({
       base: [
         ['filter', 'width', 'height', 'maxWidth', 'maxHeight'],
         ['merge', { cursor: 'pointer' }],
       ],
-      label: [['mergeKeys', { active: isFocused }]],
-      button: [['mergeKeys', 'button']],
+      label: [
+        ['mergeKeys', { active: isFocused, processing }],
+        [
+          'merge',
+          {
+            borderRightWidth: 0,
+            borderTopRightRadius: 0,
+            borderBottomRightRadius: 0,
+          },
+        ],
+      ],
+      button: [
+        ['mergeKeys', { active: isFocused, button: true }],
+        ['merge', { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }],
+      ],
     })),
   )(
     ({
@@ -164,6 +181,7 @@ export default function createFile({ Label }: Obj<Comp>) {
       onComplete,
       onClick,
       onKeyDown,
+      onClear,
       setFormElem,
       setFocusElem,
       hoverProps,
@@ -175,11 +193,17 @@ export default function createFile({ Label }: Obj<Comp>) {
         <Div style={{ layout: 'bar', width: '100%' }}>
           <Label
             text={`${fileName}${processing ? ' (uploading...)' : ''}`}
-            icon={fileName ? [getFileIcon(fileName), ''] : ['']}
+            iconLeft={
+              fileName && `file${fileIcons[fileName.split('.').pop()] || ''}`
+            }
+            iconRight={fileName && !processing && 'cross'}
+            onClickRight={onClear}
             placeholder={placeholder}
             style={style.label}
           />
-          <Txt style={style.button}>Upload</Txt>
+          <Txt style={style.button}>
+            {processing ? 'Cancel' : fileName ? 'Change' : 'Upload'}
+          </Txt>
         </Div>
 
         <form

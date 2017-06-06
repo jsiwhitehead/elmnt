@@ -145,7 +145,7 @@ export default function createSelect({
       <div onMouseDown={openModal} ref={setLiftBaseElem}>
         <Label
           text={value && labelText}
-          icon={['', isList ? 'updown' : 'down']}
+          iconRight={isList ? 'updown' : 'down'}
           placeholder={placeholder || labelText}
           style={style.label}
         />

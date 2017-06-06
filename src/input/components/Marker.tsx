@@ -6,13 +6,33 @@ import { cssGroups } from 'mishmash';
 import Icon from '../../icon';
 
 export default compose<any, any>(
-  mapStyle({
-    div: [
-      ['filter', ...cssGroups.box, ...cssGroups.other],
-      ['merge', { display: 'block', position: 'relative' }],
+  mapStyle([
+    ['numeric', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
+  ]),
+  mapStyle(
+    [
+      'style.paddingTop',
+      'style.paddingRight',
+      'style.paddingBottom',
+      'style.paddingLeft',
     ],
-    icon: [['filter', 'fontSize', 'color']],
-  }),
+    (paddingTop, paddingRight, paddingBottom, paddingLeft) => ({
+      div: [
+        ['filter', ...cssGroups.box, ...cssGroups.other],
+        [
+          'merge',
+          {
+            display: 'block',
+            position: 'relative',
+            padding: Math.round(
+              (paddingTop + paddingRight + paddingBottom + paddingLeft) * 0.25,
+            ),
+          },
+        ],
+      ],
+      icon: [['filter', 'fontSize', 'color']],
+    }),
+  ),
 )(({ type, style }) =>
   <div style={style.div}>
     <Icon type={type} style={style.icon} />

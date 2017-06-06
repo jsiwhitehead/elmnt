@@ -21,7 +21,7 @@ export default {
   },
   updown: {
     path: 'M12 6L6 1.5l-6 4.5z M0 10l6 4.5 6-4.5z',
-    viewBox: '0 0 16 16',
+    viewBox: '0 0 12 16',
   },
   disc: {
     path: 'M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z',

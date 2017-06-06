@@ -36,7 +36,12 @@ export default compose<any, any>(
       ],
     ],
     bar: [
-      ['scale', { spacing: { fontSize: 0.5 } }],
+      [
+        'scale',
+        {
+          spacing: layout !== 'modal' ? { fontSize: 0.5 } : { paddingRight: 1 },
+        },
+      ],
       ['filter', 'spacing'],
       ['merge', { layout: 'bar' }],
     ],
@@ -53,10 +58,14 @@ export default compose<any, any>(
         {
           width: {
             iconSize: 1,
-            paddingLeft: 1,
-            paddingRight: 1,
-            borderLeftWidth: 1,
-            borderRightWidth: 1,
+            ...layout !== 'modal'
+              ? {
+                  paddingLeft: 1,
+                  paddingRight: 1,
+                  borderLeftWidth: 1,
+                  borderRightWidth: 1,
+                }
+              : {},
           },
         },
       ],
