@@ -11,10 +11,11 @@ const fileTypeAlerts = {
 };
 
 export default function checkFile(inputFiles, value, maxKb, fileType) {
-
   if (
-    (window as any).FileReader && inputFiles && inputFiles[0] &&
-    (inputFiles[0].size > (maxKb || 500) * 1000)
+    (window as any).FileReader &&
+    inputFiles &&
+    inputFiles[0] &&
+    inputFiles[0].size > (maxKb || 500) * 1000
   ) {
     alert(`The max file size is ${(maxKb || 500) / 1000}MB, please try again.`);
     return false;
@@ -27,4 +28,4 @@ export default function checkFile(inputFiles, value, maxKb, fileType) {
   }
 
   return true;
-};
+}

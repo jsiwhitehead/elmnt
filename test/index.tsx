@@ -54,28 +54,30 @@ const inputStyle = {
 };
 
 const TestApp = compose<any, any>(
-
   withState('state', 'setState', { 1: 'hello' }),
-
   withHandlers({
-    value: ({ state }) => (name) => (
-      state[name] === undefined ? null : state[name]
+    value: ({ state }) => name =>
+      state[name] === undefined ? null : state[name],
+    ...[0, 1, 2, 3, 4, 5, 6, 7, 8].reduce(
+      (res, i) => ({
+        ...res,
+        [`onChange${i}`]: ({ setState }) => value =>
+          setState(state => ({ ...state, [i]: value })),
+      }),
+      {},
     ),
-    ...([0, 1, 2, 3, 4, 5, 6, 7, 8].reduce((res, i) => ({ ...res,
-      [`onChange${i}`]: ({ setState }) => (
-        (value) => setState(state => ({ ...state, [i]: value }))
-      ),
-    }), {})),
   }),
-
   withProps(({ state }) => console.log(state)),
-
-)(({ value, ...props }) => (
+)(({ value, ...props }) =>
   <div style={{ padding: 100 }}>
 
     <Input
-      value={value(0) as any} onChange={props.onChange0}
-      type="file" style={inputStyle} placeholder="Choose file" fileType="pdf"
+      value={value(0) as any}
+      onChange={props.onChange0}
+      type="file"
+      style={inputStyle}
+      placeholder="Choose file"
+      fileType="pdf"
       config={{
         uploader: 'google' as 'google',
         bucket: 'hub-test1',
@@ -84,7 +86,7 @@ const TestApp = compose<any, any>(
         accessId: 'kalambo-storage@hub-meteor-platform.iam.gserviceaccount.com',
       }}
     />
-{/*
+    {/*
     <br />
 
     <Input
@@ -150,8 +152,7 @@ const TestApp = compose<any, any>(
       placeholder="Select options" style={{ ...inputStyle, layout: 'modal' }}
     />*/}
 
-
-{/*
+    {/*
     <br />
 
     <WrappedInput
@@ -189,7 +190,7 @@ const TestApp = compose<any, any>(
     <br />
 
     */}
-{/*
+    {/*
     <br />
 
     <Div style={{ background: 'lightblue' }}>
@@ -239,10 +240,7 @@ const TestApp = compose<any, any>(
     <StateTxt rows={1} style={{ background:'lightblue', border: '1px solid blue' }} />
     <StateTxt rows={3} style={{ background:'lightblue', border: '1px solid blue' }} />*/}
 
-  </div>
-));
-
-ReactDOM.render(
-  <TestApp />,
-  document.getElementById('root'),
+  </div>,
 );
+
+ReactDOM.render(<TestApp />, document.getElementById('root'));

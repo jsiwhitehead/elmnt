@@ -4,11 +4,8 @@ import * as renderer from 'react-test-renderer';
 import Txt from '../../src/txt';
 
 describe('txt', () => {
-
   it('empty', () => {
-    expect(renderer.create(
-      <Txt />
-    ).toJSON()).toMatchSnapshot();
+    expect(renderer.create(<Txt />).toJSON()).toMatchSnapshot();
   });
 
   // it('content only', () => {
@@ -82,5 +79,4 @@ describe('txt', () => {
   //     <Txt rows={3} onTextChange={console.log}>{'Hello\nWorld!'}</Txt>
   //   ).toJSON()).toMatchSnapshot();
   // });
-
 });

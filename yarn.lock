@@ -37,6 +37,10 @@
   version "15.0.26"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.26.tgz#19d8969edcabb2aa6d10ccfba807e67a93a0a8f4"
 
+"@types/react@^15.0.27":
+  version "15.0.27"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.27.tgz#d64ad424aa24a101fd50cdeae6eab3d53e65513d"
+
 "@types/recompose@^0.23.0":
   version "0.23.0"
   resolved "https://registry.yarnpkg.com/@types/recompose/-/recompose-0.23.0.tgz#98360d8db7e164329fbca4332ac7846b517d0834"
@@ -2492,6 +2496,14 @@ most@^1.4.0:
     "@most/prelude" "^1.4.0"
     symbol-observable "^1.0.2"
 
+most@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/most/-/most-1.4.1.tgz#b513b5fb683bd59d6b1dcf8741503e62f072b291"
+  dependencies:
+    "@most/multicast" "^1.2.5"
+    "@most/prelude" "^1.4.0"
+    symbol-observable "^1.0.2"
+
 ms@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
@@ -2910,6 +2922,10 @@ prelude-ls@~1.1.2:
 preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
+
+prettier@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.4.2.tgz#bcdd95ed1eca434ac7f98ca26ea4d25a2af6a2ac"
 
 pretty-format@^20.0.3:
   version "20.0.3"

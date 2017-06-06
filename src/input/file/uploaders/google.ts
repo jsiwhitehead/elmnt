@@ -1,9 +1,14 @@
-export default function googleUploader({ bucket, accessId, prepareUrl, successUrl }) {
+export default function googleUploader({
+  bucket,
+  accessId,
+  prepareUrl,
+  successUrl,
+}) {
   return {
-
     async prepareUpload({ maxKb, uploadIndex }) {
       return await (await fetch(prepareUrl, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           uploadIndex,
           bucketId: bucket,
@@ -12,12 +17,20 @@ export default function googleUploader({ bucket, accessId, prepareUrl, successUr
       })).json();
     },
 
-    getUploadInfo({ uploadIndex, fileName, uploadId = '', policy = '', signature = '' }) {
+    getUploadInfo({
+      uploadIndex,
+      fileName,
+      uploadId = '',
+      policy = '',
+      signature = '',
+    }) {
       return {
         url: `https://storage.googleapis.com/${bucket}`,
         data: {
           key: uploadId,
-          'Content-Disposition': fileName ? `inline; filename=${fileName}` : 'inline',
+          'Content-Disposition': fileName
+            ? `inline; filename=${fileName}`
+            : 'inline',
           GoogleAccessId: accessId,
           success_action_redirect: `${successUrl}/${uploadIndex}`,
           policy,
@@ -26,6 +39,5 @@ export default function googleUploader({ bucket, accessId, prepareUrl, successUr
         fileId: uploadId ? `${bucket}/${uploadId}` : null,
       };
     },
-
   };
 }

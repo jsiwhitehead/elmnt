@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mapStyle } from 'highstyle';
-import { cssGroups} from 'mishmash';
+import { cssGroups } from 'mishmash';
 
 import Div from '../../div';
 import Txt from '../../txt';
@@ -10,13 +10,15 @@ import Modal from './Modal';
 import Option from './Option';
 
 export default {
-
-  Group: mapStyle(['style.layout'], (layout) => [
-    ['filter',
-      ...cssGroups.text, 'paddingTop', 'paddingBottom',
+  Group: mapStyle(['style.layout'], layout => [
+    [
+      'filter',
+      ...cssGroups.text,
+      'paddingTop',
+      'paddingBottom',
       ...(layout === 'modal' ? ['paddingLeft', 'paddingRight'] : []),
     ],
-  ])(Txt),
+  ])(Txt) as React.ComponentClass<any>,
 
   Key: mapStyle({
     cell: [
@@ -24,26 +26,25 @@ export default {
       ['filter', 'padding', 'width'],
       ['merge', { verticalAlign: 'middle' }],
     ],
-    key: [
-      ['filter', ...cssGroups.text],
-    ],
+    key: [['filter', ...cssGroups.text]],
   })(({ text, style }) =>
     <td style={style.cell}>
       <Txt style={style.key}>{text}</Txt>
-    </td>
-  ),
+    </td>,
+  ) as React.ComponentClass<any>,
 
-  Label,
+  Label: Label as React.ComponentClass<any>,
 
-  Modal,
+  Modal: Modal as React.ComponentClass<any>,
 
-  Option,
+  Option: Option as React.ComponentClass<any>,
 
-  Select: mapStyle(['style.layout', 'style.spacing'], (layout, spacing) => [{
-    layout: layout === 'modal' ? 'stack' : layout,
-    spacing: layout === 'modal' ? 0 : spacing,
-  }])(({ style, children }) =>
-    <Div style={style}>{children}</Div>
-  ),
-
+  Select: mapStyle(['style.layout', 'style.spacing'], (layout, spacing) => [
+    {
+      layout: layout === 'modal' ? 'stack' : layout,
+      spacing: layout === 'modal' ? 0 : spacing,
+    },
+  ])(({ style, children }) =>
+    <Div style={style}>{children}</Div>,
+  ) as React.ComponentClass<any>,
 };

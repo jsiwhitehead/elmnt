@@ -20,5 +20,5 @@ export default withProps(
       layout,
       spacing: getSpacing(spacing),
     },
-  })
+  }),
 ) as HOC;

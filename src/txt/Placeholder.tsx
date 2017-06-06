@@ -8,18 +8,21 @@ export interface PlaceholderProps {
   style: React.CSSProperties;
 }
 export default compose<any, PlaceholderProps>(
-
   branch(({ text, value }) => !text || value, renderNothing),
-
   mapStyle([
-    ['merge', {
-      position: 'absolute',
-      top: 0, left: 0, width: '100%', height: '100%',
-      padding: 0,
-      display: 'block',
-    }],
+    [
+      'merge',
+      {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        padding: 0,
+        display: 'block',
+      },
+    ],
   ]),
-
 )(({ text, style }) =>
-  <span style={style}>{text}</span>
-);
+  <span style={style}>{text}</span>,
+) as React.ComponentClass<any>;
