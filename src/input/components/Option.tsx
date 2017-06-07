@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { compose, withProps } from 'recompose';
+import { branch, compose, withProps } from 'recompose';
 import { mapStyle } from 'highstyle';
 import { cssGroups } from 'mishmash';
 
@@ -15,7 +15,29 @@ export default compose<any, any>(
   mapStyle(['isList'], isList => [
     !isList && ['merge', { borderRadius: 1000 }],
     ['scale', { iconSize: { fontSize: 0.9 } }],
+    ['numeric', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
   ]),
+  branch(
+    ({ style }) => style.layout !== 'modal',
+    mapStyle(
+      [
+        'style.paddingTop',
+        'style.paddingRight',
+        'style.paddingBottom',
+        'style.paddingLeft',
+      ],
+      (paddingTop, paddingRight, paddingBottom, paddingLeft) => [
+        [
+          'merge',
+          {
+            padding: Math.round(
+              (paddingTop + paddingRight + paddingBottom + paddingLeft) * 0.25,
+            ),
+          },
+        ],
+      ],
+    ),
+  ),
   mapStyle(['style.layout'], layout => ({
     div: [
       ['filter', ...cssGroups.box, ...cssGroups.other],

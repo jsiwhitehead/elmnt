@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>elmnt</title>
-  <link
-    rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
-  >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   <style>
-    html { box-sizing: border-box; background: #f6f6f6 }
-    *, *:before, *:after { box-sizing: inherit; }
+    html {
+      box-sizing: border-box;
+      background: #f6f6f6
+    }
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+
+    @keyframes upload-bar {
+      from {
+        background-position: 40px 0;
+      }
+      to {
+        background-position: 0 0;
+      }
+    }
   </style>
 </head>
+
 <body>
   <div id="root"></div>
   <script src="/bundle.js"></script>
 </body>
+
 </html>

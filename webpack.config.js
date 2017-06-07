@@ -1,10 +1,9 @@
 module.exports = {
-
   entry: './test/index.tsx',
 
   output: {
     filename: 'bundle.js',
-    path: __dirname + '/test'
+    path: __dirname + '/test',
   },
 
   devServer: {
@@ -24,8 +23,8 @@ module.exports = {
         loader: 'ts-loader',
         options: {
           compilerOptions: {
-            "sourceMap": true,
-            "rootDir": "",
+            sourceMap: true,
+            rootDir: '',
           },
         },
       },
@@ -34,7 +33,6 @@ module.exports = {
         test: /\.js$/,
         loader: 'source-map-loader',
       },
-    ]
+    ],
   },
-
 };

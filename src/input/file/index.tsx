@@ -131,8 +131,14 @@ export default function createFile({ Label }: Obj<Comp>) {
               }
             },
             onClear: event => {
-              if (value) onChange(null);
+              if (value) {
+                prevValue = null;
+                onChange(null);
+              }
               if (input) input.focus();
+              event.preventDefault();
+            },
+            onMouseDown: event => {
               event.preventDefault();
             },
 
@@ -182,13 +188,14 @@ export default function createFile({ Label }: Obj<Comp>) {
       onClick,
       onKeyDown,
       onClear,
+      onMouseDown,
       setFormElem,
       setFocusElem,
       hoverProps,
       focusProps,
       style,
     }) =>
-      <label {...hoverProps} style={style.base}>
+      <label {...hoverProps} onMouseDown={onMouseDown} style={style.base}>
 
         <Div style={{ layout: 'bar', width: '100%' }}>
           <Label

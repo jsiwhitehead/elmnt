@@ -6,6 +6,8 @@ import { compose, withHandlers, withProps, withState } from 'recompose';
 // import Txt from '../src/txt';
 import Input from '../src/input';
 
+const processingGrey = 'rgba(255,255,255,.4)';
+
 const inputStyle = {
   fontSize: 16,
   border: '2px solid blue',
@@ -46,7 +48,21 @@ const inputStyle = {
     borderRadius: 3,
   },
   processing: {
-    background: 'red',
+    backgroundColor: '#f2f2f2',
+    backgroundImage: `linear-gradient(45deg, ${[
+      `${processingGrey} 25%`,
+      'transparent 25%',
+      'transparent 50%',
+      `${processingGrey} 50%`,
+      `${processingGrey} 75%`,
+      'transparent 75%',
+      'transparent',
+    ].join(',')})`,
+    backgroundSize: '40px 40px',
+    animation: 'upload-bar 1s linear infinite',
+    focus: {
+      backgroundColor: '#ddd',
+    },
   },
   button: {
     color: 'white',

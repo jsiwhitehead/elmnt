@@ -9,30 +9,19 @@ export default compose<any, any>(
   mapStyle([
     ['numeric', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
   ]),
-  mapStyle(
-    [
-      'style.paddingTop',
-      'style.paddingRight',
-      'style.paddingBottom',
-      'style.paddingLeft',
-    ],
-    (paddingTop, paddingRight, paddingBottom, paddingLeft) => ({
-      div: [
-        ['filter', ...cssGroups.box, ...cssGroups.other],
-        [
-          'merge',
-          {
-            display: 'block',
-            position: 'relative',
-            padding: Math.round(
-              (paddingTop + paddingRight + paddingBottom + paddingLeft) * 0.25,
-            ),
-          },
-        ],
+  mapStyle({
+    div: [
+      ['filter', ...cssGroups.box, ...cssGroups.other],
+      [
+        'merge',
+        {
+          display: 'block',
+          position: 'relative',
+        },
       ],
-      icon: [['filter', 'fontSize', 'color']],
-    }),
-  ),
+    ],
+    icon: [['filter', 'fontSize', 'color']],
+  }),
 )(({ type, style }) =>
   <div style={style.div}>
     <Icon type={type} style={style.icon} />
