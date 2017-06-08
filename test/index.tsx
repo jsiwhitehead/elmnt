@@ -80,7 +80,7 @@ const inputStyle = {
 const TestApp = compose<any, any>(
   withState('state', 'setState', {
     1: 'hello',
-    9: { fileName: 'test.pdf', fileId: 'asdf' },
+    9: 'asdf:test.pdf',
   }),
   withHandlers({
     value: ({ state }) => name =>

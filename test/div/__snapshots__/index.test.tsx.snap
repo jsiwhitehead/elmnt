@@ -578,7 +578,6 @@ exports[`div stack layout with numeric spacing 1`] = `
     style={
       Object {
         "paddingTop": 0,
-        "width": "auto",
       }
     }
   >
@@ -596,7 +595,6 @@ exports[`div stack layout with numeric spacing 1`] = `
     style={
       Object {
         "paddingTop": 10,
-        "width": "auto",
       }
     }
   >
@@ -614,7 +612,6 @@ exports[`div stack layout with numeric spacing 1`] = `
     style={
       Object {
         "paddingTop": 10,
-        "width": "auto",
       }
     }
   >
@@ -643,7 +640,6 @@ exports[`div stack layout with string multi-spacing 1`] = `
     style={
       Object {
         "paddingTop": 0,
-        "width": "auto",
       }
     }
   >
@@ -661,7 +657,6 @@ exports[`div stack layout with string multi-spacing 1`] = `
     style={
       Object {
         "paddingTop": "10px",
-        "width": "auto",
       }
     }
   >
@@ -679,7 +674,6 @@ exports[`div stack layout with string multi-spacing 1`] = `
     style={
       Object {
         "paddingTop": "10px",
-        "width": "auto",
       }
     }
   >
@@ -708,7 +702,6 @@ exports[`div stack layout with string spacing 1`] = `
     style={
       Object {
         "paddingTop": 0,
-        "width": "auto",
       }
     }
   >
@@ -726,7 +719,6 @@ exports[`div stack layout with string spacing 1`] = `
     style={
       Object {
         "paddingTop": "10px",
-        "width": "auto",
       }
     }
   >
@@ -744,7 +736,6 @@ exports[`div stack layout with string spacing 1`] = `
     style={
       Object {
         "paddingTop": "10px",
-        "width": "auto",
       }
     }
   >

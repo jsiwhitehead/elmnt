@@ -98,13 +98,7 @@ const Div = compose<any, DivProps>(
       renderComponent(({ divStyles: { spacing }, children, ...otherProps }) =>
         <div {...otherProps}>
           {mapChildren(children, (child, i, first) =>
-            <Div
-              key={i}
-              style={{
-                paddingTop: first ? 0 : spacing[0],
-                width: (child.props.style && child.props.style.width) || 'auto',
-              }}
-            >
+            <Div key={i} style={{ paddingTop: first ? 0 : spacing[0] }}>
               {child}
             </Div>,
           )}

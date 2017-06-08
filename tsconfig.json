@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "module": "commonjs",
     "declaration": true,
     "jsx": "react",
@@ -13,5 +16,7 @@
     "noImplicitAny": false,
     "downlevelIteration": true
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }

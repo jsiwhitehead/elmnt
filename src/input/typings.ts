@@ -2,11 +2,6 @@ import { CSSTree } from 'highstyle';
 
 export type StyleKeys = 'invalid' | 'focus' | 'hover' | 'active';
 
-export interface FileValue {
-  fileName: string;
-  fileId: string;
-}
-
 export type ValueType<T> = {
   value: T;
   onChange: (value: T) => void;
@@ -83,16 +78,16 @@ export type DateProps = { type: 'date' } & (
 export interface FileUploaderGoogle {
   uploader: 'google';
   bucket: string;
+  accessId: string;
   prepareUrl: string;
   successUrl: string;
-  accessId: string;
 }
 export type FileExtraProps = {
   maxKb?: number;
   fileType?: string | string[];
   config: FileUploaderGoogle;
 };
-export type FileProps = { type: 'file' } & TextInputBase<FileValue> &
+export type FileProps = { type: 'file' } & TextInputBase<string> &
   FileExtraProps;
 
 export type TextlistProps = { type: 'textlist' } & (

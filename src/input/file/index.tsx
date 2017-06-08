@@ -52,6 +52,7 @@ export default function createFile({ Label }: Obj<Comp>) {
         .map(({ state, ...props }) => ({
           ...props,
           ...state,
+          uploadIndex,
         }))
         .map(props => {
           const {
@@ -80,9 +81,8 @@ export default function createFile({ Label }: Obj<Comp>) {
           };
 
           return {
-            fileName: value ? value.fileName : fileName || '',
+            fileName: value ? value.split(/\:(.+)$/)[1] : fileName || '',
             processing: !!fileName,
-            uploadIndex,
             info,
             ...otherProps,
 
@@ -106,7 +106,7 @@ export default function createFile({ Label }: Obj<Comp>) {
               setTimeout(() => {
                 if (info.fileId) {
                   if (successful) {
-                    prevValue = { fileName, fileId: info.fileId };
+                    prevValue = `${info.fileId}:${fileName}`;
                   } else {
                     alert(
                       "Upload failed. It's likely that the file you chose is too big, please try again",
