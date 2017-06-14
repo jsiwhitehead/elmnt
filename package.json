@@ -33,14 +33,14 @@
     "enzyme": "^2.8.2",
     "jest": "^20.0.4",
     "prettier": "^1.4.4",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react": "^15.6.0",
+    "react-dom": "^15.6.0",
     "react-test-renderer": "^15.5.4",
     "rimraf": "^2.6.1",
     "source-map-loader": "^0.2.1",
-    "ts-jest": "^20.0.5",
+    "ts-jest": "^20.0.6",
     "ts-loader": "^2.1.0",
-    "typescript": "^2.3.4",
+    "typescript": "2.3.4",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5"
   },
@@ -48,7 +48,7 @@
     "react": "^15.0.0"
   },
   "dependencies": {
-    "@types/react": "^15.0.27",
+    "@types/react": "^15.0.28",
     "@types/recompose": "^0.23.0",
     "highstyle": "^0.2.6",
     "mishmash": "^0.2.7",
