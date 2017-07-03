@@ -88,7 +88,9 @@ export default compose<any, any>(
         (onClickLeft
           ? <div onMouseDown={onClickLeft} style={style.iconLeft}>
               <Hover hoverKey="icon" style={style.iconHover}>
-                <div><Marker type={iconLeft} style={style.icon} /></div>
+                <div>
+                  <Marker type={iconLeft} style={style.icon} />
+                </div>
               </Hover>
             </div>
           : <div style={style.iconLeft}>
@@ -110,7 +112,9 @@ export default compose<any, any>(
         (onClickRight
           ? <div onMouseDown={onClickRight} style={style.iconRight}>
               <Hover hoverKey="icon" style={style.iconHover}>
-                <div><Marker type={iconRight} style={style.icon} /></div>
+                <div>
+                  <Marker type={iconRight} style={style.icon} />
+                </div>
               </Hover>
             </div>
           : <div style={style.iconRight}>

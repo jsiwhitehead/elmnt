@@ -2,9 +2,8 @@ import { createTransform } from 'highstyle';
 
 const block = createTransform(style => ({
   ...style,
-  display: style.display === 'inline'
-    ? 'inline-block'
-    : style.display || 'block',
+  display:
+    style.display === 'inline' ? 'inline-block' : style.display || 'block',
 })) as any;
 
 const lineHeightPx = createTransform(style => {

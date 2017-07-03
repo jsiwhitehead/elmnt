@@ -29,7 +29,7 @@ const Div = compose<any, DivProps>(
         {children}
         <div style={{ display: 'table', clear: 'both' }} />
       </div>,
-    ),
+    ) as any,
   ),
   getStyles,
   branch(
@@ -53,12 +53,14 @@ const Div = compose<any, DivProps>(
                   boxSizing: 'content-box',
                 }}
               >
-                <div style={{ boxSizing: 'border-box' }}>{child}</div>
+                <div style={{ boxSizing: 'border-box' }}>
+                  {child}
+                </div>
               </div>,
             )}
           </div>,
       ),
-    ),
+    ) as any,
   ),
   branch(
     ({ divStyles: { layout } }) => layout === 'grid',
@@ -90,7 +92,7 @@ const Div = compose<any, DivProps>(
           </div>
         </Div>,
       ),
-    ),
+    ) as any,
   ),
   branch(
     ({ divStyles: { layout } }) => layout === 'stack',
@@ -104,7 +106,7 @@ const Div = compose<any, DivProps>(
           )}
         </div>,
       ),
-    ),
+    ) as any,
   ),
 )('div' as any);
 

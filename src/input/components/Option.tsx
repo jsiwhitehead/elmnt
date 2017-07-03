@@ -36,7 +36,7 @@ export default compose<any, any>(
           },
         ],
       ],
-    ),
+    ) as any,
   ),
   mapStyle(['style.layout'], layout => ({
     div: [
@@ -106,7 +106,9 @@ export default compose<any, any>(
   <div style={style.div}>
     <Div style={style.bar}>
       <Marker type={icon} style={style.icon} />
-      <Txt style={style.text}>{text}</Txt>
+      <Txt style={style.text}>
+        {text}
+      </Txt>
     </Div>
   </div>,
 ) as React.ComponentClass<any>;

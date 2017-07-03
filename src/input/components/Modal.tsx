@@ -33,9 +33,10 @@ export default compose<any, any>(
           {
             position: 'fixed' as 'fixed',
             height: Math.min(inner.height, screen.height - fontSize * 0.5),
-            boxShadow: screen.width < 500
-              ? '0 2px 25px rgba(0,0,0,0.5)'
-              : '0 2px 20px 5px rgba(0,0,0,0.4)',
+            boxShadow:
+              screen.width < 500
+                ? '0 2px 25px rgba(0,0,0,0.5)'
+                : '0 2px 20px 5px rgba(0,0,0,0.4)',
             overflow: 'auto' as 'auto',
             ...screen.width < 500
               ? {

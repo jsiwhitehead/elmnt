@@ -41,11 +41,10 @@ export interface TxtProps extends React.HTMLProps<{}> {
 export default compose<any, TxtProps>(
   focusable,
   pure,
-  branch(({ onTextChange }) => onTextChange, focusOnMouse),
+  branch(({ onTextChange }) => onTextChange, focusOnMouse as any),
   withProps(({ children, onTextChange }) => ({
-    children: children === null || children === undefined
-      ? null
-      : children.toString(),
+    children:
+      children === null || children === undefined ? null : children.toString(),
     isInput: !!onTextChange,
   })),
   mapStyle(
@@ -91,7 +90,9 @@ export default compose<any, TxtProps>(
       ),
     )(({ style, ...props }: any) =>
       <span style={style.outer} {...props}>
-        <span style={style.inner}>{props.children}</span>
+        <span style={style.inner}>
+          {props.children}
+        </span>
       </span>,
     ),
   ),
@@ -117,7 +118,7 @@ export default compose<any, TxtProps>(
             )}
         </span>,
       ),
-    ),
+    ) as any,
   ),
   mapStyle(['rows'], rows => ({
     text: {

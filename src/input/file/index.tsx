@@ -196,7 +196,6 @@ export default function createFile({ Label }: Obj<Comp>) {
       style,
     }) =>
       <label {...hoverProps} onMouseDown={onMouseDown} style={style.base}>
-
         <Div style={{ layout: 'bar', width: '100%' }}>
           <Label
             text={`${fileName}${processing ? ' (uploading...)' : ''}`}
@@ -220,7 +219,6 @@ export default function createFile({ Label }: Obj<Comp>) {
           target={`iframe:${uploadIndex}`}
           ref={setFormElem}
         >
-
           {Object.keys(info.data).map(k =>
             <input type="hidden" name={k} value={info.data[k]} key={k} />,
           )}
@@ -237,7 +235,6 @@ export default function createFile({ Label }: Obj<Comp>) {
               {...focusProps}
               ref={setFocusElem}
             />}
-
         </form>
 
         {!clear &&
@@ -248,7 +245,6 @@ export default function createFile({ Label }: Obj<Comp>) {
             onLoad={onComplete}
             tabIndex={-1}
           />}
-
       </label>,
   ) as React.ComponentClass<any>;
 }

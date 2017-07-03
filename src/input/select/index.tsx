@@ -26,7 +26,11 @@ export default function createSelect({
 }: Obj<Comp>) {
   const Item = createItem({ Option });
   return compose<any, any>(
-    branch(({ options }) => Array.isArray(options), withSelect, withToggle),
+    branch(
+      ({ options }) => Array.isArray(options),
+      withSelect as any,
+      withToggle as any,
+    ),
     mapStyle({
       base: null,
       group: [
@@ -55,7 +59,9 @@ export default function createSelect({
           ...labels.map(
             (l, i) =>
               isGroup(l)
-                ? <Group style={style.group} key={i}>{l.substring(1)}</Group>
+                ? <Group style={style.group} key={i}>
+                    {l.substring(1)}
+                  </Group>
                 : <Item
                     text={l}
                     isList={isList}
@@ -97,7 +103,7 @@ export default function createSelect({
             style={style.div}
             children={items}
           />,
-      ),
+      ) as any,
     ),
     renderLayer(
       ({ onKeyDown, hoverProps, focusProps, setFocusElem, style, children }) =>
@@ -113,8 +119,10 @@ export default function createSelect({
     branch(
       ({ style }) => style.base.layout !== 'modal',
       renderComponent(({ labels, style, items }) =>
-        <Select labels={labels} style={style.base}>{items}</Select>,
-      ),
+        <Select labels={labels} style={style.base}>
+          {items}
+        </Select>,
+      ) as any,
     ),
     focusOnMouse,
     renderLifted(
