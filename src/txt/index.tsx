@@ -10,7 +10,7 @@ import {
   withProps,
   withState,
 } from 'recompose';
-import { CSSTree, mapStyle } from 'highstyle';
+import { CSSTree, mapStyle } from 'mishmash';
 import {
   cssGroups,
   focusable,

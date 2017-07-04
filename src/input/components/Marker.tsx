@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { compose } from 'recompose';
-import { mapStyle } from 'highstyle';
-import { cssGroups } from 'mishmash';
+import { cssGroups, mapStyle } from 'mishmash';
 
 import Icon from '../../icon';
 

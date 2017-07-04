@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { branch, compose, renderComponent, withProps } from 'recompose';
-import { mapStyle } from 'highstyle';
 import {
   Comp,
   cssGroups,
   focusOnMouse,
+  mapStyle,
   Obj,
   renderLayer,
   renderLifted,

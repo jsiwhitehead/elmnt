@@ -1,7 +1,13 @@
 import * as React from 'react';
 import { compose } from 'recompose';
-import { mapStyle } from 'highstyle';
-import { Comp, focusOnMouse, mapPropsStream, Obj, streamState } from 'mishmash';
+import {
+  Comp,
+  focusOnMouse,
+  mapPropsStream,
+  mapStyle,
+  Obj,
+  streamState,
+} from 'mishmash';
 
 import parsers from './parsers';
 

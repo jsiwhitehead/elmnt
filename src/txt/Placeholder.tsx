@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { branch, compose, renderNothing } from 'recompose';
-import { mapStyle } from 'highstyle';
+import { mapStyle } from 'mishmash';
 
 export interface PlaceholderProps {
   text?: string;

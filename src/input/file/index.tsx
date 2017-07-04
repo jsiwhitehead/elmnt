@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { compose, withState } from 'recompose';
-import { mapStyle } from 'highstyle';
-import { Comp, mapPropsStream, Obj, withTrigger } from 'mishmash';
+import { Comp, mapPropsStream, mapStyle, Obj, withTrigger } from 'mishmash';
 
 import Div from '../../div';
 import Txt from '../../txt';

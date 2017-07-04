@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { compose } from 'recompose';
-import { mapStyle } from 'highstyle';
-import { cssGroups, Hover } from 'mishmash';
+import { cssGroups, Hover, mapStyle } from 'mishmash';
 
 import Div from '../../div';
 import Txt from '../../txt';

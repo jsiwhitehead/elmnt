@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { branch, compose, withProps } from 'recompose';
-import { mapStyle } from 'highstyle';
-import { cssGroups } from 'mishmash';
+import { cssGroups, mapStyle } from 'mishmash';
 
 import Div from '../../div';
 import Txt from '../../txt';

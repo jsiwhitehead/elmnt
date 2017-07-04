@@ -64,11 +64,11 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^15.0.27", "@types/react@^15.0.34":
+"@types/react@*", "@types/react@^15.0.34":
   version "15.0.34"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.34.tgz#c4f7235f3d245216a706887b7d1ffedaf5b1dc06"
 
-"@types/recompose@^0.23.0", "@types/recompose@^0.23.1":
+"@types/recompose@^0.23.1":
   version "0.23.1"
   resolved "https://registry.yarnpkg.com/@types/recompose/-/recompose-0.23.1.tgz#010249a4bafadd33ea263c99e265e7d523968798"
   dependencies:
@@ -1768,16 +1768,6 @@ hex-color-regex@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
 
-highstyle@^0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/highstyle/-/highstyle-0.2.6.tgz#b2040a8d9ca7a7e49f4af8c641692d0dd160e3b4"
-  dependencies:
-    "@types/react" "^15.0.27"
-    "@types/recompose" "^0.23.0"
-    css-shorthand-expand "^1.1.0"
-    object-path-immutable "^0.5.1"
-    recompose "^0.23.5"
-
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -2777,15 +2767,15 @@ minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
-mishmash@^0.2.7:
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/mishmash/-/mishmash-0.2.7.tgz#29f8a197b7d7ad8d78b945a594f4c30dee255696"
+mishmash@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/mishmash/-/mishmash-0.3.0.tgz#cd2c4d863615234efe2295a7c0e0355e59430aa7"
   dependencies:
-    "@types/react" "^15.0.27"
-    "@types/recompose" "^0.23.0"
-    highstyle "^0.2.6"
-    most "^1.4.1"
+    "@types/react" "^15.0.34"
+    "@types/recompose" "^0.23.1"
+    most "^1.5.0"
     recompose "^0.23.5"
+    style-transform "^0.1.1"
 
 mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.1, mkdirp@~0.5.0:
   version "0.5.1"
@@ -2793,7 +2783,7 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.1, mkdirp@~0.5.0:
   dependencies:
     minimist "0.0.8"
 
-most@^1.4.1, most@^1.5.0:
+most@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/most/-/most-1.5.0.tgz#fae0b44a11859ac8b7abdfd4017136d879d88353"
   dependencies:
@@ -3874,6 +3864,13 @@ strip-json-comments@^2.0.0, strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
+style-transform@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/style-transform/-/style-transform-0.1.1.tgz#803cc26d927b84e4f8761c357341c14fe373e20f"
+  dependencies:
+    css-shorthand-expand "^1.1.0"
+    object-path-immutable "^0.5.1"
+
 supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
@@ -4031,7 +4028,7 @@ type-is@~1.6.15:
     media-typer "0.3.0"
     mime-types "~2.1.15"
 
-typescript@2.4.1:
+typescript@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.1.tgz#c3ccb16ddaa0b2314de031e7e6fee89e5ba346bc"
 

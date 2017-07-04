@@ -1,6 +1,11 @@
 import { branch, compose, pure, renderComponent, withProps } from 'recompose';
-import { mapStyle } from 'highstyle';
-import { focusable, memoizeProps, withFocus, withHover } from 'mishmash';
+import {
+  focusable,
+  mapStyle,
+  memoizeProps,
+  withFocus,
+  withHover,
+} from 'mishmash';
 
 import components from './components';
 import createFile from './file';

@@ -1,12 +1,12 @@
-import { createTransform } from 'highstyle';
+import { createStyleTransform } from 'mishmash';
 
-const block = createTransform(style => ({
+const block = createStyleTransform(style => ({
   ...style,
   display:
     style.display === 'inline' ? 'inline-block' : style.display || 'block',
 })) as any;
 
-const lineHeightPx = createTransform(style => {
+const lineHeightPx = createStyleTransform(style => {
   if (!style.fontSize || !style.lineHeight) return style;
 
   const lineHeightNum = !isNaN(style.lineHeight as number)
