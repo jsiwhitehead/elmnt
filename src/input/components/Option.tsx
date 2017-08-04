@@ -35,7 +35,7 @@ export default compose<any, any>(
           },
         ],
       ],
-    ) as any,
+    ),
   ),
   mapStyle(['style.layout'], layout => ({
     div: [

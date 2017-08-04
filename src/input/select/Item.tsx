@@ -7,14 +7,14 @@ export default function createItem({ Option }: Obj<Comp>) {
     pure,
     branch(
       ({ style }) => style.layout === 'modal',
-      withHandlers({
+      withHandlers<any, any>({
         onMouseUp: ({ index, selectIndex }) => () => selectIndex(index),
         onMouseMove: ({ index, moveActiveIndex }) => () =>
           moveActiveIndex(index, true),
-      }) as any,
-      withHandlers({
+      }),
+      withHandlers<any, any>({
         onMouseDown: ({ index, selectIndex }) => () => selectIndex(index),
-      }) as any,
+      }),
     ),
     withProps(({ style: { layout } }) => ({
       Root: layout === 'table' ? 'td' : 'div',

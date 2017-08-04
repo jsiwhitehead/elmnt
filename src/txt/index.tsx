@@ -107,7 +107,7 @@ export default compose<any, TxtProps>(
         children: children || placeholder,
         style: children ? style.text : style.placeholder,
       })),
-      renderComponent(({ children, style }) =>
+      renderComponent(({ children, style }: any) =>
         <span style={{ ...style, display: 'block', margin: getMargin(style) }}>
           {(children || '')
             .split('\n')
@@ -118,7 +118,7 @@ export default compose<any, TxtProps>(
             )}
         </span>,
       ),
-    ) as any,
+    ),
   ),
   mapStyle(['rows'], rows => ({
     text: {
@@ -147,7 +147,7 @@ export default compose<any, TxtProps>(
   withState('cursor', 'setCursor', null),
   lifecycle({
     componentDidUpdate(prevProps: any) {
-      const { children, cursor, setCursor, focusElem } = (this as any).props;
+      const { children, cursor, setCursor, focusElem } = this.props;
       if (children !== prevProps.children && cursor !== null) {
         setCursor(
           null,

@@ -29,14 +29,14 @@ const Div = compose<any, DivProps>(
         {children}
         <div style={{ display: 'table', clear: 'both' }} />
       </div>,
-    ) as any,
+    ),
   ),
   getStyles,
   branch(
     ({ divStyles: { layout } }) => layout === 'bar',
     compose(
       renderComponent(
-        ({ style, divStyles: { spacing }, children, ...otherProps }) =>
+        ({ style, divStyles: { spacing }, children, ...otherProps }: any) =>
           <div
             style={{ ...style, display: 'table', verticalAlign: undefined }}
             {...otherProps}
@@ -60,53 +60,56 @@ const Div = compose<any, DivProps>(
             )}
           </div>,
       ),
-    ) as any,
+    ),
   ),
   branch(
     ({ divStyles: { layout } }) => layout === 'grid',
     compose(
-      renderComponent(({ divStyles: { spacing }, children, ...otherProps }) =>
-        <Div {...otherProps}>
-          <div style={{ paddingTop: 1, paddingLeft: 1 }}>
-            <div
-              style={{
-                marginTop: `-${parseFloat(spacing[0]) + 1}px`,
-                marginLeft: `-${parseFloat(spacing[1]) + 1}px`,
-              }}
-            >
-              {mapChildren(children, (child, i) =>
-                <div
-                  key={i}
-                  style={{
-                    float: 'left',
-                    marginTop: spacing[0],
-                    marginLeft: spacing[1],
-                    width:
-                      (child.props.style && child.props.style.width) || 'auto',
-                  }}
-                >
-                  {child}
-                </div>,
-              )}
+      renderComponent(
+        ({ divStyles: { spacing }, children, ...otherProps }: any) =>
+          <Div {...otherProps}>
+            <div style={{ paddingTop: 1, paddingLeft: 1 }}>
+              <div
+                style={{
+                  marginTop: `-${parseFloat(spacing[0]) + 1}px`,
+                  marginLeft: `-${parseFloat(spacing[1]) + 1}px`,
+                }}
+              >
+                {mapChildren(children, (child, i) =>
+                  <div
+                    key={i}
+                    style={{
+                      float: 'left',
+                      marginTop: spacing[0],
+                      marginLeft: spacing[1],
+                      width:
+                        (child.props.style && child.props.style.width) ||
+                        'auto',
+                    }}
+                  >
+                    {child}
+                  </div>,
+                )}
+              </div>
             </div>
-          </div>
-        </Div>,
+          </Div>,
       ),
-    ) as any,
+    ),
   ),
   branch(
     ({ divStyles: { layout } }) => layout === 'stack',
     compose(
-      renderComponent(({ divStyles: { spacing }, children, ...otherProps }) =>
-        <div {...otherProps}>
-          {mapChildren(children, (child, i, first) =>
-            <Div key={i} style={{ paddingTop: first ? 0 : spacing[0] }}>
-              {child}
-            </Div>,
-          )}
-        </div>,
+      renderComponent(
+        ({ divStyles: { spacing }, children, ...otherProps }: any) =>
+          <div {...otherProps}>
+            {mapChildren(children, (child, i, first) =>
+              <Div key={i} style={{ paddingTop: first ? 0 : spacing[0] }}>
+                {child}
+              </Div>,
+            )}
+          </div>,
       ),
-    ) as any,
+    ),
   ),
 )('div' as any);
 

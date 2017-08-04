@@ -39,12 +39,9 @@ export default compose<any, InputProps>(
       ['mergeKeys', { invalid, focus: isFocused, hover: isHovered }],
     ],
   ),
-  branch(
-    ({ options }) => options,
-    renderComponent(createSelect(components)) as any,
-  ),
+  branch(({ options }) => options, renderComponent(createSelect(components))),
   branch(
     ({ type }) => type === 'file',
-    renderComponent(createFile(components)) as any,
+    renderComponent(createFile(components)),
   ),
 )(createText(components)) as React.ComponentClass<any>;
