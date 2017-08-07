@@ -2,6 +2,7 @@
 
 exports[`div bar layout with child width 1`] = `
 <div
+  className=" e1 e2 e3 e4 e5"
   style={
     Object {
       "background": "red",
@@ -84,6 +85,7 @@ exports[`div bar layout with child width 1`] = `
 
 exports[`div bar layout with multiple child width 1`] = `
 <div
+  className=" e1 e2 e3 e4 e5"
   style={
     Object {
       "background": "red",
@@ -172,6 +174,7 @@ exports[`div bar layout with multiple child width 1`] = `
 
 exports[`div bar layout with numeric spacing 1`] = `
 <div
+  className=" e1 e2 e3 e4 e5"
   style={
     Object {
       "background": "red",
@@ -248,6 +251,7 @@ exports[`div bar layout with numeric spacing 1`] = `
 
 exports[`div bar layout with string multi-spacing 1`] = `
 <div
+  className=" e1 e2 e3 e4 e5"
   style={
     Object {
       "background": "red",
@@ -324,6 +328,7 @@ exports[`div bar layout with string multi-spacing 1`] = `
 
 exports[`div grid layout with numeric spacing 1`] = `
 <div
+  className=" e1 e2 e3 e4 e5"
   style={
     Object {
       "background": "red",
@@ -397,6 +402,7 @@ exports[`div grid layout with numeric spacing 1`] = `
 
 exports[`div grid layout with string multi-spacing 1`] = `
 <div
+  className=" e1 e2 e3 e4 e5"
   style={
     Object {
       "background": "red",
@@ -470,6 +476,7 @@ exports[`div grid layout with string multi-spacing 1`] = `
 
 exports[`div grid layout with string spacing 1`] = `
 <div
+  className=" e1 e2 e3 e4 e5"
   style={
     Object {
       "background": "red",
@@ -543,6 +550,7 @@ exports[`div grid layout with string spacing 1`] = `
 
 exports[`div no layout 1`] = `
 <div
+  className=" e1 e2 e3 e4 e5"
   style={
     Object {
       "background": "red",
@@ -568,6 +576,7 @@ exports[`div no layout 1`] = `
 
 exports[`div stack layout with numeric spacing 1`] = `
 <div
+  className=" e1 e2 e3 e4 e5"
   style={
     Object {
       "background": "red",
@@ -575,6 +584,7 @@ exports[`div stack layout with numeric spacing 1`] = `
   }
 >
   <div
+    className=" e1 e2 e3 e4 e5"
     style={
       Object {
         "paddingTop": 0,
@@ -592,6 +602,7 @@ exports[`div stack layout with numeric spacing 1`] = `
     />
   </div>
   <div
+    className=" e1 e2 e3 e4 e5"
     style={
       Object {
         "paddingTop": 10,
@@ -609,6 +620,7 @@ exports[`div stack layout with numeric spacing 1`] = `
     />
   </div>
   <div
+    className=" e1 e2 e3 e4 e5"
     style={
       Object {
         "paddingTop": 10,
@@ -630,6 +642,7 @@ exports[`div stack layout with numeric spacing 1`] = `
 
 exports[`div stack layout with string multi-spacing 1`] = `
 <div
+  className=" e1 e2 e3 e4 e5"
   style={
     Object {
       "background": "red",
@@ -637,6 +650,7 @@ exports[`div stack layout with string multi-spacing 1`] = `
   }
 >
   <div
+    className=" e1 e2 e3 e4 e5"
     style={
       Object {
         "paddingTop": 0,
@@ -654,6 +668,7 @@ exports[`div stack layout with string multi-spacing 1`] = `
     />
   </div>
   <div
+    className=" e1 e2 e3 e4 e5"
     style={
       Object {
         "paddingTop": "10px",
@@ -671,6 +686,7 @@ exports[`div stack layout with string multi-spacing 1`] = `
     />
   </div>
   <div
+    className=" e1 e2 e3 e4 e5"
     style={
       Object {
         "paddingTop": "10px",
@@ -692,6 +708,7 @@ exports[`div stack layout with string multi-spacing 1`] = `
 
 exports[`div stack layout with string spacing 1`] = `
 <div
+  className=" e1 e2 e3 e4 e5"
   style={
     Object {
       "background": "red",
@@ -699,6 +716,7 @@ exports[`div stack layout with string spacing 1`] = `
   }
 >
   <div
+    className=" e1 e2 e3 e4 e5"
     style={
       Object {
         "paddingTop": 0,
@@ -716,6 +734,7 @@ exports[`div stack layout with string spacing 1`] = `
     />
   </div>
   <div
+    className=" e1 e2 e3 e4 e5"
     style={
       Object {
         "paddingTop": "10px",
@@ -733,6 +752,7 @@ exports[`div stack layout with string spacing 1`] = `
     />
   </div>
   <div
+    className=" e1 e2 e3 e4 e5"
     style={
       Object {
         "paddingTop": "10px",

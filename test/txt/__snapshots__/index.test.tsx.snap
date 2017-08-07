@@ -2,6 +2,7 @@
 
 exports[`txt empty 1`] = `
 <span
+  className=" e1 e2 e3 e4 e5"
   style={
     Object {
       "display": "block",

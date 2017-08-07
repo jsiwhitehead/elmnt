@@ -96,7 +96,12 @@ export default function createText({ Label }: Obj<Comp>) {
       setFocusElem,
       style,
     }) =>
-      <div onMouseDown={onMouseDown} {...hoverProps} style={style.div}>
+      <div
+        onMouseDown={onMouseDown}
+        {...hoverProps}
+        style={style.div}
+        className="e1 e2 e3 e4 e5"
+      >
         <Label
           text={text}
           onTextChange={onTextChange}

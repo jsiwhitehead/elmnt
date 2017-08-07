@@ -7,6 +7,8 @@ export interface DivProps extends React.HTMLProps<{}> {
   style?: DivStyle;
 }
 
+const getElmntClass = (className: string = '') => `${className} e1 e2 e3 e4 e5`;
+
 const mapChildren = (
   children: React.ReactNode,
   map: (child, i, first) => any,
@@ -25,7 +27,7 @@ const Div = compose<any, DivProps>(
   branch(
     ({ style }) => !style || !style.layout,
     renderComponent(({ children, ...otherProps }: DivProps) =>
-      <div {...otherProps}>
+      <div {...otherProps} className={getElmntClass(otherProps.className)}>
         {children}
         <div style={{ display: 'table', clear: 'both' }} />
       </div>,
@@ -40,6 +42,7 @@ const Div = compose<any, DivProps>(
           <div
             style={{ ...style, display: 'table', verticalAlign: undefined }}
             {...otherProps}
+            className={getElmntClass(otherProps.className)}
           >
             {mapChildren(children, (child, i, first) =>
               <div
@@ -101,7 +104,7 @@ const Div = compose<any, DivProps>(
     compose(
       renderComponent(
         ({ divStyles: { spacing }, children, ...otherProps }: any) =>
-          <div {...otherProps}>
+          <div {...otherProps} className={getElmntClass(otherProps.className)}>
             {mapChildren(children, (child, i, first) =>
               <Div key={i} style={{ paddingTop: first ? 0 : spacing[0] }}>
                 {child}

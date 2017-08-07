@@ -89,7 +89,11 @@ export default compose<any, TxtProps>(
         'spellCheck',
       ),
     )(({ style, ...props }: any) =>
-      <span style={style.outer} {...props}>
+      <span
+        style={style.outer}
+        {...props}
+        className={`${props.className || ''} e1 e2 e3 e4 e5`}
+      >
         <span style={style.inner}>
           {props.children}
         </span>

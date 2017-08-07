@@ -13,7 +13,10 @@ export default function Icon({ type, style }: IconProps) {
   const { fontSize = 20, color = 'black' } = style || {};
   if (!icons[type]) {
     return (
-      <span style={{ display: 'block', width: fontSize, height: fontSize }} />
+      <span
+        style={{ display: 'block', width: fontSize, height: fontSize }}
+        className="e1 e2 e3 e4 e5"
+      />
     );
   }
   return (
@@ -22,6 +25,7 @@ export default function Icon({ type, style }: IconProps) {
       height={fontSize}
       style={{ display: 'block' }}
       viewBox={icons[type].viewBox}
+      className="e1 e2 e3 e4 e5"
     >
       <path style={{ fill: color }} d={icons[type].path} />
     </svg>

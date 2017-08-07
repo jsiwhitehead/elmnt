@@ -194,7 +194,12 @@ export default function createFile({ Label }: Obj<Comp>) {
       focusProps,
       style,
     }) =>
-      <label {...hoverProps} onMouseDown={onMouseDown} style={style.base}>
+      <label
+        {...hoverProps}
+        onMouseDown={onMouseDown}
+        style={style.base}
+        className="e1 e2 e3 e4 e5"
+      >
         <Div style={{ layout: 'bar', width: '100%' }}>
           <Label
             text={`${fileName}${processing ? ' (uploading...)' : ''}`}
