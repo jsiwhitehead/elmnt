@@ -2,9 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { compose, withHandlers, withProps, withState } from 'recompose';
 
-import { Input, injectCSS } from '../src';
-
-injectCSS();
+import { Input } from '../src';
 
 const processingGrey = 'rgba(255,255,255,.4)';
 
