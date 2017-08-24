@@ -53,8 +53,7 @@ export default compose<any, TxtProps>(
       [
         'defaults',
         {
-          fontFamily: 'inherit',
-          fontSize: 20,
+          fontSize: 16,
           lineHeight: 1.5,
           cursor: isInput ? 'text' : undefined,
         },
@@ -92,7 +91,7 @@ export default compose<any, TxtProps>(
       <span
         style={style.outer}
         {...props}
-        className={`${props.className || ''} e1 e2 e3 e4 e5`}
+        className={`${props.className || ''} e5 e6 e7 e8 e9`}
       >
         <span style={style.inner}>
           {props.children}
@@ -124,17 +123,17 @@ export default compose<any, TxtProps>(
       ),
     ),
   ),
-  mapStyle(['rows'], rows => ({
+  mapStyle({
     text: {
       input: [
         [
           'merge',
           {
-            position: rows ? 'absolute' : 'relative',
+            position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
-            height: rows ? '100%' : 'auto',
+            height: '100%',
             resize: 'none',
             overflow: 'hidden',
             background: 'transparent',
@@ -147,7 +146,7 @@ export default compose<any, TxtProps>(
         ],
       ],
     },
-  })),
+  }),
   withState('cursor', 'setCursor', null),
   lifecycle({
     componentDidUpdate(prevProps: any) {
@@ -202,6 +201,7 @@ export default compose<any, TxtProps>(
         onBlur,
         ref: setFocusElem,
         spellCheck,
+        size: 1,
         style: style.input,
       },
     }),
@@ -214,7 +214,7 @@ export default compose<any, TxtProps>(
       margin: getMargin(style.text),
     }}
   >
-    <Autosize value={value} rows={rows} style={style.text} />
+    <Autosize value={value || placeholder} rows={rows} style={style.text} />
     <Placeholder text={placeholder} value={value} style={style.placeholder} />
     {rows ? <textarea {...inputProps} /> : <input {...inputProps} />}
   </span>,

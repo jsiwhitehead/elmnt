@@ -73,7 +73,7 @@ export default function createText({ Label }: Obj<Comp>) {
       );
     }),
     mapStyle(['isFocused'], isFocused => ({
-      div: [['filter', 'width', 'height', 'maxWidth', 'maxHeight']],
+      div: [['filter', 'display', 'width', 'height', 'maxWidth', 'maxHeight']],
       label: [
         ['mergeKeys', { active: isFocused }],
         ['merge', { cursor: 'text' }],
@@ -91,6 +91,7 @@ export default function createText({ Label }: Obj<Comp>) {
       tab,
       spellCheck,
       onMouseDown,
+      onKeyDown,
       hoverProps,
       focusProps,
       setFocusElem,
@@ -98,9 +99,10 @@ export default function createText({ Label }: Obj<Comp>) {
     }) =>
       <div
         onMouseDown={onMouseDown}
+        onKeyDown={onKeyDown}
         {...hoverProps}
         style={style.div}
-        className="e1 e2 e3 e4 e5"
+        className="e5 e6 e7 e8 e9"
       >
         <Label
           text={text}

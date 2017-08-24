@@ -198,7 +198,7 @@ export default function createFile({ Label }: Obj<Comp>) {
         {...hoverProps}
         onMouseDown={onMouseDown}
         style={style.base}
-        className="e1 e2 e3 e4 e5"
+        className="e5 e6 e7 e8 e9"
       >
         <Div style={{ layout: 'bar', width: '100%' }}>
           <Label

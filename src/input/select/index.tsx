@@ -105,7 +105,7 @@ export default function createSelect({
             ref={setFocusElem}
             style={style.div}
             children={items}
-            className="e1 e2 e3 e4 e5"
+            className="e5 e6 e7 e8 e9"
           />,
       ),
     ),
@@ -118,7 +118,7 @@ export default function createSelect({
           ref={setFocusElem}
           style={style.div}
           children={children}
-          className="e1 e2 e3 e4 e5"
+          className="e5 e6 e7 e8 e9"
         />,
     ),
     branch(

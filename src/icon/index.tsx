@@ -6,28 +6,32 @@ export interface IconProps {
   type: string;
   style?: {
     fontSize?: number | string;
+    width?: number | string;
     color?: string;
   };
 }
 export default function Icon({ type, style }: IconProps) {
-  const { fontSize = 20, color = 'black' } = style || {};
+  const size = (style && (style.width || style.fontSize)) || 20;
   if (!icons[type]) {
     return (
       <span
-        style={{ display: 'block', width: fontSize, height: fontSize }}
-        className="e1 e2 e3 e4 e5"
+        style={{ display: 'block', width: size, height: size }}
+        className="e5 e6 e7 e8 e9"
       />
     );
   }
   return (
     <svg
-      width={fontSize}
-      height={fontSize}
+      width={size}
+      height={size}
       style={{ display: 'block' }}
       viewBox={icons[type].viewBox}
-      className="e1 e2 e3 e4 e5"
+      className="e5 e6 e7 e8 e9"
     >
-      <path style={{ fill: color }} d={icons[type].path} />
+      <path
+        style={{ fill: (style && style.color) || 'black' }}
+        d={icons[type].path}
+      />
     </svg>
   );
 }

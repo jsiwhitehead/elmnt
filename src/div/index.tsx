@@ -7,7 +7,7 @@ export interface DivProps extends React.HTMLProps<{}> {
   style?: DivStyle;
 }
 
-const getElmntClass = (className: string = '') => `${className} e1 e2 e3 e4 e5`;
+const getElmntClass = (className: string = '') => `${className} e0 e1 e2 e3 e4`;
 
 const mapChildren = (
   children: React.ReactNode,
@@ -29,7 +29,10 @@ const Div = compose<any, DivProps>(
     renderComponent(({ children, ...otherProps }: DivProps) =>
       <div {...otherProps} className={getElmntClass(otherProps.className)}>
         {children}
-        <div style={{ display: 'table', clear: 'both' }} />
+        <div
+          style={{ display: 'table', clear: 'both' }}
+          className={getElmntClass()}
+        />
       </div>,
     ),
   ),
@@ -46,7 +49,6 @@ const Div = compose<any, DivProps>(
           >
             {mapChildren(children, (child, i, first) =>
               <div
-                key={i}
                 style={{
                   display: 'table-cell',
                   verticalAlign: (style && style.verticalAlign) || 'middle',
@@ -55,8 +57,13 @@ const Div = compose<any, DivProps>(
                     (child.props.style && child.props.style.width) || 'auto',
                   boxSizing: 'content-box',
                 }}
+                className={getElmntClass()}
+                key={i}
               >
-                <div style={{ boxSizing: 'border-box' }}>
+                <div
+                  style={{ boxSizing: 'border-box' }}
+                  className={getElmntClass()}
+                >
                   {child}
                 </div>
               </div>,
@@ -71,16 +78,19 @@ const Div = compose<any, DivProps>(
       renderComponent(
         ({ divStyles: { spacing }, children, ...otherProps }: any) =>
           <Div {...otherProps}>
-            <div style={{ paddingTop: 1, paddingLeft: 1 }}>
+            <div
+              style={{ paddingTop: 1, paddingLeft: 1 }}
+              className={getElmntClass()}
+            >
               <div
                 style={{
                   marginTop: `-${parseFloat(spacing[0]) + 1}px`,
                   marginLeft: `-${parseFloat(spacing[1]) + 1}px`,
                 }}
+                className={getElmntClass()}
               >
                 {mapChildren(children, (child, i) =>
                   <div
-                    key={i}
                     style={{
                       float: 'left',
                       marginTop: spacing[0],
@@ -89,6 +99,8 @@ const Div = compose<any, DivProps>(
                         (child.props.style && child.props.style.width) ||
                         'auto',
                     }}
+                    className={getElmntClass()}
+                    key={i}
                   >
                     {child}
                   </div>,

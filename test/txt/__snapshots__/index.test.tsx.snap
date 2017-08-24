@@ -2,7 +2,7 @@
 
 exports[`txt empty 1`] = `
 <span
-  className=" e1 e2 e3 e4 e5"
+  className=" e5 e6 e7 e8 e9"
   style={
     Object {
       "display": "block",
@@ -13,7 +13,7 @@ exports[`txt empty 1`] = `
     style={
       Object {
         "display": "block",
-        "minHeight": 20,
+        "minHeight": 16,
         "padding": "1px 0px",
       }
     }
@@ -22,10 +22,9 @@ exports[`txt empty 1`] = `
       style={
         Object {
           "display": "block",
-          "fontFamily": "inherit",
-          "fontSize": 20,
-          "lineHeight": "30px",
-          "margin": "-6px 0px -6px",
+          "fontSize": 16,
+          "lineHeight": "24px",
+          "margin": "-5px 0px -5px",
         }
       }
     >

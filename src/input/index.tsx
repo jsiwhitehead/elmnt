@@ -29,7 +29,7 @@ export default compose<any, InputProps>(
       [
         'defaults',
         {
-          fontSize: 20,
+          fontSize: 16,
           lineHeight: 1.5,
           color: 'black',
           layout: 'grid',
