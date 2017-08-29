@@ -54,26 +54,30 @@ export default function createSelect({
             : []),
           ...labels.map(
             (l, i) =>
-              isGroup(l)
-                ? <Group style={style.group} key={i}>
-                    {l.substring(1)}
-                  </Group>
-                : <Item
-                    text={l}
-                    isList={isList}
-                    index={labelIndices[i]}
-                    selectIndex={selectIndex}
-                    isSelected={
-                      isList
-                        ? selected[labelIndices[i]]
-                        : selected === labelIndices[i]
-                    }
-                    isActive={activeIndex === labelIndices[i]}
-                    isNone={Array.isArray(options) && !options[labelIndices[i]]}
-                    moveActiveIndex={moveActiveIndex}
-                    style={style.base}
-                    key={i}
-                  />,
+              isGroup(l) ? (
+                <Group style={style.group} key={i}>
+                  {l.substring(1)}
+                </Group>
+              ) : (
+                <Item
+                  text={l}
+                  isList={isList}
+                  index={labelIndices[i]}
+                  selectIndex={selectIndex}
+                  isSelected={
+                    isList ? (
+                      selected[labelIndices[i]]
+                    ) : (
+                      selected === labelIndices[i]
+                    )
+                  }
+                  isActive={activeIndex === labelIndices[i]}
+                  isNone={Array.isArray(options) && !options[labelIndices[i]]}
+                  moveActiveIndex={moveActiveIndex}
+                  style={style.base}
+                  key={i}
+                />
+              ),
           ),
         ],
       }),
@@ -97,7 +101,7 @@ export default function createSelect({
           setFocusElem,
           style,
           items,
-        }: any) =>
+        }: any) => (
           <tr
             onKeyDown={onKeyDown}
             {...hoverProps}
@@ -106,11 +110,19 @@ export default function createSelect({
             style={style.div}
             children={items}
             className="e5 e6 e7 e8 e9"
-          />,
+          />
+        ),
       ),
     ),
     renderLayer(
-      ({ onKeyDown, hoverProps, focusProps, setFocusElem, style, children }) =>
+      ({
+        onKeyDown,
+        hoverProps,
+        focusProps,
+        setFocusElem,
+        style,
+        children,
+      }) => (
         <div
           onKeyDown={onKeyDown}
           {...hoverProps}
@@ -119,26 +131,35 @@ export default function createSelect({
           style={style.div}
           children={children}
           className="e5 e6 e7 e8 e9"
-        />,
+        />
+      ),
     ),
     branch(
       ({ style }) => style.base.layout !== 'modal',
-      renderComponent(({ labels, style, items }: any) =>
+      renderComponent(({ labels, style, items }: any) => (
         <Select labels={labels} style={style.base}>
           {items}
-        </Select>,
-      ),
+        </Select>
+      )),
     ),
     focusOnMouse,
     renderLifted(
       ({ isOpen }) => isOpen,
-      ({ closeModal, onMouseDown, hoverProps, setScrollElem, style, items }) =>
+      ({
+        closeModal,
+        onMouseDown,
+        hoverProps,
+        setScrollElem,
+        style,
+        items,
+      }) => (
         <Modal
           closeModal={closeModal}
           modalProps={{ onMouseDown, ...hoverProps, ref: setScrollElem }}
           style={style.base}
           children={items}
-        />,
+        />
+      ),
     ),
     mapStyle(['isFocused'], isFocused => ({
       base: {
@@ -154,7 +175,7 @@ export default function createSelect({
       setLiftBaseElem,
       placeholder,
       style,
-    }) =>
+    }) => (
       <div onMouseDown={openModal} ref={setLiftBaseElem}>
         <Label
           text={value && labelText}
@@ -162,6 +183,7 @@ export default function createSelect({
           placeholder={placeholder || labelText}
           style={style.label}
         />
-      </div>,
+      </div>
+    ),
   ) as React.ComponentClass<any>;
 }

@@ -23,8 +23,6 @@ export default compose<any, AutosizeProps>(
       },
     ],
   ]),
-)(({ value, style }) =>
-  <span style={style}>
-    {(value || '').replace(/\n$/, '\n.')}
-  </span>,
-) as React.ComponentClass<any>;
+)(({ value, style }) => (
+  <span style={style}>{(value || '').replace(/\n$/, '\n.')}</span>
+)) as React.ComponentClass<any>;

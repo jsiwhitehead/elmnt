@@ -6,7 +6,7 @@ const css = `
 .e5.e6.e7.e8.e9,
 .e5.e6.e7.e8.e9:before,
 .e5.e6.e7.e8.e9:after {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 .e5.e6.e7.e8.e9 *,
 .e5.e6.e7.e8.e9 *:before,
@@ -28,16 +28,27 @@ const css = `
   border: 0;
   width: auto;
   height: auto;
-  font-family: inherit;
+  vertical-align: baseline;
+  outline: none;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.e5.e6.e7.e8.e9,
+.e5.e6.e7.e8.e9:before,
+.e5.e6.e7.e8.e9:after,
+.e5.e6.e7.e8.e9 *,
+.e5.e6.e7.e8.e9 *:before,
+.e5.e6.e7.e8.e9 *:after {
+  font-family: Arial;
   font-size: 16px;
   font-style: normal;
   font-weight: normal;
   line-height: 1.5;
   color: black;
   text-decoration: none;
-  vertical-align: baseline;
-  outline: none;
   text-align: left;
+  letter-spacing: 0;
 }
 
 `;

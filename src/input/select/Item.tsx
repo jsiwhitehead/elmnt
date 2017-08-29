@@ -43,7 +43,7 @@ export default function createItem({ Option }: Obj<Comp>) {
       onMouseMove,
       style,
       Root,
-    }) =>
+    }) => (
       <Root
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
@@ -57,6 +57,7 @@ export default function createItem({ Option }: Obj<Comp>) {
           isSelected={isSelected}
           style={style}
         />
-      </Root>,
+      </Root>
+    ),
   ) as React.ComponentClass<any>;
 }

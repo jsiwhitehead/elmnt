@@ -101,13 +101,11 @@ export default compose<any, any>(
     ],
     text: [['filter', ...cssGroups.text]],
   })),
-)(({ text, icon, style }) =>
+)(({ text, icon, style }) => (
   <div style={style.div}>
     <Div style={style.bar}>
       <Marker type={icon} style={style.icon} />
-      <Txt style={style.text}>
-        {text}
-      </Txt>
+      <Txt style={style.text}>{text}</Txt>
     </Div>
-  </div>,
-) as React.ComponentClass<any>;
+  </div>
+)) as React.ComponentClass<any>;

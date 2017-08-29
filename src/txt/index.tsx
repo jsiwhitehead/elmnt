@@ -87,17 +87,15 @@ export default compose<any, TxtProps>(
         'focusRef',
         'spellCheck',
       ),
-    )(({ style, ...props }: any) =>
+    )(({ style, ...props }: any) => (
       <span
         style={style.outer}
         {...props}
         className={`${props.className || ''} e5 e6 e7 e8 e9`}
       >
-        <span style={style.inner}>
-          {props.children}
-        </span>
-      </span>,
-    ),
+        <span style={style.inner}>{props.children}</span>
+      </span>
+    )),
   ),
   mapStyle({
     text: [['filterKeys'], ['filter', ...cssGroups.text]],
@@ -110,7 +108,7 @@ export default compose<any, TxtProps>(
         children: children || placeholder,
         style: children ? style.text : style.placeholder,
       })),
-      renderComponent(({ children, style }: any) =>
+      renderComponent(({ children, style }: any) => (
         <span style={{ ...style, display: 'block', margin: getMargin(style) }}>
           {(children || '')
             .split('\n')
@@ -119,8 +117,8 @@ export default compose<any, TxtProps>(
                 res.concat(i === 0 ? line : [<br key={i} />, line]),
               [],
             )}
-        </span>,
-      ),
+        </span>
+      )),
     ),
   ),
   mapStyle({
@@ -206,7 +204,7 @@ export default compose<any, TxtProps>(
       },
     }),
   ),
-)(({ placeholder, rows, style, value, inputProps }) =>
+)(({ placeholder, rows, style, value, inputProps }) => (
   <span
     style={{
       position: 'relative',
@@ -217,5 +215,5 @@ export default compose<any, TxtProps>(
     <Autosize value={value || placeholder} rows={rows} style={style.text} />
     <Placeholder text={placeholder} value={value} style={style.placeholder} />
     {rows ? <textarea {...inputProps} /> : <input {...inputProps} />}
-  </span>,
-) as React.ComponentClass<any>;
+  </span>
+)) as React.ComponentClass<any>;

@@ -93,7 +93,7 @@ const TestApp = compose<any, any>(
     ),
   }),
   withProps(({ state }) => console.log(state)),
-)(({ value, ...props }) =>
+)(({ value, ...props }) => (
   <div style={{ padding: 100 }}>
     <Input
       value={value(1) as string}
@@ -309,7 +309,7 @@ const TestApp = compose<any, any>(
     <StateTxt style={{ background:'lightblue', border: '1px solid blue', padding: 20 }} />
     <StateTxt rows={1} style={{ background:'lightblue', border: '1px solid blue' }} />
     <StateTxt rows={3} style={{ background:'lightblue', border: '1px solid blue' }} />*/}
-  </div>,
-);
+  </div>
+));
 
 ReactDOM.render(<TestApp />, document.getElementById('root'));

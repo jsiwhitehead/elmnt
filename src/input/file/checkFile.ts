@@ -21,7 +21,10 @@ export default function checkFile(inputFiles, value, maxKb, fileType) {
     return false;
   }
 
-  const ext = value.split('.').pop().toLowerCase();
+  const ext = value
+    .split('.')
+    .pop()
+    .toLowerCase();
   if (fileTypeExts[fileType] && !fileTypeExts[fileType].includes(ext)) {
     alert(fileTypeAlerts[fileType]);
     return false;

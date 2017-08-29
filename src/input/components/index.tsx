@@ -26,13 +26,11 @@ export default {
       ['merge', { verticalAlign: 'middle' }],
     ],
     key: [['filter', ...cssGroups.text]],
-  })(({ text, style }) =>
+  })(({ text, style }) => (
     <td style={style.cell}>
-      <Txt style={style.key}>
-        {text}
-      </Txt>
-    </td>,
-  ) as React.ComponentClass<any>,
+      <Txt style={style.key}>{text}</Txt>
+    </td>
+  )) as React.ComponentClass<any>,
 
   Label: Label as React.ComponentClass<any>,
 
@@ -45,9 +43,7 @@ export default {
       layout: layout === 'modal' ? 'stack' : layout,
       spacing: layout === 'modal' ? 0 : spacing,
     },
-  ])(({ style, children }) =>
-    <Div style={style}>
-      {children}
-    </Div>,
-  ) as React.ComponentClass<any>,
+  ])(({ style, children }) => (
+    <Div style={style}>{children}</Div>
+  )) as React.ComponentClass<any>,
 };

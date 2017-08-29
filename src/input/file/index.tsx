@@ -193,7 +193,7 @@ export default function createFile({ Label }: Obj<Comp>) {
       hoverProps,
       focusProps,
       style,
-    }) =>
+    }) => (
       <label
         {...hoverProps}
         onMouseDown={onMouseDown}
@@ -223,11 +223,11 @@ export default function createFile({ Label }: Obj<Comp>) {
           target={`iframe:${uploadIndex}`}
           ref={setFormElem}
         >
-          {Object.keys(info.data).map(k =>
-            <input type="hidden" name={k} value={info.data[k]} key={k} />,
-          )}
+          {Object.keys(info.data).map(k => (
+            <input type="hidden" name={k} value={info.data[k]} key={k} />
+          ))}
 
-          {!clear &&
+          {!clear && (
             <input
               name="file"
               type="file"
@@ -238,17 +238,20 @@ export default function createFile({ Label }: Obj<Comp>) {
               id={`file:${uploadIndex}`}
               {...focusProps}
               ref={setFocusElem}
-            />}
+            />
+          )}
         </form>
 
-        {!clear &&
+        {!clear && (
           <iframe
             style={hiddenStyle}
             name={`iframe:${uploadIndex}`}
             src=""
             onLoad={onComplete}
             tabIndex={-1}
-          />}
-      </label>,
+          />
+        )}
+      </label>
+    ),
   ) as React.ComponentClass<any>;
 }

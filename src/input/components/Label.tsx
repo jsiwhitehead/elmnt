@@ -81,20 +81,22 @@ export default compose<any, any>(
     focusProps,
     setFocusElem,
     style,
-  }) =>
+  }) => (
     <Div style={style.div}>
       {iconLeft &&
-        (onClickLeft
-          ? <div onMouseDown={onClickLeft} style={style.iconLeft}>
-              <Hover hoverKey="icon" style={style.iconHover}>
-                <div>
-                  <Marker type={iconLeft} style={style.icon} />
-                </div>
-              </Hover>
-            </div>
-          : <div style={style.iconLeft}>
-              <Marker type={iconLeft} style={style.icon} />
-            </div>)}
+        (onClickLeft ? (
+          <div onMouseDown={onClickLeft} style={style.iconLeft}>
+            <Hover hoverKey="icon" style={style.iconHover}>
+              <div>
+                <Marker type={iconLeft} style={style.icon} />
+              </div>
+            </Hover>
+          </div>
+        ) : (
+          <div style={style.iconLeft}>
+            <Marker type={iconLeft} style={style.icon} />
+          </div>
+        ))}
       <Txt
         onTextChange={onTextChange}
         {...focusProps}
@@ -108,16 +110,19 @@ export default compose<any, any>(
         children={text}
       />
       {iconRight &&
-        (onClickRight
-          ? <div onMouseDown={onClickRight} style={style.iconRight}>
-              <Hover hoverKey="icon" style={style.iconHover}>
-                <div>
-                  <Marker type={iconRight} style={style.icon} />
-                </div>
-              </Hover>
-            </div>
-          : <div style={style.iconRight}>
-              <Marker type={iconRight} style={style.icon} />
-            </div>)}
-    </Div>,
+        (onClickRight ? (
+          <div onMouseDown={onClickRight} style={style.iconRight}>
+            <Hover hoverKey="icon" style={style.iconHover}>
+              <div>
+                <Marker type={iconRight} style={style.icon} />
+              </div>
+            </Hover>
+          </div>
+        ) : (
+          <div style={style.iconRight}>
+            <Marker type={iconRight} style={style.icon} />
+          </div>
+        ))}
+    </Div>
+  ),
 ) as React.ComponentClass<any>;

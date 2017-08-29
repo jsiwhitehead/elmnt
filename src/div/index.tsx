@@ -26,28 +26,28 @@ const mapChildren = (
 const Div = compose<any, DivProps>(
   branch(
     ({ style }) => !style || !style.layout,
-    renderComponent(({ children, ...otherProps }: DivProps) =>
+    renderComponent(({ children, ...otherProps }: DivProps) => (
       <div {...otherProps} className={getElmntClass(otherProps.className)}>
         {children}
         <div
           style={{ display: 'table', clear: 'both' }}
           className={getElmntClass()}
         />
-      </div>,
-    ),
+      </div>
+    )),
   ),
   getStyles,
   branch(
     ({ divStyles: { layout } }) => layout === 'bar',
     compose(
       renderComponent(
-        ({ style, divStyles: { spacing }, children, ...otherProps }: any) =>
+        ({ style, divStyles: { spacing }, children, ...otherProps }: any) => (
           <div
             style={{ ...style, display: 'table', verticalAlign: undefined }}
             {...otherProps}
             className={getElmntClass(otherProps.className)}
           >
-            {mapChildren(children, (child, i, first) =>
+            {mapChildren(children, (child, i, first) => (
               <div
                 style={{
                   display: 'table-cell',
@@ -60,15 +60,11 @@ const Div = compose<any, DivProps>(
                 className={getElmntClass()}
                 key={i}
               >
-                <div
-                  style={{ boxSizing: 'border-box' }}
-                  className={getElmntClass()}
-                >
-                  {child}
-                </div>
-              </div>,
-            )}
-          </div>,
+                <div className={getElmntClass()}>{child}</div>
+              </div>
+            ))}
+          </div>
+        ),
       ),
     ),
   ),
@@ -76,7 +72,7 @@ const Div = compose<any, DivProps>(
     ({ divStyles: { layout } }) => layout === 'grid',
     compose(
       renderComponent(
-        ({ divStyles: { spacing }, children, ...otherProps }: any) =>
+        ({ divStyles: { spacing }, children, ...otherProps }: any) => (
           <Div {...otherProps}>
             <div
               style={{ paddingTop: 1, paddingLeft: 1 }}
@@ -89,7 +85,7 @@ const Div = compose<any, DivProps>(
                 }}
                 className={getElmntClass()}
               >
-                {mapChildren(children, (child, i) =>
+                {mapChildren(children, (child, i) => (
                   <div
                     style={{
                       float: 'left',
@@ -103,11 +99,12 @@ const Div = compose<any, DivProps>(
                     key={i}
                   >
                     {child}
-                  </div>,
-                )}
+                  </div>
+                ))}
               </div>
             </div>
-          </Div>,
+          </Div>
+        ),
       ),
     ),
   ),
@@ -115,14 +112,15 @@ const Div = compose<any, DivProps>(
     ({ divStyles: { layout } }) => layout === 'stack',
     compose(
       renderComponent(
-        ({ divStyles: { spacing }, children, ...otherProps }: any) =>
+        ({ divStyles: { spacing }, children, ...otherProps }: any) => (
           <div {...otherProps} className={getElmntClass(otherProps.className)}>
-            {mapChildren(children, (child, i, first) =>
+            {mapChildren(children, (child, i, first) => (
               <Div key={i} style={{ paddingTop: first ? 0 : spacing[0] }}>
                 {child}
-              </Div>,
-            )}
-          </div>,
+              </Div>
+            ))}
+          </div>
+        ),
       ),
     ),
   ),

@@ -66,7 +66,7 @@ export default compose<any, any>(
       ],
     }),
   ),
-)(({ closeModal, modalProps, style, setRootElem, setInnerElem, children }) =>
+)(({ closeModal, modalProps, style, setRootElem, setInnerElem, children }) => (
   <div style={style.root} ref={setRootElem}>
     <div onClick={closeModal} style={style.overlay} />
     <div {...modalProps} style={style.outer}>
@@ -74,5 +74,5 @@ export default compose<any, any>(
         {children}
       </div>
     </div>
-  </div>,
-) as React.ComponentClass<any>;
+  </div>
+)) as React.ComponentClass<any>;

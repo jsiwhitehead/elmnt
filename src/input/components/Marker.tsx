@@ -21,11 +21,11 @@ export default compose<any, any>(
     ],
     icon: [['filter', 'fontSize', 'color']],
   }),
-)(({ type, style }) =>
+)(({ type, style }) => (
   <div style={style.div}>
     <Icon type={type} style={style.icon} />
     <div
       style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
     />
-  </div>,
-) as React.ComponentClass<any>;
+  </div>
+)) as React.ComponentClass<any>;

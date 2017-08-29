@@ -25,11 +25,6 @@ exports[`div bar layout with child width 1`] = `
   >
     <div
       className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
     >
       <div
         style={
@@ -54,11 +49,6 @@ exports[`div bar layout with child width 1`] = `
   >
     <div
       className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
     >
       <div />
     </div>
@@ -77,11 +67,6 @@ exports[`div bar layout with child width 1`] = `
   >
     <div
       className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
     >
       <div />
     </div>
@@ -114,11 +99,6 @@ exports[`div bar layout with multiple child width 1`] = `
   >
     <div
       className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
     >
       <div
         style={
@@ -143,11 +123,6 @@ exports[`div bar layout with multiple child width 1`] = `
   >
     <div
       className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
     >
       <div />
     </div>
@@ -166,11 +141,6 @@ exports[`div bar layout with multiple child width 1`] = `
   >
     <div
       className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
     >
       <div
         style={
@@ -209,11 +179,6 @@ exports[`div bar layout with numeric spacing 1`] = `
   >
     <div
       className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
     >
       <div />
     </div>
@@ -232,11 +197,6 @@ exports[`div bar layout with numeric spacing 1`] = `
   >
     <div
       className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
     >
       <div />
     </div>
@@ -255,11 +215,6 @@ exports[`div bar layout with numeric spacing 1`] = `
   >
     <div
       className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
     >
       <div />
     </div>
@@ -292,11 +247,6 @@ exports[`div bar layout with string multi-spacing 1`] = `
   >
     <div
       className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
     >
       <div />
     </div>
@@ -315,11 +265,6 @@ exports[`div bar layout with string multi-spacing 1`] = `
   >
     <div
       className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
     >
       <div />
     </div>
@@ -338,11 +283,6 @@ exports[`div bar layout with string multi-spacing 1`] = `
   >
     <div
       className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "boxSizing": "border-box",
-        }
-      }
     >
       <div />
     </div>

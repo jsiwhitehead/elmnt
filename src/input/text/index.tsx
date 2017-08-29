@@ -96,7 +96,7 @@ export default function createText({ Label }: Obj<Comp>) {
       focusProps,
       setFocusElem,
       style,
-    }) =>
+    }) => (
       <div
         onMouseDown={onMouseDown}
         onKeyDown={onKeyDown}
@@ -118,6 +118,7 @@ export default function createText({ Label }: Obj<Comp>) {
           setFocusElem={setFocusElem}
           style={style.label}
         />
-      </div>,
+      </div>
+    ),
   ) as React.ComponentClass<any>;
 }
