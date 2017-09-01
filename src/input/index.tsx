@@ -33,7 +33,6 @@ export default compose<any, InputProps>(
           lineHeight: 1.5,
           color: 'black',
           layout: 'grid',
-          background: 'white',
         },
       ],
       ['mergeKeys', { invalid, focus: isFocused, hover: isHovered }],

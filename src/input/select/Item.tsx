@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { branch, compose, pure, withHandlers, withProps } from 'recompose';
+import { branch, compose, pure, withHandlers } from 'recompose';
 import { Comp, mapStyle, Obj } from 'mishmash';
 
 export default function createItem({ Option }: Obj<Comp>) {
@@ -16,12 +16,10 @@ export default function createItem({ Option }: Obj<Comp>) {
         onMouseDown: ({ index, selectIndex }) => () => selectIndex(index),
       }),
     ),
-    withProps(({ style: { layout } }) => ({
-      Root: layout === 'table' ? 'td' : 'div',
-    })),
     mapStyle(
       ['isActive', 'isSelected', 'style.layout', 'isNone'],
       (isActive, isSelected, layout, isNone) => [
+        ['merge', { display: 'block' }],
         [
           'mergeKeys',
           {
@@ -42,22 +40,22 @@ export default function createItem({ Option }: Obj<Comp>) {
       onMouseDown,
       onMouseMove,
       style,
-      Root,
-    }) => (
-      <Root
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onMouseMove={onMouseMove}
-        data-modal-index={index}
-        style={{ verticalAlign: 'middle' }}
-      >
+    }) =>
+      React.createElement(
+        style.layout === 'table' ? 'td' : 'div',
+        {
+          onMouseDown,
+          onMouseUp,
+          onMouseMove,
+          'data-modal-index': index,
+          style: { verticalAlign: 'middle' },
+        },
         <Option
           text={text}
           isList={isList}
           isSelected={isSelected}
           style={style}
-        />
-      </Root>
-    ),
+        />,
+      ),
   ) as React.ComponentClass<any>;
 }

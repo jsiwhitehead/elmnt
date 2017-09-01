@@ -4,14 +4,10 @@ import icons from './icons';
 
 export interface IconProps {
   type: string;
-  style?: {
-    fontSize?: number | string;
-    width?: number | string;
-    color?: string;
-  };
+  style?: React.CSSProperties;
 }
 export default function Icon({ type, style }: IconProps) {
-  const size = (style && (style.width || style.fontSize)) || 20;
+  const size = (style && (style.width || style.fontSize)) || 16;
   if (!icons[type]) {
     return (
       <span

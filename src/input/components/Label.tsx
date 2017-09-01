@@ -13,8 +13,8 @@ export default compose<any, any>(
     ['scale', { iconSize: { fontSize: 0.9 } }],
   ]),
   mapStyle(
-    ['style.fontSize', 'style.iconSize', 'style.cursor'],
-    (fontSize, iconSize, cursor) => ({
+    ['style.fontSize', 'style.iconSize', 'style.display', 'style.cursor'],
+    (fontSize, iconSize, display, cursor) => ({
       div: [
         ['filter', ...cssGroups.box, ...cssGroups.other],
         [
@@ -22,7 +22,7 @@ export default compose<any, any>(
           {
             layout: 'bar',
             spacing: 0,
-            width: '100%',
+            width: display === 'inline-block' ? 'auto' : '100%',
             cursor: cursor || 'pointer',
           },
         ],
