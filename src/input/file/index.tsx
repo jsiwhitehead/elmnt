@@ -1,6 +1,13 @@
 import * as React from 'react';
 import { compose, withState } from 'recompose';
-import { Comp, mapPropsStream, mapStyle, Obj, withTrigger } from 'mishmash';
+import {
+  Comp,
+  cssGroups,
+  mapPropsStream,
+  mapStyle,
+  Obj,
+  withTrigger,
+} from 'mishmash';
 
 import Div from '../../div';
 import Txt from '../../txt';
@@ -154,12 +161,10 @@ export default function createFile({ Label }: Obj<Comp>) {
         });
     }, true),
     mapStyle(['isFocused', 'processing'], (isFocused, processing) => ({
-      base: [
-        ['filter', 'width', 'height', 'maxWidth', 'maxHeight'],
-        ['merge', { cursor: 'pointer' }],
-      ],
+      base: [['filter', ...cssGroups.other], ['merge', { cursor: 'pointer' }]],
       label: [
         ['mergeKeys', { active: isFocused, processing }],
+        ['filter', ...cssGroups.text, ...cssGroups.box],
         [
           'merge',
           {
@@ -171,6 +176,7 @@ export default function createFile({ Label }: Obj<Comp>) {
       ],
       button: [
         ['mergeKeys', { active: isFocused, button: true }],
+        ['filter', ...cssGroups.text, ...cssGroups.box, 'width'],
         ['merge', { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }],
       ],
     })),

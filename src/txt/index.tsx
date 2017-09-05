@@ -43,8 +43,9 @@ export default compose<any, TxtProps>(
   pure,
   branch(({ onTextChange }) => onTextChange, focusOnMouse as any),
   withProps(({ children, onTextChange }) => ({
-    children:
-      children === null || children === undefined ? null : children.toString(),
+    children: onTextChange
+      ? children === null || children === undefined ? null : children.toString()
+      : React.Children.toArray(children),
     isInput: !!onTextChange,
   })),
   mapStyle(
@@ -52,11 +53,7 @@ export default compose<any, TxtProps>(
     isInput => [
       [
         'defaults',
-        {
-          fontSize: 16,
-          lineHeight: 1.5,
-          cursor: isInput ? 'text' : undefined,
-        },
+        { fontSize: 16, lineHeight: 1.5, cursor: isInput ? 'text' : undefined },
       ],
       ['block'],
       ['lineHeightPx'],
@@ -110,13 +107,23 @@ export default compose<any, TxtProps>(
       })),
       renderComponent(({ children, style }: any) => (
         <span style={{ ...style, display: 'block', margin: getMargin(style) }}>
-          {(children || '')
-            .split('\n')
-            .reduce(
-              (res, line, i) =>
-                res.concat(i === 0 ? line : [<br key={i} />, line]),
-              [],
-            )}
+          {children.reduce(
+            (result, child, i) =>
+              result.concat(
+                typeof child === 'string'
+                  ? child
+                      .split('\n')
+                      .reduce(
+                        (res, line, j) =>
+                          res.concat(
+                            j === 0 ? line : [<br key={`${i}_${j}`} />, line],
+                          ),
+                        [] as any[],
+                      )
+                  : child,
+              ),
+            [],
+          )}
         </span>
       )),
     ),

@@ -7,7 +7,6 @@ exports[`div bar layout with child width 1`] = `
     Object {
       "background": "red",
       "display": "table",
-      "tableLayout": "auto",
       "verticalAlign": undefined,
     }
   }
@@ -82,7 +81,6 @@ exports[`div bar layout with multiple child width 1`] = `
     Object {
       "background": "red",
       "display": "table",
-      "tableLayout": "auto",
       "verticalAlign": undefined,
     }
   }
@@ -163,7 +161,6 @@ exports[`div bar layout with numeric spacing 1`] = `
     Object {
       "background": "red",
       "display": "table",
-      "tableLayout": "auto",
       "verticalAlign": undefined,
     }
   }
@@ -232,7 +229,6 @@ exports[`div bar layout with string multi-spacing 1`] = `
     Object {
       "background": "red",
       "display": "table",
-      "tableLayout": "auto",
       "verticalAlign": undefined,
     }
   }

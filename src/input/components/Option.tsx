@@ -39,7 +39,7 @@ export default compose<any, any>(
   ),
   mapStyle(['style.layout'], layout => ({
     div: [
-      ['filter', ...cssGroups.box, ...cssGroups.other],
+      ['filter', 'padding', 'background'],
       [
         'merge',
         {

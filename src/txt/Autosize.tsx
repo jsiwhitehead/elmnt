@@ -16,9 +16,10 @@ export default compose<any, AutosizeProps>(
       'merge',
       {
         visibility: 'hidden',
-        whiteSpace: rows ? 'pre-wrap' : 'pre',
+        whiteSpace: 'pre-wrap',
         wordBreak: 'break-word',
         minHeight: parseFloat(lineHeight) * (rows || 1),
+        maxHeight: rows ? 'none' : parseFloat(lineHeight),
         display: 'block',
         overflow: 'hidden',
       },

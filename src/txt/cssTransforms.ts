@@ -19,4 +19,4 @@ const lineHeightPx = createStyleTransform(style => {
 export default {
   block,
   lineHeightPx,
-};
+} as any;

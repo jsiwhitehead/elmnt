@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { compose, withHandlers, withProps, withState } from 'recompose';
 
-import { Input } from '../src';
+import { Div, Input, Mark, Txt } from '../src';
 
 const processingGrey = 'rgba(255,255,255,.4)';
 
@@ -12,6 +12,7 @@ const inputStyle = {
   padding: '8px 10px',
   spacing: '10px 20px',
   borderRadius: 3,
+  background: 'white',
   placeholder: {
     color: 'rgba(0,0,0,0.35)',
   },
@@ -94,7 +95,23 @@ const TestApp = compose<any, any>(
   }),
   withProps(({ state }) => console.log(state)),
 )(({ value, ...props }) => (
-  <div style={{ padding: 100 }}>
+  <Div style={{ padding: '50px 150px', layout: 'stack', spacing: 30 }}>
+    <Txt>
+      Hello <span style={{ fontWeight: 'bold' }}>there</span>,{' '}
+      <span style={{ fontStyle: 'italic' }}>how</span> are you today?
+    </Txt>
+
+    <Mark
+      content={`
+Hello *there*.
+
+- here
+- is
+- a
+- list
+    `}
+    />
+
     <Input
       value={value(1) as string}
       onChange={props.onChange1}
@@ -104,16 +121,12 @@ const TestApp = compose<any, any>(
       placeholder="Enter value"
     />
 
-    <br />
-
     <Input
       value={value(2) as Date}
       onChange={props.onChange2}
       type="date"
       style={inputStyle}
     />
-
-    <br />
 
     <Input
       value={value(3) as boolean}
@@ -124,8 +137,6 @@ const TestApp = compose<any, any>(
       style={inputStyle}
     />
 
-    <br />
-
     <Input
       value={value(4) as string}
       onChange={props.onChange4}
@@ -135,8 +146,6 @@ const TestApp = compose<any, any>(
       style={inputStyle}
     />
 
-    <br />
-
     <Input
       value={value(5) as string[]}
       onChange={props.onChange5}
@@ -144,8 +153,6 @@ const TestApp = compose<any, any>(
       options={['One', 'Two', 'Three']}
       style={inputStyle}
     />
-
-    <br />
 
     <table>
       <tbody>
@@ -160,8 +167,6 @@ const TestApp = compose<any, any>(
         />
       </tbody>
     </table>
-
-    <br />
 
     <Input
       value={value(7) as string}
@@ -192,8 +197,6 @@ const TestApp = compose<any, any>(
       style={{ ...inputStyle, layout: 'modal' }}
     />
 
-    <br />
-
     <Input
       value={value(8) as string[]}
       onChange={props.onChange8}
@@ -202,8 +205,6 @@ const TestApp = compose<any, any>(
       placeholder="Select options"
       style={{ ...inputStyle, layout: 'modal' }}
     />
-
-    <br />
 
     <Input
       value={value(9) as any}
@@ -221,95 +222,7 @@ const TestApp = compose<any, any>(
         accessId: 'kalambo-storage@hub-meteor-platform.iam.gserviceaccount.com',
       }}
     />
-
-    {/*
-    <br />
-
-    <WrappedInput
-      type="Boolean" onValue={true} text="Hello world" style={inputStyle}
-    />
-
-    <br />
-
-    <WrappedInput
-      type="String" options={['One', 'Two', 'Three']}
-      labels={['One', 'Two', '~Group', 'Three']} style={inputStyle}
-    />
-
-    <br />
-
-    <WrappedInput
-      type="StringList" options={['One', 'Two', 'Three']}
-      labels={['One', 'Two', '~Group', 'Three']} style={inputStyle}
-    />
-
-    <br />
-
-    <WrappedInput
-      type="String" options={['One', 'Two', 'Three']} modal
-      labels={['One', 'Two', '~Group', 'Three']} style={inputStyle}
-    />
-
-    <br />
-
-    <WrappedInput
-      type="StringList" options={['One', 'Two', 'Three']} modal
-      labels={['One', 'Two', '~Group', 'Three']} style={inputStyle}
-    />
-
-    <br />
-
-    */}
-    {/*
-    <br />
-
-    <Div style={{ background: 'lightblue' }}>
-      <div style={{ float: 'left', width: 60, height: 20, border: '1px solid blue' }} />
-    </Div>
-
-    <br />
-
-    <Div style={{ layout: 'bar', spacing: '10px 20px', background:'lightblue' }}>
-      <div style={{ width: 60, height: 20, border: '1px solid blue' }} />
-      <div style={{ width: 50, height: 40, border: '1px solid blue' }} />
-      {null}
-      <div style={{ width: 40, height: 30, border: '1px solid blue' }} />
-    </Div>
-
-    <br />
-
-    <Div style={{ layout: 'grid', spacing: '10px 20px', background:'lightblue', width: 150 }}>
-      <div style={{ width: 60, height: 20, border: '1px solid blue' }} />
-      <div style={{ width: 50, height: 40, border: '1px solid blue' }} />
-      {null}
-      <div style={{ width: 40, height: 30, border: '1px solid blue' }} />
-    </Div>
-
-    <br />
-
-    <Div style={{ layout: 'stack', spacing: '10px 20px', background:'lightblue' }}>
-      <div style={{ width: 60, height: 20, border: '1px solid blue' }} />
-      <div style={{ width: 50, height: 40, border: '1px solid blue' }} />
-      {null}
-      <div style={{ width: 40, height: 30, border: '1px solid blue' }} />
-    </Div>
-
-    <br />
-
-    <Txt>Hello world!</Txt>
-    <Txt placeholder="Hello world!" style={{ placeholder: { color: '#bbb' } }} />
-    <Txt placeholder="Hello" style={{ placeholder: { color: '#bbb' } }}>World!</Txt>
-
-    <br />
-
-    <StateTxt />
-    <StateTxt placeholder="Hello" style={{ placeholder: { color: '#bbb' } }} />
-    <StateTxt password />
-    <StateTxt tab={2} />
-    <StateTxt style={{ background:'lightblue', border: '1px solid blue', padding: 20 }} />
-    <StateTxt rows={1} style={{ background:'lightblue', border: '1px solid blue' }} />
-    <StateTxt rows={3} style={{ background:'lightblue', border: '1px solid blue' }} />*/}
-  </div>
+  </Div>
 ));
 
 ReactDOM.render(<TestApp />, document.getElementById('root'));

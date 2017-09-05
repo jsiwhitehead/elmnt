@@ -43,13 +43,7 @@ const Div = compose<any, DivProps>(
       renderComponent(
         ({ style, divStyles: { spacing }, children, ...otherProps }: any) => (
           <div
-            style={{
-              tableLayout:
-                style.width && style.width !== 'auto' ? 'fixed' : 'auto',
-              ...style,
-              display: 'table',
-              verticalAlign: undefined,
-            }}
+            style={{ ...style, display: 'table', verticalAlign: undefined }}
             {...otherProps}
             className={getElmntClass(otherProps.className)}
           >
