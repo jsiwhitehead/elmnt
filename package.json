@@ -1,6 +1,6 @@
 {
   "name": "elmnt",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "HTML elements reimagined with react",
   "author": "Jon Whitehead",
   "license": "MIT",
