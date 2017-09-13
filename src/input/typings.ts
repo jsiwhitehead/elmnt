@@ -58,14 +58,14 @@ export type FloatProps = { type: 'float' } & (
   | TextInputBase<number>
   | SelectInputBase<number>);
 
-export type TextExtraProps = {
+export type StringExtraProps = {
   rows?: number;
   password?: boolean;
   tab?: number;
   spellCheck?: boolean;
 };
-export type TextProps = { type: 'text' } & (
-  | (TextInputBase<string> & TextExtraProps)
+export type StringProps = { type: 'string' } & (
+  | (TextInputBase<string> & StringExtraProps)
   | SelectInputBase<string>);
 
 export type DateExtraProps = {
@@ -90,7 +90,7 @@ export type FileExtraProps = {
 export type FileProps = { type: 'file' } & TextInputBase<string> &
   FileExtraProps;
 
-export type TextlistProps = { type: 'textlist' } & (
+export type StringlistProps = { type: 'stringlist' } & (
   | TextInputBase<string[]>
   | SelectInputBase<string[]>);
 
@@ -98,7 +98,7 @@ export type InputProps = { invalid?: boolean } & (
   | BooleanProps
   | IntProps
   | FloatProps
-  | TextProps
+  | StringProps
   | DateProps
   | FileProps
-  | TextlistProps);
+  | StringlistProps);

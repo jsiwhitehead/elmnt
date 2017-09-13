@@ -120,5 +120,5 @@ export default function createText({ Label }: Obj<Comp>) {
         />
       </div>
     ),
-  ) as React.ComponentClass<any>;
+  );
 }

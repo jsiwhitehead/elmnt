@@ -108,4 +108,4 @@ export default compose<any, any>(
       <Txt style={style.text}>{text}</Txt>
     </Div>
   </div>
-)) as React.ComponentClass<any>;
+));

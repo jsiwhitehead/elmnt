@@ -43,4 +43,4 @@ export default compose<any, InputProps>(
     ({ type }) => type === 'file',
     renderComponent(createFile(components)),
   ),
-)(createText(components)) as React.ComponentClass<any>;
+)(createText(components));

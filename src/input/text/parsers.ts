@@ -6,9 +6,9 @@ import Parser from './Parser';
 
 const parsers = {} as Obj<Parser<any>>;
 
-parsers.text = new Parser<string>(text => ({ value: text }));
+parsers.string = new Parser<string>(text => ({ value: text }));
 
-parsers.textlist = new Parser<string[]>(
+parsers.stringlist = new Parser<string[]>(
   text => {
     const value = text.split(',').map(s => s.trim());
     return { value };

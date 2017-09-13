@@ -14,7 +14,7 @@ const regex = {
 
 const getLinkProps = (href: string, domain?: string) => {
   const currentDomain =
-    domain || (typeof location !== 'undefined' && location.host) || '';
+    domain || (typeof window !== 'undefined' && window.location.host) || '';
   const [hrefDomain, hrefPath] = (href.match(/https?:\/\/([^\/]+)(.*)/) || [])
     .slice(1);
   const isExternal =
@@ -103,9 +103,9 @@ const buildRenderer = memoize(
 );
 
 export interface MarkProps {
-  content?: string;
   domain?: string;
   style?: CSSTree<'em' | 'st' | 'link' | 'heading' | 'hr'>;
+  children?: string;
 }
 export default compose<any, MarkProps>(
   mapStyle([
@@ -198,18 +198,18 @@ export default compose<any, MarkProps>(
       };
     },
   ),
-)(({ content = '', domain, style }) => (
+)(({ domain, style, children }) => (
   <Div style={style.div}>
     {buildRenderer(style, domain).render(
       parser.parse(
-        content.replace(
+        (children || '').replace(
           regex.url,
           (m, i) =>
-            content
+            (children || '')
               .substring(0, i)
               .trim()
               .slice(-2) !== '](' &&
-            content.substring(i + m.length + 1).trim()[0] !== ')'
+            (children || '').substring(i + m.length + 1).trim()[0] !== ')'
               ? `[${m}](${regex.email.test(m) ? 'mailto:' : ''}${m})`
               : m,
         ),

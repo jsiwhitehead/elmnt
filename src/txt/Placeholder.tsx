@@ -23,6 +23,4 @@ export default compose<any, PlaceholderProps>(
       },
     ],
   ]),
-)(({ text, style }) => (
-  <span style={style}>{text}</span>
-)) as React.ComponentClass<any>;
+)(({ text, style }) => <span style={style}>{text}</span>);

@@ -57,5 +57,5 @@ export default function createItem({ Option }: Obj<Comp>) {
           style={style}
         />,
       ),
-  ) as React.ComponentClass<any>;
+  );
 }

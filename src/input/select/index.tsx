@@ -185,5 +185,5 @@ export default function createSelect({
         />
       </div>
     ),
-  ) as React.ComponentClass<any>;
+  );
 }

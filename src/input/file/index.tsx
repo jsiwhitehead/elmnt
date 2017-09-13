@@ -259,5 +259,5 @@ export default function createFile({ Label }: Obj<Comp>) {
         )}
       </label>
     ),
-  ) as React.ComponentClass<any>;
+  );
 }

@@ -17,7 +17,7 @@ export default {
       'paddingBottom',
       ...(layout === 'modal' ? ['paddingLeft', 'paddingRight'] : []),
     ],
-  ])(Txt) as React.ComponentClass<any>,
+  ])(Txt),
 
   Key: mapStyle({
     cell: [
@@ -30,20 +30,18 @@ export default {
     <td style={style.cell}>
       <Txt style={style.key}>{text}</Txt>
     </td>
-  )) as React.ComponentClass<any>,
+  )),
 
-  Label: Label as React.ComponentClass<any>,
+  Label: Label,
 
-  Modal: Modal as React.ComponentClass<any>,
+  Modal: Modal,
 
-  Option: Option as React.ComponentClass<any>,
+  Option: Option,
 
   Select: mapStyle(['style.layout', 'style.spacing'], (layout, spacing) => [
     {
       layout: layout === 'modal' ? 'stack' : layout,
       spacing: layout === 'modal' ? 0 : spacing,
     },
-  ])(({ style, children }) => (
-    <Div style={style}>{children}</Div>
-  )) as React.ComponentClass<any>,
+  ])(({ style, children }) => <Div style={style}>{children}</Div>),
 };

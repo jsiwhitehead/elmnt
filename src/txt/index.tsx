@@ -42,12 +42,7 @@ export default compose<any, TxtProps>(
   focusable,
   pure,
   branch(({ onTextChange }) => onTextChange, focusOnMouse as any),
-  withProps(({ children, onTextChange }) => ({
-    children: onTextChange
-      ? children === null || children === undefined ? null : children.toString()
-      : React.Children.toArray(children),
-    isInput: !!onTextChange,
-  })),
+  withProps(({ onTextChange }) => ({ isInput: !!onTextChange })),
   mapStyle(
     ['isInput'],
     isInput => [
@@ -107,23 +102,25 @@ export default compose<any, TxtProps>(
       })),
       renderComponent(({ children, style }: any) => (
         <span style={{ ...style, display: 'block', margin: getMargin(style) }}>
-          {children.reduce(
-            (result, child, i) =>
-              result.concat(
-                typeof child === 'string'
-                  ? child
-                      .split('\n')
-                      .reduce(
-                        (res, line, j) =>
-                          res.concat(
-                            j === 0 ? line : [<br key={`${i}_${j}`} />, line],
-                          ),
-                        [] as any[],
-                      )
-                  : child,
-              ),
-            [],
-          )}
+          {React.Children
+            .toArray(children)
+            .reduce<React.ReactNode[]>(
+              (result, child, i) =>
+                result.concat(
+                  typeof child === 'string'
+                    ? child
+                        .split('\n')
+                        .reduce<React.ReactNode[]>(
+                          (res, line, j) =>
+                            res.concat(
+                              j === 0 ? line : [<br key={`${i}_${j}`} />, line],
+                            ),
+                          [],
+                        )
+                    : child,
+                ),
+              [],
+            )}
         </span>
       )),
     ),
@@ -181,6 +178,7 @@ export default compose<any, TxtProps>(
       }
     },
   }),
+  withProps(({ children }) => ({ children: (children || '').toString() })),
   withProps(
     ({
       children,
@@ -195,9 +193,9 @@ export default compose<any, TxtProps>(
       spellCheck,
       style,
     }) => ({
-      value: rows ? children || '' : (children || '').replace(/\n/g, ''),
+      value: rows ? children : children.replace(/\n/g, ''),
       inputProps: {
-        value: rows ? children || '' : (children || '').replace(/\n/g, ''),
+        value: rows ? children : children.replace(/\n/g, ''),
         onChange,
         type: password ? 'password' : 'text',
         onKeyDown,
@@ -223,4 +221,4 @@ export default compose<any, TxtProps>(
     <Placeholder text={placeholder} value={value} style={style.placeholder} />
     {rows ? <textarea {...inputProps} /> : <input {...inputProps} />}
   </span>
-)) as React.ComponentClass<any>;
+));

@@ -75,4 +75,4 @@ export default compose<any, any>(
       </div>
     </div>
   </div>
-)) as React.ComponentClass<any>;
+));

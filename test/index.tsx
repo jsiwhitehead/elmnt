@@ -101,8 +101,7 @@ const TestApp = compose<any, any>(
       <span style={{ fontStyle: 'italic' }}>how</span> are you today?
     </Txt>
 
-    <Mark
-      content={`
+    <Mark>{`
 # heading 1
 ## heading 2
 ### heading 3
@@ -114,13 +113,12 @@ Hello *there*.
 - is
 - a
 - list
-    `}
-    />
+    `}</Mark>
 
     <Input
       value={value(1) as string}
       onChange={props.onChange1}
-      type="text"
+      type="string"
       style={inputStyle}
       spellCheck={false}
       placeholder="Enter value"
@@ -145,7 +143,7 @@ Hello *there*.
     <Input
       value={value(4) as string}
       onChange={props.onChange4}
-      type="text"
+      type="string"
       options={[null, 'One', 'Two', 'Three']}
       labels={['-- None --', 'One', 'Two', '~Group', 'Three']}
       style={inputStyle}
@@ -154,7 +152,7 @@ Hello *there*.
     <Input
       value={value(5) as string[]}
       onChange={props.onChange5}
-      type="textlist"
+      type="stringlist"
       options={['One', 'Two', 'Three']}
       style={inputStyle}
     />
@@ -164,7 +162,7 @@ Hello *there*.
         <Input
           value={value(6) as string}
           onChange={props.onChange6}
-          type="text"
+          type="string"
           text="Hello"
           options={[null, 'One', 'Two', 'Three']}
           labels={['-- None --', 'One', 'Two', 'Three']}
@@ -176,7 +174,7 @@ Hello *there*.
     <Input
       value={value(7) as string}
       onChange={props.onChange7}
-      type="text"
+      type="string"
       options={[
         null,
         'One',
@@ -205,7 +203,7 @@ Hello *there*.
     <Input
       value={value(8) as string[]}
       onChange={props.onChange8}
-      type="textlist"
+      type="stringlist"
       options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
       placeholder="Select options"
       style={{ ...inputStyle, layout: 'modal' }}
