@@ -79,8 +79,7 @@ export interface FileUploaderGoogle {
   uploader: 'google';
   bucket: string;
   accessId: string;
-  prepareUrl: string;
-  successUrl: string;
+  serverUrl: string;
 }
 export type FileExtraProps = {
   maxKb?: number;

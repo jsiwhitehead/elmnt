@@ -60,7 +60,7 @@ const Div = compose<any, DivProps>(
                 className={getElmntClass()}
                 key={i}
               >
-                <div className={getElmntClass()}>{child}</div>
+                <div className={getElmntClass('e10')}>{child}</div>
               </div>
             ))}
           </div>

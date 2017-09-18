@@ -220,9 +220,8 @@ Hello *there*.
       config={{
         uploader: 'google' as 'google',
         bucket: 'hub-test1',
-        prepareUrl: 'http://localhost:3000/storage/upload',
-        successUrl: 'http://localhost:3000/storage/success',
         accessId: 'kalambo-storage@hub-meteor-platform.iam.gserviceaccount.com',
+        serverUrl: 'http://localhost:3000/storage/upload',
       }}
     />
   </Div>

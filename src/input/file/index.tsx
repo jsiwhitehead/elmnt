@@ -45,7 +45,7 @@ export default function createFile({ Label }: Obj<Comp>) {
           window.removeEventListener('message', listener);
           listener = window.addEventListener('message', event => {
             if (
-              config.successUrl.startsWith(event.origin) &&
+              config.serverUrl.startsWith(event.origin) &&
               event.data === uploadIndex
             ) {
               successful = true;
@@ -207,16 +207,18 @@ export default function createFile({ Label }: Obj<Comp>) {
         className="e5 e6 e7 e8 e9"
       >
         <Div style={{ layout: 'bar', width: '100%' }}>
-          <Label
-            text={`${fileName}${processing ? ' (uploading...)' : ''}`}
-            iconLeft={
-              fileName && `file${fileIcons[fileName.split('.').pop()] || ''}`
-            }
-            iconRight={fileName && !processing && 'cross'}
-            onClickRight={onClear}
-            placeholder={placeholder}
-            style={style.label}
-          />
+          <div>
+            <Label
+              text={`${fileName}${processing ? ' (uploading...)' : ''}`}
+              iconLeft={
+                fileName && `file${fileIcons[fileName.split('.').pop()] || ''}`
+              }
+              iconRight={fileName && !processing && 'cross'}
+              onClickRight={onClear}
+              placeholder={placeholder}
+              style={style.label}
+            />
+          </div>
           <Txt style={style.button}>
             {processing ? 'Cancel' : fileName ? 'Change' : 'Upload'}
           </Txt>

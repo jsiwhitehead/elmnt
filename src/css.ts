@@ -51,6 +51,10 @@ const css = `
   letter-spacing: 0;
 }
 
+.e0.e1.e2.e3.e4.e10 > * {
+  width: auto !important;
+}
+
 `;
 
 if (typeof document !== 'undefined') {

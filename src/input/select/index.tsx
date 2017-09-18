@@ -65,11 +65,9 @@ export default function createSelect({
                   index={labelIndices[i]}
                   selectIndex={selectIndex}
                   isSelected={
-                    isList ? (
-                      selected[labelIndices[i]]
-                    ) : (
-                      selected === labelIndices[i]
-                    )
+                    isList
+                      ? selected[labelIndices[i]]
+                      : selected === labelIndices[i]
                   }
                   isActive={activeIndex === labelIndices[i]}
                   isNone={Array.isArray(options) && !options[labelIndices[i]]}

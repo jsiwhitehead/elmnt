@@ -124,8 +124,9 @@ export default compose(
           }
         };
 
-        const newLabels = (labels || options || [])
-          .map(o => o.toString()) as string[];
+        const newLabels = (labels || options || []).map(o =>
+          o.toString(),
+        ) as string[];
         const filteredLabels = newLabels.filter(
           l => !(typeof l === 'string' && l[0] === '~'),
         );
@@ -144,11 +145,10 @@ export default compose(
                 .join(', '),
           selected: !isList
             ? options.indexOf(value)
-            : (value || [])
-                .reduce(
-                  (result, v) => ({ ...result, [options.indexOf(v)]: true }),
-                  {},
-                ),
+            : (value || []).reduce(
+                (result, v) => ({ ...result, [options.indexOf(v)]: true }),
+                {},
+              ),
 
           selectIndex,
           moveActiveIndex,

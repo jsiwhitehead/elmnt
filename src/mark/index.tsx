@@ -15,8 +15,8 @@ const regex = {
 const getLinkProps = (href: string, domain?: string) => {
   const currentDomain =
     domain || (typeof window !== 'undefined' && window.location.host) || '';
-  const [hrefDomain, hrefPath] = (href.match(/https?:\/\/([^\/]+)(.*)/) || [])
-    .slice(1);
+  const [hrefDomain, hrefPath] = (href.match(/https?:\/\/([^\/]+)(.*)/) || []
+  ).slice(1);
   const isExternal =
     (hrefDomain && hrefDomain !== currentDomain) || href.startsWith('mailto:');
   return {

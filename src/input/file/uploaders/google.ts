@@ -1,12 +1,7 @@
-export default function googleUploader({
-  bucket,
-  accessId,
-  prepareUrl,
-  successUrl,
-}) {
+export default function googleUploader({ bucket, accessId, serverUrl }) {
   return {
     async prepareUpload({ maxKb, uploadIndex }) {
-      return await (await fetch(prepareUrl, {
+      return await (await fetch(serverUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -32,7 +27,7 @@ export default function googleUploader({
             ? `inline; filename=${fileName}`
             : 'inline',
           GoogleAccessId: accessId,
-          success_action_redirect: `${successUrl}/${uploadIndex}`,
+          success_action_redirect: `${serverUrl}/${uploadIndex}`,
           policy,
           signature,
         },

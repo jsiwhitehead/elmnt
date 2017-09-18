@@ -171,8 +171,8 @@ export default compose<any, TxtProps>(
         const tabSpaces = Array(tab + 1).join(' ');
         setCursor(start + tab);
         onTextChange(
-          `${(children || '').substring(0, start)}${tabSpaces}${(children || '')
-            .substring(end)}`,
+          `${(children || '').substring(0, start)}${tabSpaces}${(children || ''
+          ).substring(end)}`,
         );
         event.preventDefault();
       }
