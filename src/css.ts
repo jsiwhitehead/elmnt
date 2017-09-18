@@ -51,7 +51,10 @@ const css = `
   letter-spacing: 0;
 }
 
-.e0.e1.e2.e3.e4.e10 > * {
+.e0.e1.e2.e3.e4.e10 {
+  box-sizing: content-box !important;
+}
+.e0.e1.e2.e3.e4.e10 > div > * {
   width: auto !important;
 }
 

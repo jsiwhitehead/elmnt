@@ -55,12 +55,12 @@ const Div = compose<any, DivProps>(
                   paddingLeft: first ? 0 : spacing[1],
                   width:
                     (child.props.style && child.props.style.width) || 'auto',
-                  boxSizing: 'content-box',
+                  boxSizing: 'content-box !important',
                 }}
-                className={getElmntClass()}
+                className={getElmntClass('e10')}
                 key={i}
               >
-                <div className={getElmntClass('e10')}>{child}</div>
+                <div className={getElmntClass()}>{child}</div>
               </div>
             ))}
           </div>

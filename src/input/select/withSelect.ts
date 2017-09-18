@@ -124,8 +124,8 @@ export default compose(
           }
         };
 
-        const newLabels = (labels || options || []).map(o =>
-          o.toString(),
+        const newLabels = (labels || options || []).map(
+          o => (o === null ? '-- None --' : o.toString()),
         ) as string[];
         const filteredLabels = newLabels.filter(
           l => !(typeof l === 'string' && l[0] === '~'),
