@@ -161,7 +161,7 @@ export default compose(
                 closeModal: () => setIsOpen(false),
                 setScrollElem: elem => {
                   scrollElem = elem;
-                  if (value) {
+                  if (isList ? value && value.length > 0 : value) {
                     const index = options.indexOf(isList ? value[0] : value);
                     setActiveIndex(index);
                     scrollToIndex(index, parseFloat(fontSize) * 0.5);
