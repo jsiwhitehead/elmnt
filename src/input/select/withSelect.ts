@@ -127,10 +127,14 @@ export default compose(
         const newLabels = (labels || options || []).map(
           o => (o === null ? '-- None --' : o.toString()),
         ) as string[];
-        const filteredLabels = newLabels.filter(
-          l => !(typeof l === 'string' && l[0] === '~'),
-        );
-        const labelIndices = newLabels.map(l => filteredLabels.indexOf(l));
+        const labelIndices: number[] = [];
+        let labelIndex = 0;
+        const filteredLabels = newLabels.filter(l => {
+          const group = typeof l === 'string' && l[0] === '~';
+          labelIndices.push(group ? -1 : labelIndex);
+          if (!group) labelIndex++;
+          return !group;
+        });
 
         return {
           ...props,

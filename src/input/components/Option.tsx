@@ -64,7 +64,7 @@ export default compose<any, any>(
         },
       ],
       ['filter', 'spacing'],
-      ['merge', { layout: 'bar' }],
+      ['merge', { layout: 'bar', margin: layout === 'table' && '0 auto' }],
     ],
     icon: [
       [
