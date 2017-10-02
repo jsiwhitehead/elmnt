@@ -67,7 +67,7 @@ export default compose<any, any>(
     }),
   ),
 )(({ closeModal, modalProps, style, setRootElem, setInnerElem, children }) => (
-  <div style={style.root} ref={setRootElem}>
+  <div className="e5 e6 e7 e8 e9" style={style.root} ref={setRootElem}>
     <div onClick={closeModal} style={style.overlay} />
     <div {...modalProps} style={style.outer}>
       <div style={style.inner} ref={setInnerElem}>

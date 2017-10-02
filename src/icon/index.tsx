@@ -1,14 +1,13 @@
 import * as React from 'react';
 
-import icons from './icons';
-
 export interface IconProps {
-  type: string;
+  path?: string;
+  viewBox?: string;
   style?: React.CSSProperties;
 }
-export default function Icon({ type, style }: IconProps) {
+export default function Icon({ path, viewBox, style }: IconProps) {
   const size = (style && (style.width || style.fontSize)) || 16;
-  if (!icons[type]) {
+  if (!path) {
     return (
       <span
         style={{ display: 'block', width: size, height: size }}
@@ -21,13 +20,10 @@ export default function Icon({ type, style }: IconProps) {
       width={size}
       height={size}
       style={{ display: 'block' }}
-      viewBox={icons[type].viewBox}
+      viewBox={viewBox}
       className="e5 e6 e7 e8 e9"
     >
-      <path
-        style={{ fill: (style && style.color) || 'black' }}
-        d={icons[type].path}
-      />
+      <path style={{ fill: (style && style.color) || 'black' }} d={path} />
     </svg>
   );
 }

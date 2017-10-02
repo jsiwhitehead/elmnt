@@ -1,38 +1,32 @@
 import * as React from 'react';
-import * as renderer from 'react-test-renderer';
+import { render } from 'enzyme';
 
 import Placeholder from '../../src/txt/Placeholder';
 
 describe('txt: placeholder', () => {
   it('no text, empty value', () => {
     expect(
-      renderer
-        .create(<Placeholder value="" style={{ background: 'red' }} />)
-        .toJSON(),
+      render(<Placeholder value="" style={{ background: 'red' }} />),
     ).toMatchSnapshot();
   });
 
   it('text, empty value', () => {
     expect(
-      renderer
-        .create(
-          <Placeholder text="Hello!" value="" style={{ background: 'red' }} />,
-        )
-        .toJSON(),
+      render(
+        <Placeholder text="Hello!" value="" style={{ background: 'red' }} />,
+      ),
     ).toMatchSnapshot();
   });
 
   it('text, value', () => {
     expect(
-      renderer
-        .create(
-          <Placeholder
-            text="Hello!"
-            value="World!"
-            style={{ background: 'red' }}
-          />,
-        )
-        .toJSON(),
+      render(
+        <Placeholder
+          text="Hello!"
+          value="World!"
+          style={{ background: 'red' }}
+        />,
+      ),
     ).toMatchSnapshot();
   });
 });

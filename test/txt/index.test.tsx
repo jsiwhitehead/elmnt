@@ -1,11 +1,11 @@
 import * as React from 'react';
-import * as renderer from 'react-test-renderer';
+import { render } from 'enzyme';
 
 import Txt from '../../src/txt';
 
 describe('txt', () => {
   it('empty', () => {
-    expect(renderer.create(<Txt />).toJSON()).toMatchSnapshot();
+    expect(render(<Txt />)).toMatchSnapshot();
   });
 
   // it('content only', () => {

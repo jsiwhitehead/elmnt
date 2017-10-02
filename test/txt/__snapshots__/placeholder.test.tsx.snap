@@ -4,18 +4,7 @@ exports[`txt: placeholder no text, empty value 1`] = `null`;
 
 exports[`txt: placeholder text, empty value 1`] = `
 <span
-  style={
-    Object {
-      "background": "red",
-      "display": "block",
-      "height": "100%",
-      "left": 0,
-      "padding": 0,
-      "position": "absolute",
-      "top": 0,
-      "width": "100%",
-    }
-  }
+  style="background:red;position:absolute;top:0;left:0;width:100%;height:100%;padding:0;display:block"
 >
   Hello!
 </span>

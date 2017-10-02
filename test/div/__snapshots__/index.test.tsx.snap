@@ -2,71 +2,37 @@
 
 exports[`div bar layout with child width 1`] = `
 <div
-  className=" e0 e1 e2 e3 e4"
-  style={
-    Object {
-      "background": "red",
-      "display": "table",
-      "verticalAlign": undefined,
-    }
-  }
+  class=" e0 e1 e2 e3 e4"
+  style="background:red;display:table"
 >
   <div
-    className="e10 e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "boxSizing": "content-box !important",
-        "display": "table-cell",
-        "paddingLeft": 0,
-        "verticalAlign": "middle",
-        "width": 100,
-      }
-    }
+    class="e10 e0 e1 e2 e3 e4"
+    style="display:table-cell;vertical-align:middle;padding-left:0;width:100px;box-sizing:content-box !important"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
+      class=" e0 e1 e2 e3 e4"
     >
       <div
-        style={
-          Object {
-            "width": 100,
-          }
-        }
+        style="width:100px"
       />
     </div>
   </div>
   <div
-    className="e10 e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "boxSizing": "content-box !important",
-        "display": "table-cell",
-        "paddingLeft": 10,
-        "verticalAlign": "middle",
-        "width": "auto",
-      }
-    }
+    class="e10 e0 e1 e2 e3 e4"
+    style="display:table-cell;vertical-align:middle;padding-left:10px;width:auto;box-sizing:content-box !important"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
+      class=" e0 e1 e2 e3 e4"
     >
       <div />
     </div>
   </div>
   <div
-    className="e10 e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "boxSizing": "content-box !important",
-        "display": "table-cell",
-        "paddingLeft": 10,
-        "verticalAlign": "middle",
-        "width": "auto",
-      }
-    }
+    class="e10 e0 e1 e2 e3 e4"
+    style="display:table-cell;vertical-align:middle;padding-left:10px;width:auto;box-sizing:content-box !important"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
+      class=" e0 e1 e2 e3 e4"
     >
       <div />
     </div>
@@ -76,78 +42,40 @@ exports[`div bar layout with child width 1`] = `
 
 exports[`div bar layout with multiple child width 1`] = `
 <div
-  className=" e0 e1 e2 e3 e4"
-  style={
-    Object {
-      "background": "red",
-      "display": "table",
-      "verticalAlign": undefined,
-    }
-  }
+  class=" e0 e1 e2 e3 e4"
+  style="background:red;display:table"
 >
   <div
-    className="e10 e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "boxSizing": "content-box !important",
-        "display": "table-cell",
-        "paddingLeft": 0,
-        "verticalAlign": "middle",
-        "width": "10px",
-      }
-    }
+    class="e10 e0 e1 e2 e3 e4"
+    style="display:table-cell;vertical-align:middle;padding-left:0;width:10px;box-sizing:content-box !important"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
+      class=" e0 e1 e2 e3 e4"
     >
       <div
-        style={
-          Object {
-            "width": "10px",
-          }
-        }
+        style="width:10px"
       />
     </div>
   </div>
   <div
-    className="e10 e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "boxSizing": "content-box !important",
-        "display": "table-cell",
-        "paddingLeft": 10,
-        "verticalAlign": "middle",
-        "width": "auto",
-      }
-    }
+    class="e10 e0 e1 e2 e3 e4"
+    style="display:table-cell;vertical-align:middle;padding-left:10px;width:auto;box-sizing:content-box !important"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
+      class=" e0 e1 e2 e3 e4"
     >
       <div />
     </div>
   </div>
   <div
-    className="e10 e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "boxSizing": "content-box !important",
-        "display": "table-cell",
-        "paddingLeft": 10,
-        "verticalAlign": "middle",
-        "width": "20px",
-      }
-    }
+    class="e10 e0 e1 e2 e3 e4"
+    style="display:table-cell;vertical-align:middle;padding-left:10px;width:20px;box-sizing:content-box !important"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
+      class=" e0 e1 e2 e3 e4"
     >
       <div
-        style={
-          Object {
-            "width": "20px",
-          }
-        }
+        style="width:20px"
       />
     </div>
   </div>
@@ -156,65 +84,35 @@ exports[`div bar layout with multiple child width 1`] = `
 
 exports[`div bar layout with numeric spacing 1`] = `
 <div
-  className=" e0 e1 e2 e3 e4"
-  style={
-    Object {
-      "background": "red",
-      "display": "table",
-      "verticalAlign": undefined,
-    }
-  }
+  class=" e0 e1 e2 e3 e4"
+  style="background:red;display:table"
 >
   <div
-    className="e10 e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "boxSizing": "content-box !important",
-        "display": "table-cell",
-        "paddingLeft": 0,
-        "verticalAlign": "middle",
-        "width": "auto",
-      }
-    }
+    class="e10 e0 e1 e2 e3 e4"
+    style="display:table-cell;vertical-align:middle;padding-left:0;width:auto;box-sizing:content-box !important"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
+      class=" e0 e1 e2 e3 e4"
     >
       <div />
     </div>
   </div>
   <div
-    className="e10 e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "boxSizing": "content-box !important",
-        "display": "table-cell",
-        "paddingLeft": 10,
-        "verticalAlign": "middle",
-        "width": "auto",
-      }
-    }
+    class="e10 e0 e1 e2 e3 e4"
+    style="display:table-cell;vertical-align:middle;padding-left:10px;width:auto;box-sizing:content-box !important"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
+      class=" e0 e1 e2 e3 e4"
     >
       <div />
     </div>
   </div>
   <div
-    className="e10 e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "boxSizing": "content-box !important",
-        "display": "table-cell",
-        "paddingLeft": 10,
-        "verticalAlign": "middle",
-        "width": "auto",
-      }
-    }
+    class="e10 e0 e1 e2 e3 e4"
+    style="display:table-cell;vertical-align:middle;padding-left:10px;width:auto;box-sizing:content-box !important"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
+      class=" e0 e1 e2 e3 e4"
     >
       <div />
     </div>
@@ -224,65 +122,35 @@ exports[`div bar layout with numeric spacing 1`] = `
 
 exports[`div bar layout with string multi-spacing 1`] = `
 <div
-  className=" e0 e1 e2 e3 e4"
-  style={
-    Object {
-      "background": "red",
-      "display": "table",
-      "verticalAlign": undefined,
-    }
-  }
+  class=" e0 e1 e2 e3 e4"
+  style="background:red;display:table"
 >
   <div
-    className="e10 e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "boxSizing": "content-box !important",
-        "display": "table-cell",
-        "paddingLeft": 0,
-        "verticalAlign": "middle",
-        "width": "auto",
-      }
-    }
+    class="e10 e0 e1 e2 e3 e4"
+    style="display:table-cell;vertical-align:middle;padding-left:0;width:auto;box-sizing:content-box !important"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
+      class=" e0 e1 e2 e3 e4"
     >
       <div />
     </div>
   </div>
   <div
-    className="e10 e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "boxSizing": "content-box !important",
-        "display": "table-cell",
-        "paddingLeft": "20px",
-        "verticalAlign": "middle",
-        "width": "auto",
-      }
-    }
+    class="e10 e0 e1 e2 e3 e4"
+    style="display:table-cell;vertical-align:middle;padding-left:20px;width:auto;box-sizing:content-box !important"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
+      class=" e0 e1 e2 e3 e4"
     >
       <div />
     </div>
   </div>
   <div
-    className="e10 e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "boxSizing": "content-box !important",
-        "display": "table-cell",
-        "paddingLeft": "20px",
-        "verticalAlign": "middle",
-        "width": "auto",
-      }
-    }
+    class="e10 e0 e1 e2 e3 e4"
+    style="display:table-cell;vertical-align:middle;padding-left:20px;width:auto;box-sizing:content-box !important"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
+      class=" e0 e1 e2 e3 e4"
     >
       <div />
     </div>
@@ -292,252 +160,128 @@ exports[`div bar layout with string multi-spacing 1`] = `
 
 exports[`div grid layout with numeric spacing 1`] = `
 <div
-  className=" e0 e1 e2 e3 e4"
-  style={
-    Object {
-      "background": "red",
-    }
-  }
+  class=" e0 e1 e2 e3 e4"
+  style="background:red"
 >
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "paddingLeft": 1,
-        "paddingTop": 1,
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="padding-top:1px;padding-left:1px"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "marginLeft": "-11px",
-          "marginTop": "-11px",
-        }
-      }
+      class=" e0 e1 e2 e3 e4"
+      style="margin-top:-11px;margin-left:-11px"
     >
       <div
-        className=" e0 e1 e2 e3 e4"
-        style={
-          Object {
-            "float": "left",
-            "marginLeft": 10,
-            "marginTop": 10,
-            "width": "auto",
-          }
-        }
+        class=" e0 e1 e2 e3 e4"
+        style="float:left;margin-top:10px;margin-left:10px;width:auto"
       >
         <div />
       </div>
       <div
-        className=" e0 e1 e2 e3 e4"
-        style={
-          Object {
-            "float": "left",
-            "marginLeft": 10,
-            "marginTop": 10,
-            "width": "auto",
-          }
-        }
+        class=" e0 e1 e2 e3 e4"
+        style="float:left;margin-top:10px;margin-left:10px;width:auto"
       >
         <div />
       </div>
       <div
-        className=" e0 e1 e2 e3 e4"
-        style={
-          Object {
-            "float": "left",
-            "marginLeft": 10,
-            "marginTop": 10,
-            "width": "auto",
-          }
-        }
+        class=" e0 e1 e2 e3 e4"
+        style="float:left;margin-top:10px;margin-left:10px;width:auto"
       >
         <div />
       </div>
     </div>
   </div>
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "clear": "both",
-        "display": "table",
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="display:table;clear:both"
   />
 </div>
 `;
 
 exports[`div grid layout with string multi-spacing 1`] = `
 <div
-  className=" e0 e1 e2 e3 e4"
-  style={
-    Object {
-      "background": "red",
-    }
-  }
+  class=" e0 e1 e2 e3 e4"
+  style="background:red"
 >
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "paddingLeft": 1,
-        "paddingTop": 1,
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="padding-top:1px;padding-left:1px"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "marginLeft": "-21px",
-          "marginTop": "-11px",
-        }
-      }
+      class=" e0 e1 e2 e3 e4"
+      style="margin-top:-11px;margin-left:-21px"
     >
       <div
-        className=" e0 e1 e2 e3 e4"
-        style={
-          Object {
-            "float": "left",
-            "marginLeft": "20px",
-            "marginTop": "10px",
-            "width": "auto",
-          }
-        }
+        class=" e0 e1 e2 e3 e4"
+        style="float:left;margin-top:10px;margin-left:20px;width:auto"
       >
         <div />
       </div>
       <div
-        className=" e0 e1 e2 e3 e4"
-        style={
-          Object {
-            "float": "left",
-            "marginLeft": "20px",
-            "marginTop": "10px",
-            "width": "auto",
-          }
-        }
+        class=" e0 e1 e2 e3 e4"
+        style="float:left;margin-top:10px;margin-left:20px;width:auto"
       >
         <div />
       </div>
       <div
-        className=" e0 e1 e2 e3 e4"
-        style={
-          Object {
-            "float": "left",
-            "marginLeft": "20px",
-            "marginTop": "10px",
-            "width": "auto",
-          }
-        }
+        class=" e0 e1 e2 e3 e4"
+        style="float:left;margin-top:10px;margin-left:20px;width:auto"
       >
         <div />
       </div>
     </div>
   </div>
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "clear": "both",
-        "display": "table",
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="display:table;clear:both"
   />
 </div>
 `;
 
 exports[`div grid layout with string spacing 1`] = `
 <div
-  className=" e0 e1 e2 e3 e4"
-  style={
-    Object {
-      "background": "red",
-    }
-  }
+  class=" e0 e1 e2 e3 e4"
+  style="background:red"
 >
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "paddingLeft": 1,
-        "paddingTop": 1,
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="padding-top:1px;padding-left:1px"
   >
     <div
-      className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "marginLeft": "-11px",
-          "marginTop": "-11px",
-        }
-      }
+      class=" e0 e1 e2 e3 e4"
+      style="margin-top:-11px;margin-left:-11px"
     >
       <div
-        className=" e0 e1 e2 e3 e4"
-        style={
-          Object {
-            "float": "left",
-            "marginLeft": "10px",
-            "marginTop": "10px",
-            "width": "auto",
-          }
-        }
+        class=" e0 e1 e2 e3 e4"
+        style="float:left;margin-top:10px;margin-left:10px;width:auto"
       >
         <div />
       </div>
       <div
-        className=" e0 e1 e2 e3 e4"
-        style={
-          Object {
-            "float": "left",
-            "marginLeft": "10px",
-            "marginTop": "10px",
-            "width": "auto",
-          }
-        }
+        class=" e0 e1 e2 e3 e4"
+        style="float:left;margin-top:10px;margin-left:10px;width:auto"
       >
         <div />
       </div>
       <div
-        className=" e0 e1 e2 e3 e4"
-        style={
-          Object {
-            "float": "left",
-            "marginLeft": "10px",
-            "marginTop": "10px",
-            "width": "auto",
-          }
-        }
+        class=" e0 e1 e2 e3 e4"
+        style="float:left;margin-top:10px;margin-left:10px;width:auto"
       >
         <div />
       </div>
     </div>
   </div>
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "clear": "both",
-        "display": "table",
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="display:table;clear:both"
   />
 </div>
 `;
 
 exports[`div no layout 1`] = `
 <div
-  className=" e0 e1 e2 e3 e4"
-  style={
-    Object {
-      "background": "red",
-    }
-  }
+  class=" e0 e1 e2 e3 e4"
+  style="background:red"
 >
   <p>
     Hello
@@ -546,81 +290,45 @@ exports[`div no layout 1`] = `
     World!
   </p>
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "clear": "both",
-        "display": "table",
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="display:table;clear:both"
   />
 </div>
 `;
 
 exports[`div stack layout with numeric spacing 1`] = `
 <div
-  className=" e0 e1 e2 e3 e4"
-  style={
-    Object {
-      "background": "red",
-    }
-  }
+  class=" e0 e1 e2 e3 e4"
+  style="background:red"
 >
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "paddingTop": 0,
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="padding-top:0"
   >
     <div />
     <div
-      className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "clear": "both",
-          "display": "table",
-        }
-      }
+      class=" e0 e1 e2 e3 e4"
+      style="display:table;clear:both"
     />
   </div>
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "paddingTop": 10,
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="padding-top:10px"
   >
     <div />
     <div
-      className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "clear": "both",
-          "display": "table",
-        }
-      }
+      class=" e0 e1 e2 e3 e4"
+      style="display:table;clear:both"
     />
   </div>
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "paddingTop": 10,
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="padding-top:10px"
   >
     <div />
     <div
-      className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "clear": "both",
-          "display": "table",
-        }
-      }
+      class=" e0 e1 e2 e3 e4"
+      style="display:table;clear:both"
     />
   </div>
 </div>
@@ -628,68 +336,37 @@ exports[`div stack layout with numeric spacing 1`] = `
 
 exports[`div stack layout with string multi-spacing 1`] = `
 <div
-  className=" e0 e1 e2 e3 e4"
-  style={
-    Object {
-      "background": "red",
-    }
-  }
+  class=" e0 e1 e2 e3 e4"
+  style="background:red"
 >
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "paddingTop": 0,
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="padding-top:0"
   >
     <div />
     <div
-      className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "clear": "both",
-          "display": "table",
-        }
-      }
+      class=" e0 e1 e2 e3 e4"
+      style="display:table;clear:both"
     />
   </div>
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "paddingTop": "10px",
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="padding-top:10px"
   >
     <div />
     <div
-      className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "clear": "both",
-          "display": "table",
-        }
-      }
+      class=" e0 e1 e2 e3 e4"
+      style="display:table;clear:both"
     />
   </div>
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "paddingTop": "10px",
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="padding-top:10px"
   >
     <div />
     <div
-      className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "clear": "both",
-          "display": "table",
-        }
-      }
+      class=" e0 e1 e2 e3 e4"
+      style="display:table;clear:both"
     />
   </div>
 </div>
@@ -697,68 +374,37 @@ exports[`div stack layout with string multi-spacing 1`] = `
 
 exports[`div stack layout with string spacing 1`] = `
 <div
-  className=" e0 e1 e2 e3 e4"
-  style={
-    Object {
-      "background": "red",
-    }
-  }
+  class=" e0 e1 e2 e3 e4"
+  style="background:red"
 >
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "paddingTop": 0,
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="padding-top:0"
   >
     <div />
     <div
-      className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "clear": "both",
-          "display": "table",
-        }
-      }
+      class=" e0 e1 e2 e3 e4"
+      style="display:table;clear:both"
     />
   </div>
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "paddingTop": "10px",
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="padding-top:10px"
   >
     <div />
     <div
-      className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "clear": "both",
-          "display": "table",
-        }
-      }
+      class=" e0 e1 e2 e3 e4"
+      style="display:table;clear:both"
     />
   </div>
   <div
-    className=" e0 e1 e2 e3 e4"
-    style={
-      Object {
-        "paddingTop": "10px",
-      }
-    }
+    class=" e0 e1 e2 e3 e4"
+    style="padding-top:10px"
   >
     <div />
     <div
-      className=" e0 e1 e2 e3 e4"
-      style={
-        Object {
-          "clear": "both",
-          "display": "table",
-        }
-      }
+      class=" e0 e1 e2 e3 e4"
+      style="display:table;clear:both"
     />
   </div>
 </div>
