@@ -3,8 +3,8 @@ import { CSSTree } from 'mishmash';
 export type StyleKeys = 'invalid' | 'focus' | 'hover' | 'active';
 
 export type ValueType<T> = {
-  value: T;
-  onChange: (value: T) => void;
+  value: T | null;
+  onChange: (value: T | null) => void;
 };
 
 export type TextInputBase<T> = ValueType<T> & {
