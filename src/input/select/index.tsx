@@ -142,7 +142,7 @@ export default function createSelect({
     ),
     focusOnMouse,
     renderLifted(
-      document.getElementById('lift-root') || document.body,
+      typeof document !== 'undefined' ? document.body : null,
       ({ isOpen }) => isOpen,
       ({
         closeModal,

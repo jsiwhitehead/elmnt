@@ -1,6 +1,6 @@
 {
   "name": "elmnt",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "HTML elements reimagined with react",
   "author": "Jon Whitehead",
   "license": "MIT",
@@ -55,7 +55,7 @@
     "@types/recompose": "^0.24.2",
     "commonmark": "^0.28.1",
     "commonmark-react-renderer": "^4.3.3",
-    "mishmash": "^0.4.2",
+    "mishmash": "^0.4.3",
     "most": "^1.7.2",
     "recompose": "^0.26.0"
   }
