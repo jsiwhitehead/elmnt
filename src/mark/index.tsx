@@ -42,6 +42,7 @@ const buildRenderer = memoize(
         'list',
         'image',
         'thematic_break',
+        'html_block',
       ],
       renderers: {
         softbreak: ({ nodeKey }) => <br key={nodeKey} />,
@@ -205,13 +206,22 @@ export default compose<any, MarkProps>(
         (children || '').replace(
           regex.url,
           (m, i) =>
-            (children || '')
+            ((children || '')
               .substring(0, i)
               .trim()
-              .slice(-2) !== '](' &&
-            (children || '').substring(i + m.length + 1).trim()[0] !== ')'
-              ? `[${m}](${regex.email.test(m) ? 'mailto:' : ''}${m})`
-              : m,
+              .slice(-2) === '](' &&
+              (children || '').substring(i + m.length + 1).trim()[0] === ')') ||
+            ((children || '')
+              .substring(0, i)
+              .trim()
+              .slice(-1) === '"' &&
+              m[m.length - 1] === '"')
+              ? m
+              : '.,!?\'":;-)]'.includes(m[m.length - 1])
+                ? `[${m.slice(0, -1)}](${regex.email.test(m.slice(0, -1))
+                    ? 'mailto:'
+                    : ''}${m.slice(0, -1)})${m[m.length - 1]}`
+                : `[${m}](${regex.email.test(m) ? 'mailto:' : ''}${m})`,
         ),
       ),
     )}
