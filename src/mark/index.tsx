@@ -203,26 +203,27 @@ export default compose<any, MarkProps>(
   <Div style={style.div}>
     {buildRenderer(style, domain).render(
       parser.parse(
-        (children || '').replace(
-          regex.url,
-          (m, i) =>
-            ((children || '')
-              .substring(0, i)
-              .trim()
-              .slice(-2) === '](' &&
-              (children || '').substring(i + m.length + 1).trim()[0] === ')') ||
-            ((children || '')
-              .substring(0, i)
-              .trim()
-              .slice(-1) === '"' &&
-              m[m.length - 1] === '"')
-              ? m
-              : '.,!?\'":;-)]'.includes(m[m.length - 1])
-                ? `[${m.slice(0, -1)}](${regex.email.test(m.slice(0, -1))
-                    ? 'mailto:'
-                    : ''}${m.slice(0, -1)})${m[m.length - 1]}`
-                : `[${m}](${regex.email.test(m) ? 'mailto:' : ''}${m})`,
-        ),
+        (children || '').replace(regex.url, (match, i) => {
+          const end =
+            match.length -
+            match
+              .split('')
+              .reverse()
+              .findIndex(c => !'.,!?\'":;-)]'.includes(c));
+          const m = match.slice(0, end);
+          const pre = (children || '').substring(0, i).trim();
+          const post = (children || '').substring(i + m.length).trim();
+
+          if (
+            (pre.slice(-2) === '](' && post[0] === ')') ||
+            (pre.slice(-1) === '"' && post[0] === '"')
+          ) {
+            return match;
+          }
+          return `[${m}](${regex.email.test(m)
+            ? 'mailto:'
+            : ''}${m})${match.slice(end)}`;
+        }),
       ),
     )}
   </Div>
