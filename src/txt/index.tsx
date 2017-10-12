@@ -32,6 +32,7 @@ export interface TxtProps extends React.HTMLProps<{}> {
   children?: any;
   onTextChange?: (text: string) => void;
   placeholder?: string;
+  prompt?: boolean;
   rows?: number;
   password?: boolean;
   tab?: number;
@@ -68,6 +69,7 @@ export default compose<any, TxtProps>(
         'isInput',
         'onTextChange',
         'placeholder',
+        'prompt',
         'rows',
         'password',
         'tab',
@@ -209,7 +211,7 @@ export default compose<any, TxtProps>(
       },
     }),
   ),
-)(({ placeholder, rows, style, value, inputProps }) => (
+)(({ placeholder, prompt, rows, style, value, inputProps }) => (
   <span
     style={{
       position: 'relative',
@@ -218,7 +220,12 @@ export default compose<any, TxtProps>(
     }}
   >
     <Autosize value={value || placeholder} rows={rows} style={style.text} />
-    <Placeholder text={placeholder} value={value} style={style.placeholder} />
+    <Placeholder
+      text={placeholder}
+      value={value}
+      prompt={prompt}
+      style={style.placeholder}
+    />
     {rows ? <textarea {...inputProps} /> : <input {...inputProps} />}
   </span>
 ));

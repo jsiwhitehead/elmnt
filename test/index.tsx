@@ -116,7 +116,7 @@ Hello *there*.
     `}</Mark>
 
     <Input
-      value={value(1) as string}
+      value={value(1)}
       onChange={props.onChange1}
       type="string"
       style={inputStyle}
@@ -125,14 +125,14 @@ Hello *there*.
     />
 
     <Input
-      value={value(2) as Date}
+      value={value(2)}
       onChange={props.onChange2}
       type="date"
       style={inputStyle}
     />
 
     <Input
-      value={value(3) as boolean}
+      value={value(3)}
       onChange={props.onChange3}
       type="boolean"
       options={{ on: true }}
@@ -141,7 +141,7 @@ Hello *there*.
     />
 
     <Input
-      value={value(4) as string}
+      value={value(4)}
       onChange={props.onChange4}
       type="string"
       options={[null, 'One', 'Two', 'Three']}
@@ -150,7 +150,7 @@ Hello *there*.
     />
 
     <Input
-      value={value(5) as string[]}
+      value={value(5)}
       onChange={props.onChange5}
       type="stringlist"
       options={['One', 'Two', 'Three']}
@@ -160,7 +160,7 @@ Hello *there*.
     <table>
       <tbody>
         <Input
-          value={value(6) as string}
+          value={value(6)}
           onChange={props.onChange6}
           type="string"
           text="Hello"
@@ -172,7 +172,7 @@ Hello *there*.
     </table>
 
     <Input
-      value={value(7) as string}
+      value={value(7)}
       onChange={props.onChange7}
       type="string"
       options={[
@@ -201,7 +201,7 @@ Hello *there*.
     />
 
     <Input
-      value={value(8) as string[]}
+      value={value(8)}
       onChange={props.onChange8}
       type="stringlist"
       options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
@@ -210,7 +210,7 @@ Hello *there*.
     />
 
     <Input
-      value={value(9) as any}
+      value={value(9)}
       onChange={props.onChange9}
       type="file"
       style={inputStyle}

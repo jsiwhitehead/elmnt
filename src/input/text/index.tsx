@@ -68,6 +68,17 @@ export default function createText({ Label }: Obj<Comp>) {
                 iconRight: text && (props.value === null ? 'cross' : 'tick'),
               }
             : {},
+
+          ...props.type === 'stringlist'
+            ? {
+                rows: (props.value || ['']).length + 1,
+                placeholder: [
+                  'Option 1',
+                  ...(props.value || ['']).map((_, i) => `Option ${i + 2}`),
+                ].join('\n'),
+                prompt: true,
+              }
+            : {},
         }),
         text$,
       );
@@ -86,6 +97,7 @@ export default function createText({ Label }: Obj<Comp>) {
       iconLeft,
       iconRight,
       placeholder,
+      prompt,
       rows,
       password,
       tab,
@@ -110,6 +122,7 @@ export default function createText({ Label }: Obj<Comp>) {
           iconLeft={iconLeft}
           iconRight={iconRight}
           placeholder={placeholder}
+          prompt={prompt}
           rows={rows}
           password={password}
           tab={tab}

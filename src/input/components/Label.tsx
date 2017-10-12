@@ -71,6 +71,7 @@ export default compose<any, any>(
     iconLeft,
     iconRight,
     placeholder,
+    prompt,
     rows,
     password,
     tab,
@@ -102,6 +103,7 @@ export default compose<any, any>(
         {...focusProps}
         focusRef={setFocusElem}
         placeholder={placeholder}
+        prompt={prompt}
         rows={rows}
         password={password}
         tab={tab}
