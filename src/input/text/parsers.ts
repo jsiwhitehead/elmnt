@@ -8,9 +8,9 @@ const parsers = {} as Obj<Parser<any>>;
 
 parsers.string = new Parser<string>(text => ({ value: text }));
 
-parsers.stringlist = new Parser<string[]>(
-  text => ({ value: text.split('\n') }),
-  { format: value => value.join('\n') },
+parsers.stringlist = new Parser<(string | null)[]>(
+  text => ({ value: text.split('\n').map(s => s || null) }),
+  { format: value => value.map(s => s || '').join('\n') },
 );
 
 parsers.int = new Parser<number>(text => {

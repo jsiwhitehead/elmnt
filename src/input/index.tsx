@@ -20,7 +20,11 @@ export default compose<any, InputProps>(
   withFocus,
   withHover,
   withProps(({ value, type }) => ({
-    value: value === undefined ? null : value,
+    value:
+      value === undefined ||
+      (type.endsWith('list') && Array.isArray(value) && value.length === 0)
+        ? null
+        : value,
     isList: type.endsWith('list'),
   })),
   mapStyle(

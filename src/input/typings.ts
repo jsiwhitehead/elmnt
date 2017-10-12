@@ -90,8 +90,8 @@ export type FileProps = { type: 'file' } & TextInputBase<string> &
   FileExtraProps;
 
 export type StringlistProps = { type: 'stringlist' } & (
-  | TextInputBase<string[]>
-  | SelectInputBase<string[]>);
+  | TextInputBase<(string | null)[]>
+  | SelectInputBase<(string | null)[]>);
 
 export type InputProps = { invalid?: boolean } & (
   | BooleanProps
