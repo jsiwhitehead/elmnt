@@ -1,10 +1,8 @@
-import { Obj } from 'mishmash';
-
 import { DateExtraProps } from '../typings';
 
 import Parser from './Parser';
 
-const parsers = {} as Obj<Parser<any>>;
+const parsers = {} as { [key: string]: Parser<any> };
 
 parsers.string = new Parser<string>(text => ({ value: text }));
 

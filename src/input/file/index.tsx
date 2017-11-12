@@ -5,7 +5,6 @@ import {
   cssGroups,
   mapPropsStream,
   mapStyle,
-  Obj,
   withTrigger,
 } from 'mishmash';
 
@@ -25,7 +24,7 @@ const fileIcons = { pdf: '-pdf', txt: '-txt' };
 
 let counter = 0;
 
-export default function createFile({ Label }: Obj<Comp>) {
+export default function createFile({ Label }: { [key: string]: Comp }) {
   return compose<any, any>(
     withState('state', 'setState', {}),
     withTrigger('clear', 'triggerClear'),

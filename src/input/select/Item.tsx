@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { branch, compose, pure, withHandlers } from 'recompose';
-import { Comp, mapStyle, Obj } from 'mishmash';
+import { Comp, mapStyle } from 'mishmash';
 
-export default function createItem({ Option }: Obj<Comp>) {
+export default function createItem({ Option }: { [key: string]: Comp }) {
   return compose<any, any>(
     pure,
     branch(

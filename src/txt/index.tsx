@@ -104,25 +104,23 @@ export default compose<any, TxtProps>(
       })),
       renderComponent(({ children, style }: any) => (
         <span style={{ ...style, display: 'block', margin: getMargin(style) }}>
-          {React.Children
-            .toArray(children)
-            .reduce<React.ReactNode[]>(
-              (result, child, i) =>
-                result.concat(
-                  typeof child === 'string'
-                    ? child
-                        .split('\n')
-                        .reduce<React.ReactNode[]>(
-                          (res, line, j) =>
-                            res.concat(
-                              j === 0 ? line : [<br key={`${i}_${j}`} />, line],
-                            ),
-                          [],
-                        )
-                    : child,
-                ),
-              [],
-            )}
+          {React.Children.toArray(children).reduce<React.ReactNode[]>(
+            (result, child, i) =>
+              result.concat(
+                typeof child === 'string'
+                  ? child
+                      .split('\n')
+                      .reduce<React.ReactNode[]>(
+                        (res, line, j) =>
+                          res.concat(
+                            j === 0 ? line : [<br key={`${i}_${j}`} />, line],
+                          ),
+                        [],
+                      )
+                  : child,
+              ),
+            [],
+          )}
         </span>
       )),
     ),
@@ -173,7 +171,8 @@ export default compose<any, TxtProps>(
         const tabSpaces = Array(tab + 1).join(' ');
         setCursor(start + tab);
         onTextChange(
-          `${(children || '').substring(0, start)}${tabSpaces}${(children || ''
+          `${(children || '').substring(0, start)}${tabSpaces}${(
+            children || ''
           ).substring(end)}`,
         );
         event.preventDefault();

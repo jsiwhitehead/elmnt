@@ -5,17 +5,16 @@ import {
   focusOnMouse,
   mapPropsStream,
   mapStyle,
-  Obj,
   streamState,
 } from 'mishmash';
 
 import parsers from './parsers';
 
-export default function createText({ Label }: Obj<Comp>) {
+export default function createText({ Label }: { [key: string]: Comp }) {
   return compose<any, any>(
     focusOnMouse,
     mapPropsStream(props$ => {
-      const state = { props: {} as any, text: '', config: {} as Obj };
+      const state = { props: {} as any, text: '', config: {} as any };
 
       const { state$: text$, setState: setText } = streamState();
 

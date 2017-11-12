@@ -13,7 +13,7 @@ export default compose<any, any>(
   })),
   mapStyle(['isList'], isList => [
     !isList && ['merge', { borderRadius: 1000 }],
-    ['scale', { iconSize: { fontSize: 0.9 } }],
+    ['scale', { iconSize: { fontSize: 1 } }],
     ['numeric', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
   ]),
   branch(
@@ -45,9 +45,6 @@ export default compose<any, any>(
         {
           cursor: 'pointer',
           userSelect: 'none',
-          border: 0,
-          borderRadius: 0,
-          boxShadow: 0,
           ...layout !== 'modal' && layout !== 'table'
             ? { background: 'none', padding: 0 }
             : {},
@@ -71,7 +68,7 @@ export default compose<any, any>(
         'scale',
         {
           fontSize: { iconSize: 1 },
-          ...layout !== 'modal' ? { padding: 0.2 } : {},
+          ...layout !== 'modal' ? { padding: 0.3 } : {},
         },
       ],
       [
@@ -96,7 +93,9 @@ export default compose<any, any>(
         'color',
         'background',
         'width',
-        ...(layout !== 'modal' ? ['padding', 'border', 'borderRadius'] : []),
+        ...(layout !== 'modal'
+          ? ['padding', 'border', 'borderRadius', 'boxShadow']
+          : []),
       ],
     ],
     text: [['filter', ...cssGroups.text]],

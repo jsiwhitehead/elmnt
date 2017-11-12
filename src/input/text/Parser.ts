@@ -1,12 +1,10 @@
-import { Obj } from 'mishmash';
-
 export interface ParserResult<T, Config> {
   value: T | null;
   config?: Config;
   text?: string;
 }
 
-export default class Parser<T, Config = Obj, Props = Obj> {
+export default class Parser<T, Config = {}, Props = {}> {
   private baseFormat: (
     value: T,
     config: Config,

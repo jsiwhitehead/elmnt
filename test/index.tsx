@@ -13,6 +13,7 @@ const inputStyle = {
   spacing: '10px 20px',
   borderRadius: 3,
   background: 'white',
+  boxShadow: 'inset 0 1px 1px rgba(0,0,0,0.15)',
   placeholder: {
     color: 'rgba(0,0,0,0.35)',
   },

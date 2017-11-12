@@ -15,7 +15,8 @@ const regex = {
 const getLinkProps = (href: string, domain?: string) => {
   const currentDomain =
     domain || (typeof window !== 'undefined' && window.location.host) || '';
-  const [hrefDomain, hrefPath] = (href.match(/https?:\/\/([^\/]+)(.*)/) || []
+  const [hrefDomain, hrefPath] = (
+    href.match(/https?:\/\/([^\/]+)(.*)/) || []
   ).slice(1);
   const isExternal =
     (hrefDomain && hrefDomain !== currentDomain) || href.startsWith('mailto:');
@@ -220,9 +221,9 @@ export default compose<any, MarkProps>(
           ) {
             return match;
           }
-          return `[${m}](${regex.email.test(m)
-            ? 'mailto:'
-            : ''}${m})${match.slice(end)}`;
+          return `[${m}](${regex.email.test(m) ? 'mailto:' : ''}${
+            m
+          })${match.slice(end)}`;
         }),
       ),
     )}

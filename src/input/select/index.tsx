@@ -5,7 +5,6 @@ import {
   cssGroups,
   focusOnMouse,
   mapStyle,
-  Obj,
   renderLayer,
   renderLifted,
 } from 'mishmash';
@@ -23,7 +22,9 @@ export default function createSelect({
   Modal,
   Option,
   Select,
-}: Obj<Comp>) {
+}: {
+  [key: string]: Comp;
+}) {
   const Item = createItem({ Option });
   return compose<any, any>(
     branch(({ options }) => Array.isArray(options), withSelect, withToggle),
