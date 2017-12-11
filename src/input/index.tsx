@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { branch, compose, pure, renderComponent, withProps } from 'recompose';
 import {
   focusable,
@@ -19,32 +20,31 @@ export default compose<any, InputProps>(
   pure,
   withFocus,
   withHover,
-  withProps(({ value, type }) => ({
+  withProps(({ value, type, options }: any) => ({
     value:
       value === undefined ||
       (type.endsWith('list') && Array.isArray(value) && value.length === 0)
         ? null
         : value,
     isList: type.endsWith('list'),
+    ...type === 'boolean' && !options ? { options: { on: true } } : {},
   })),
   mapStyle(
     ['invalid', 'isFocused', 'isHovered'],
     (invalid, isFocused, isHovered) => [
       [
         'defaults',
-        {
-          fontSize: 16,
-          lineHeight: 1.5,
-          color: 'black',
-          layout: 'grid',
-        },
+        { fontSize: 16, lineHeight: 1.5, color: 'black', layout: 'grid' },
       ],
       ['mergeKeys', { invalid, focus: isFocused, hover: isHovered }],
     ],
   ),
-  branch(({ options }) => options, renderComponent(createSelect(components))),
   branch(
-    ({ type }) => type === 'file',
+    ({ options }: any) => options,
+    renderComponent(createSelect(components)),
+  ),
+  branch(
+    ({ type }: any) => type === 'file',
     renderComponent(createFile(components)),
   ),
-)(createText(components));
+)(createText(components)) as React.ComponentClass<InputProps>;

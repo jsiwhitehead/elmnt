@@ -11,8 +11,8 @@ export type TextInputBase<T> = ValueType<T> & {
   placeholder?: string;
   style?: CSSTree<StyleKeys | 'placeholder'>;
 };
-export type BooleanInputBase<T> = ValueType<T> & {
-  options: { on: T; off?: T };
+export type ToggleInputBase<T> = ValueType<T> & {
+  options?: { on: T; off?: T };
   label: string;
   style?: CSSTree<StyleKeys>;
 };
@@ -43,7 +43,7 @@ export type ModalInputBase<T> = ValueType<T> & {
 };
 
 export type SelectInputBase<T> =
-  | BooleanInputBase<T>
+  | ToggleInputBase<T>
   | OptionsInputBase<T>
   | TableInputBase<T>
   | ModalInputBase<T>;

@@ -83,7 +83,7 @@ const TestApp = compose<any, any>(
     9: 'asdf:test.pdf',
   }),
   withHandlers({
-    value: ({ state }) => name =>
+    value: ({ state }: any) => name =>
       state[name] === undefined ? null : state[name],
     ...[1, 2, 3, 4, 5, 6, 7, 8, 9].reduce(
       (res, i) => ({
@@ -94,7 +94,7 @@ const TestApp = compose<any, any>(
       {},
     ),
   }),
-  withProps(({ state }) => console.log(state)),
+  withProps(({ state }: any) => console.log(state)),
 )(({ value, ...props }) => (
   <Div style={{ padding: '50px 150px', layout: 'stack', spacing: 30 }}>
     <Txt>
@@ -136,7 +136,6 @@ Hello *there*.
       value={value(3)}
       onChange={props.onChange3}
       type="boolean"
-      options={{ on: true }}
       label="Hello"
       style={inputStyle}
     />

@@ -10,8 +10,8 @@ export interface PlaceholderProps {
 }
 export default compose<any, PlaceholderProps>(
   branch(
-    ({ prompt }) => prompt,
-    withProps<any, any>(({ text, value }) => {
+    ({ prompt }: any) => prompt,
+    withProps(({ text, value }: any) => {
       const valueSplit = value.split('\n');
       return {
         text: text

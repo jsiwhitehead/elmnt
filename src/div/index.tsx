@@ -23,9 +23,9 @@ const mapChildren = (
   });
 };
 
-const Div = compose<any, DivProps>(
+const Div = compose(
   branch(
-    ({ style }) => !(style && (style.layout || style.spacing)),
+    ({ style }: any) => !(style && (style.layout || style.spacing)),
     renderComponent(({ children, ...otherProps }: DivProps) => (
       <div {...otherProps} className={getElmntClass(otherProps.className)}>
         {children}
@@ -38,7 +38,7 @@ const Div = compose<any, DivProps>(
   ),
   getStyles,
   branch(
-    ({ divStyles: { layout } }) => layout === 'bar',
+    ({ divStyles: { layout } }: any) => layout === 'bar',
     compose(
       renderComponent(
         ({ style, divStyles: { spacing }, children, ...otherProps }: any) => (
@@ -69,7 +69,7 @@ const Div = compose<any, DivProps>(
     ),
   ),
   branch(
-    ({ divStyles: { layout } }) => layout === 'grid',
+    ({ divStyles: { layout } }: any) => layout === 'grid',
     compose(
       renderComponent(
         ({ divStyles: { spacing }, children, ...otherProps }: any) => (
@@ -109,7 +109,7 @@ const Div = compose<any, DivProps>(
     ),
   ),
   branch(
-    ({ divStyles: { layout } }) => !layout || layout === 'stack',
+    ({ divStyles: { layout } }: any) => !layout || layout === 'stack',
     compose(
       renderComponent(
         ({ divStyles: { spacing }, children, ...otherProps }: any) => (

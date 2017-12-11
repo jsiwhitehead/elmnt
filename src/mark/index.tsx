@@ -89,7 +89,7 @@ const buildRenderer = memoize(
                     type.toLowerCase() === 'bullet' ? 'disc' : 'decimal',
                 },
                 key: nodeKey,
-              } as any,
+              },
               children,
             )}
           </div>
@@ -221,9 +221,9 @@ export default compose<any, MarkProps>(
           ) {
             return match;
           }
-          return `[${m}](${regex.email.test(m) ? 'mailto:' : ''}${
-            m
-          })${match.slice(end)}`;
+          return `[${m}](${
+            regex.email.test(m) ? 'mailto:' : ''
+          }${m})${match.slice(end)}`;
         }),
       ),
     )}

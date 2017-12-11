@@ -29,21 +29,21 @@ const getMargin = style => {
 };
 
 export interface TxtProps extends React.HTMLProps<{}> {
-  children?: any;
+  children?: React.ReactNode;
   onTextChange?: (text: string) => void;
   placeholder?: string;
   prompt?: boolean;
   rows?: number;
   password?: boolean;
   tab?: number;
-  focusRef?: (c: any) => void;
+  focusRef?: (c: HTMLElement | null) => void;
   style?: CSSTree<'placeholder'>;
 }
 export default compose<any, TxtProps>(
   focusable,
   pure,
-  branch(({ onTextChange }) => onTextChange, focusOnMouse as any),
-  withProps(({ onTextChange }) => ({ isInput: !!onTextChange })),
+  branch(({ onTextChange }: any) => onTextChange, focusOnMouse as any),
+  withProps(({ onTextChange }: any) => ({ isInput: !!onTextChange })),
   mapStyle(
     ['isInput'],
     isInput => [
@@ -96,9 +96,9 @@ export default compose<any, TxtProps>(
     placeholder: [['mergeKeys', 'placeholder'], ['filter', ...cssGroups.text]],
   }),
   branch(
-    ({ onTextChange }) => !onTextChange,
+    ({ onTextChange }: any) => !onTextChange,
     compose(
-      mapProps(({ children, placeholder, style }) => ({
+      mapProps(({ children, placeholder, style }: any) => ({
         children: children || placeholder,
         style: children ? style.text : style.placeholder,
       })),
@@ -162,8 +162,15 @@ export default compose<any, TxtProps>(
     },
   }),
   withHandlers({
-    onChange: ({ onTextChange }) => event => onTextChange(event.target.value),
-    onKeyDown: ({ children, onTextChange, rows, tab, setCursor }) => event => {
+    onChange: ({ onTextChange }: any) => event =>
+      onTextChange(event.target.value),
+    onKeyDown: ({
+      children,
+      onTextChange,
+      rows,
+      tab,
+      setCursor,
+    }: any) => event => {
       if (event.keyCode === 13 && rows) event.stopPropagation();
       if (event.keyCode === 9 && tab) {
         const start = event.target.selectionStart || 0;
@@ -179,7 +186,9 @@ export default compose<any, TxtProps>(
       }
     },
   }),
-  withProps(({ children }) => ({ children: (children || '').toString() })),
+  withProps(({ children }: any) => ({
+    children: (children || '').toString(),
+  })),
   withProps(
     ({
       children,
@@ -193,7 +202,7 @@ export default compose<any, TxtProps>(
       setFocusElem,
       spellCheck,
       style,
-    }) => ({
+    }: any) => ({
       value: rows ? children : children.replace(/\n/g, ''),
       inputProps: {
         value: rows ? children : children.replace(/\n/g, ''),

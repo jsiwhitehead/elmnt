@@ -20,7 +20,15 @@ const hiddenStyle = {
   right: '200%',
 };
 
-const fileIcons = { pdf: '-pdf', txt: '-txt' };
+const fileIcons = {
+  doc: '-txt',
+  docx: '-txt',
+  txt: '-txt',
+  pdf: '-pdf',
+  png: '-img',
+  jpg: '-img',
+  jpeg: '-img',
+};
 
 let counter = 0;
 
@@ -70,7 +78,7 @@ export default function createFile({ Label }: { [key: string]: Comp }) {
             setState,
             triggerClear,
             setFocusElem,
-            ...otherProps,
+            ...otherProps
           } = props;
 
           const { prepareUpload, getUploadInfo } = uploaders[config.uploader](

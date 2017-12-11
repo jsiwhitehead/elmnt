@@ -6,14 +6,14 @@ export default function createItem({ Option }: { [key: string]: Comp }) {
   return compose<any, any>(
     pure,
     branch(
-      ({ style }) => style.layout === 'modal',
-      withHandlers<any, any>({
-        onMouseUp: ({ index, selectIndex }) => () => selectIndex(index),
-        onMouseMove: ({ index, moveActiveIndex }) => () =>
+      ({ style }: any) => style.layout === 'modal',
+      withHandlers({
+        onMouseUp: ({ index, selectIndex }: any) => () => selectIndex(index),
+        onMouseMove: ({ index, moveActiveIndex }: any) => () =>
           moveActiveIndex(index, true),
       }),
-      withHandlers<any, any>({
-        onMouseDown: ({ index, selectIndex }) => () => selectIndex(index),
+      withHandlers({
+        onMouseDown: ({ index, selectIndex }: any) => () => selectIndex(index),
       }),
     ),
     mapStyle(

@@ -8,7 +8,7 @@ import Txt from '../../txt';
 import Marker from './Marker';
 
 export default compose<any, any>(
-  withProps(({ isList, isSelected, style: { layout } }) => ({
+  withProps(({ isList, isSelected, style: { layout } }: any) => ({
     icon: isSelected && (isList || layout === 'modal' ? 'tick' : 'disc'),
   })),
   mapStyle(['isList'], isList => [
@@ -17,7 +17,7 @@ export default compose<any, any>(
     ['numeric', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
   ]),
   branch(
-    ({ style }) => style.layout !== 'modal',
+    ({ style }: any) => style.layout !== 'modal',
     mapStyle(
       [
         'style.paddingTop',
@@ -45,6 +45,9 @@ export default compose<any, any>(
         {
           cursor: 'pointer',
           userSelect: 'none',
+          MozUserSelect: 'none',
+          msUserSelect: 'none',
+          WebkitUserSelect: 'none',
           ...layout !== 'modal' && layout !== 'table'
             ? { background: 'none', padding: 0 }
             : {},
@@ -67,21 +70,21 @@ export default compose<any, any>(
       [
         'scale',
         {
-          fontSize: { iconSize: 1 },
-          ...layout !== 'modal' ? { padding: 0.3 } : {},
+          fontSize: { iconSize: 0.9 },
+          ...layout !== 'modal' ? { padding: 0.45 } : {},
         },
       ],
       [
         'scale',
         {
-          width: {
+          height: {
             iconSize: 1,
             ...layout !== 'modal'
               ? {
-                  paddingLeft: 1,
-                  paddingRight: 1,
-                  borderLeftWidth: 1,
-                  borderRightWidth: 1,
+                  paddingTop: 1,
+                  paddingBottom: 1,
+                  borderTopWidth: 1,
+                  borderBottomWidth: 1,
                 }
               : {},
           },

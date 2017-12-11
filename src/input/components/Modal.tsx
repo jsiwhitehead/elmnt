@@ -8,12 +8,7 @@ export default compose<any, any>(
   withBounds('screen'),
   mapStyle(
     ['screen', 'root', 'inner', 'style.fontSize'],
-    (
-      screen,
-      root = { top: 0 } as any,
-      inner = { height: 0 } as any,
-      fontSize,
-    ) => ({
+    (screen, root = { top: 0 }, inner = { height: 0 }, fontSize) => ({
       root: [{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }],
       overlay: [
         {
@@ -30,13 +25,13 @@ export default compose<any, any>(
         [
           'merge',
           {
-            position: 'fixed' as 'fixed',
+            position: 'fixed',
             height: Math.min(inner.height, screen.height - fontSize * 0.5),
             boxShadow:
               screen.width < 500
                 ? '0 2px 25px rgba(0,0,0,0.5)'
                 : '0 2px 20px 5px rgba(0,0,0,0.4)',
-            overflow: 'auto' as 'auto',
+            overflow: 'auto',
             ...screen.width < 500
               ? {
                   left: 50,

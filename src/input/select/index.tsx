@@ -15,6 +15,13 @@ import withToggle from './withToggle';
 
 const isGroup = l => typeof l === 'string' && l[0] === '~';
 
+const userSelect = {
+  userSelect: 'none',
+  MozUserSelect: 'none',
+  msUserSelect: 'none',
+  WebkitUserSelect: 'none',
+};
+
 export default function createSelect({
   Group,
   Key,
@@ -27,12 +34,16 @@ export default function createSelect({
 }) {
   const Item = createItem({ Option });
   return compose<any, any>(
-    branch(({ options }) => Array.isArray(options), withSelect, withToggle),
+    branch(
+      ({ options }: any) => Array.isArray(options),
+      withSelect,
+      withToggle,
+    ),
     mapStyle({
       base: null,
       group: [
         ['mergeKeys', 'group'],
-        ['merge', { width: '100%', userSelect: 'none' }],
+        ['merge', { width: '100%', ...userSelect }],
       ],
       key: [['mergeKeys', 'key']],
     }),
@@ -48,7 +59,7 @@ export default function createSelect({
         activeIndex,
         moveActiveIndex,
         style,
-      }) => ({
+      }: any) => ({
         items: [
           ...(style.base.layout === 'table'
             ? [<Key text={text} style={style.key} key={-1} />]
@@ -91,7 +102,7 @@ export default function createSelect({
       },
     })),
     branch(
-      ({ style }) => style.base.layout === 'table',
+      ({ style }: any) => style.base.layout === 'table',
       renderComponent(
         ({
           onKeyDown,
@@ -134,7 +145,7 @@ export default function createSelect({
       ),
     ),
     branch(
-      ({ style }) => style.base.layout !== 'modal',
+      ({ style }: any) => style.base.layout !== 'modal',
       renderComponent(({ labels, style, items }: any) => (
         <Select labels={labels} style={style.base}>
           {items}
@@ -163,7 +174,7 @@ export default function createSelect({
     ),
     mapStyle(['isFocused'], isFocused => ({
       base: {
-        label: [['mergeKeys', { active: isFocused }]],
+        label: [['merge', userSelect], ['mergeKeys', { active: isFocused }]],
       },
     })),
   )(

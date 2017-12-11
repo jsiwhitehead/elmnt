@@ -8,10 +8,7 @@ import Txt from '../../txt';
 import Marker from './Marker';
 
 export default compose<any, any>(
-  mapStyle([
-    ['numeric', 'fontSize'],
-    ['scale', { iconSize: { fontSize: 0.9 } }],
-  ]),
+  mapStyle([['numeric', 'fontSize'], ['scale', { iconSize: { fontSize: 1 } }]]),
   mapStyle(
     ['style.fontSize', 'style.iconSize', 'style.display', 'style.cursor'],
     (fontSize, iconSize, display, cursor) => ({
