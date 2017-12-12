@@ -13,7 +13,7 @@ export default compose<any, any>(
   })),
   mapStyle(['isList'], isList => [
     !isList && ['merge', { borderRadius: 1000 }],
-    ['scale', { iconSize: { fontSize: 1 } }],
+    ['scale', { iconSize: { fontSize: 0.9 } }],
     ['numeric', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
   ]),
   branch(
@@ -70,21 +70,21 @@ export default compose<any, any>(
       [
         'scale',
         {
-          fontSize: { iconSize: 0.9 },
-          ...layout !== 'modal' ? { padding: 0.45 } : {},
+          fontSize: { iconSize: 1 },
+          ...layout !== 'modal' ? { padding: 0.4 } : {},
         },
       ],
       [
         'scale',
         {
-          height: {
+          width: {
             iconSize: 1,
             ...layout !== 'modal'
               ? {
-                  paddingTop: 1,
-                  paddingBottom: 1,
-                  borderTopWidth: 1,
-                  borderBottomWidth: 1,
+                  paddingLeft: 1,
+                  paddingRight: 1,
+                  borderLeftWidth: 1,
+                  borderRightWidth: 1,
                 }
               : {},
           },

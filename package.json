@@ -1,6 +1,6 @@
 {
   "name": "elmnt",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "HTML elements reimagined with react",
   "author": "Jon Whitehead",
   "license": "MIT",
@@ -28,7 +28,7 @@
   "devDependencies": {
     "@types/enzyme": "^3.1.5",
     "@types/jest": "^21.1.8",
-    "@types/node": "^8.0.57",
+    "@types/node": "^8.0.58",
     "@types/react-dom": "^16.0.3",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
@@ -51,7 +51,7 @@
     "react": "^16.0.0"
   },
   "dependencies": {
-    "@types/react": "^16.0.28",
+    "@types/react": "^16.0.29",
     "@types/recompose": "^0.24.3",
     "commonmark": "^0.28.1",
     "commonmark-react-renderer": "^4.3.4",

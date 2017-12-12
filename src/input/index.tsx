@@ -8,10 +8,9 @@ import {
   withHover,
 } from 'mishmash';
 
-import components from './components';
-import createFile from './file';
-import createSelect from './select';
-import createText from './text';
+import file from './file';
+import select from './select';
+import text from './text';
 import { InputProps } from './typings';
 
 export default compose<any, InputProps>(
@@ -39,12 +38,6 @@ export default compose<any, InputProps>(
       ['mergeKeys', { invalid, focus: isFocused, hover: isHovered }],
     ],
   ),
-  branch(
-    ({ options }: any) => options,
-    renderComponent(createSelect(components)),
-  ),
-  branch(
-    ({ type }: any) => type === 'file',
-    renderComponent(createFile(components)),
-  ),
-)(createText(components)) as React.ComponentClass<InputProps>;
+  branch(({ options }: any) => options, renderComponent(select)),
+  branch(({ type }: any) => type === 'file', renderComponent(file)),
+)(text) as React.ComponentClass<InputProps>;
