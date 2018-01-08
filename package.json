@@ -1,14 +1,13 @@
 {
   "name": "elmnt",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "HTML elements reimagined with react",
   "author": "Jon Whitehead",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "prettier":
-      "prettier --single-quote --trailing-comma all --write \"{src,test}/**/*.{ts,tsx}\"",
+    "prettier": "prettier --single-quote --trailing-comma all --write \"{src,test}/**/*.{ts,tsx}\"",
     "clean": "rimraf lib/*",
     "watch": "yarn run clean && tsc -w",
     "build": "yarn run clean && tsc",
@@ -21,41 +20,49 @@
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": ["ts", "tsx", "js"],
-    "setupFiles": ["./test/setup.ts"],
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "setupFiles": [
+      "./test/setup.ts"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "devDependencies": {
-    "@types/enzyme": "^3.1.5",
-    "@types/jest": "^21.1.8",
-    "@types/node": "^8.0.58",
+    "@types/enzyme": "^3.1.6",
+    "@types/jest": "^22.0.1",
+    "@types/node": "^8.5.7",
     "@types/react-dom": "^16.0.3",
-    "enzyme": "^3.2.0",
-    "enzyme-adapter-react-16": "^1.1.0",
-    "enzyme-to-json": "^3.2.2",
-    "jest": "^21.2.1",
-    "prettier": "^1.9.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.0",
+    "jest": "^22.0.4",
+    "prettier": "^1.9.2",
     "raf": "^3.4.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-test-renderer": "^16.2.0",
     "rimraf": "^2.6.2",
     "source-map-loader": "^0.2.3",
-    "ts-jest": "^21.2.4",
+    "ts-jest": "^22.0.1",
     "ts-loader": "^3.2.0",
     "typescript": "^2.6.2",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.9.7"
+    "webpack-dev-server": "^2.10.0"
   },
   "peerDependencies": {
     "react": "^16.0.0"
   },
   "dependencies": {
-    "@types/react": "^16.0.29",
-    "@types/recompose": "^0.24.3",
+    "@types/react": "^16.0.34",
+    "@types/recompose": "^0.24.4",
     "commonmark": "^0.28.1",
     "commonmark-react-renderer": "^4.3.4",
-    "mishmash": "^0.4.6",
+    "mishmash": "^0.4.7",
     "most": "^1.7.2",
     "recompose": "^0.26.0"
   }
