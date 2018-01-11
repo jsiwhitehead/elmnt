@@ -32,7 +32,7 @@ export default compose<any, any>(
                 ? '0 2px 25px rgba(0,0,0,0.5)'
                 : '0 2px 20px 5px rgba(0,0,0,0.4)',
             overflow: 'auto',
-            ...screen.width < 500
+            ...(screen.width < 500
               ? {
                   left: 50,
                   width: screen.width - 100,
@@ -51,7 +51,7 @@ export default compose<any, any>(
                       screen.height - inner.height - fontSize * 0.25,
                     ),
                   ),
-                },
+                }),
           },
         ],
       ],

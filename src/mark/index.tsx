@@ -22,7 +22,7 @@ const getLinkProps = (href: string, domain?: string) => {
     (hrefDomain && hrefDomain !== currentDomain) || href.startsWith('mailto:');
   return {
     href: (!isExternal && hrefPath) || href,
-    ...isExternal ? { target: '_blank' } : {},
+    ...(isExternal ? { target: '_blank' } : {}),
   };
 };
 

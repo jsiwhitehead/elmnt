@@ -9,12 +9,12 @@ export default compose<any, any>(
   branch(
     ({ style }: any) => style.layout === 'modal',
     withHandlers({
-      onMouseUp: ({ index, selectIndex }: any) => () => selectIndex(index),
-      onMouseMove: ({ index, moveActiveIndex }: any) => () =>
+      onMouseUp: ({ index, selectIndex }) => () => selectIndex(index),
+      onMouseMove: ({ index, moveActiveIndex }) => () =>
         moveActiveIndex(index, true),
     }),
     withHandlers({
-      onMouseDown: ({ index, selectIndex }: any) => () => selectIndex(index),
+      onMouseDown: ({ index, selectIndex }) => () => selectIndex(index),
     }),
   ),
   mapStyle(

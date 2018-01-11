@@ -48,11 +48,11 @@ export default compose<any, any>(
           MozUserSelect: 'none',
           msUserSelect: 'none',
           WebkitUserSelect: 'none',
-          ...layout !== 'modal' && layout !== 'table'
+          ...(layout !== 'modal' && layout !== 'table'
             ? { background: 'none', padding: 0 }
-            : {},
-          ...layout === 'modal' ? { width: '100%' } : {},
-          ...layout === 'table' ? { background: 'none' } : {},
+            : {}),
+          ...(layout === 'modal' ? { width: '100%' } : {}),
+          ...(layout === 'table' ? { background: 'none' } : {}),
         },
       ],
     ],
@@ -71,7 +71,7 @@ export default compose<any, any>(
         'scale',
         {
           fontSize: { iconSize: 1 },
-          ...layout !== 'modal' ? { padding: 0.4 } : {},
+          ...(layout !== 'modal' ? { padding: 0.4 } : {}),
         },
       ],
       [
@@ -79,14 +79,14 @@ export default compose<any, any>(
         {
           width: {
             iconSize: 1,
-            ...layout !== 'modal'
+            ...(layout !== 'modal'
               ? {
                   paddingLeft: 1,
                   paddingRight: 1,
                   borderLeftWidth: 1,
                   borderRightWidth: 1,
                 }
-              : {},
+              : {}),
           },
         },
       ],

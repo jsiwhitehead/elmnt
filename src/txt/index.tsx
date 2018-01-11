@@ -162,15 +162,8 @@ export default compose<any, TxtProps>(
     },
   }),
   withHandlers({
-    onChange: ({ onTextChange }: any) => event =>
-      onTextChange(event.target.value),
-    onKeyDown: ({
-      children,
-      onTextChange,
-      rows,
-      tab,
-      setCursor,
-    }: any) => event => {
+    onChange: ({ onTextChange }) => event => onTextChange(event.target.value),
+    onKeyDown: ({ children, onTextChange, rows, tab, setCursor }) => event => {
       if (event.keyCode === 13 && rows) event.stopPropagation();
       if (event.keyCode === 9 && tab) {
         const start = event.target.selectionStart || 0;

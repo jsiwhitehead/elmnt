@@ -7,7 +7,8 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "prettier": "prettier --single-quote --trailing-comma all --write \"{src,test}/**/*.{ts,tsx}\"",
+    "prettier":
+      "prettier --single-quote --trailing-comma all --write \"{src,test}/**/*.{ts,tsx}\"",
     "clean": "rimraf lib/*",
     "watch": "yarn run clean && tsc -w",
     "build": "yarn run clean && tsc",
@@ -20,28 +21,20 @@
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "setupFiles": [
-      "./test/setup.ts"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "setupFiles": ["./test/setup.ts"],
+    "snapshotSerializers": ["enzyme-to-json/serializer"]
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.6",
     "@types/jest": "^22.0.1",
-    "@types/node": "^8.5.7",
+    "@types/node": "^9.3.0",
     "@types/react-dom": "^16.0.3",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.0",
-    "jest": "^22.0.4",
-    "prettier": "^1.9.2",
+    "jest": "^22.0.6",
+    "prettier": "^1.10.2",
     "raf": "^3.4.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -52,7 +45,7 @@
     "ts-loader": "^3.2.0",
     "typescript": "^2.6.2",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.10.0"
+    "webpack-dev-server": "^2.10.1"
   },
   "peerDependencies": {
     "react": "^16.0.0"

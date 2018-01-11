@@ -158,7 +158,7 @@ export default compose(
           moveActiveIndex,
           onKeyDown,
 
-          ...layout === 'modal'
+          ...(layout === 'modal'
             ? {
                 isOpen,
                 openModal: () => setIsOpen(true),
@@ -171,9 +171,9 @@ export default compose(
                     scrollToIndex(index, parseFloat(fontSize) * 0.5);
                   }
                 },
-                ...noScrollRef ? { setScrollElem: null } : {},
+                ...(noScrollRef ? { setScrollElem: null } : {}),
               }
-            : {},
+            : {}),
         };
       },
       activeIndex$,

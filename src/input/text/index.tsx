@@ -47,21 +47,21 @@ export default compose<any, any>(
         text,
         onTextChange,
 
-        ...props.password
+        ...(props.password
           ? {
               iconRight: 'lock',
             }
-          : {},
+          : {}),
 
-        ...props.type === 'date'
+        ...(props.type === 'date'
           ? {
               placeholder:
                 props.placeholder || (props.noDay ? 'MM/YY' : 'DD/MM/YY'),
               iconRight: text && (props.value === null ? 'cross' : 'tick'),
             }
-          : {},
+          : {}),
 
-        ...props.type === 'stringlist'
+        ...(props.type === 'stringlist'
           ? {
               rows: (props.value || ['']).length + 1,
               placeholder: [
@@ -70,7 +70,7 @@ export default compose<any, any>(
               ].join('\n'),
               prompt: true,
             }
-          : {},
+          : {}),
       }),
       text$,
     );

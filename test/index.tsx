@@ -83,7 +83,7 @@ const TestApp = compose<any, any>(
     9: 'asdf:test.pdf',
   }),
   withHandlers({
-    value: ({ state }: any) => name =>
+    value: ({ state }) => name =>
       state[name] === undefined ? null : state[name],
     ...[1, 2, 3, 4, 5, 6, 7, 8, 9].reduce(
       (res, i) => ({

@@ -26,7 +26,7 @@ export default compose<any, InputProps>(
         ? null
         : value,
     isList: type.endsWith('list'),
-    ...type === 'boolean' && !options ? { options: { on: true } } : {},
+    ...(type === 'boolean' && !options ? { options: { on: true } } : {}),
   })),
   mapStyle(
     ['invalid', 'isFocused', 'isHovered'],
