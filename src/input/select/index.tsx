@@ -155,8 +155,6 @@ export default compose<any, any>(
   ),
   focusOnMouse,
   renderLifted(
-    typeof document !== 'undefined' ? document.body : null,
-    ({ isOpen }) => isOpen,
     ({ closeModal, onMouseDown, hoverProps, setScrollElem, style, items }) => (
       <Modal
         closeModal={closeModal}
@@ -165,6 +163,7 @@ export default compose<any, any>(
         children={items}
       />
     ),
+    ({ isOpen }) => isOpen,
   ),
   mapStyle(['isFocused'], isFocused => ({
     base: {

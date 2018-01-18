@@ -17,7 +17,6 @@ export default compose(
     const { state$: isOpen$, setState: setIsOpen } = streamState(false);
     const isOpening = { value: false, timeout: null as NodeJS.Timer | null };
     isOpen$.observe(isOpen => {
-      document.body.style.overflow = isOpen ? 'hidden' : 'auto';
       isOpening.value = isOpen;
       if (!isOpen) clearTimeout(isOpening.timeout!);
       isOpening.timeout = isOpen
