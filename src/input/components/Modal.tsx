@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { compose } from 'recompose';
-import { mapStyle, withBounds } from 'mishmash';
+import { mapStyle, withSize } from 'mishmash';
 
 export default compose<any, any>(
-  withBounds('inner', 'setInnerElem'),
-  withBounds('root', 'setRootElem'),
-  withBounds('screen'),
+  withSize('inner', 'setInnerElem'),
+  withSize('screen'),
   mapStyle(
-    ['screen', 'root', 'inner', 'style.fontSize'],
-    (screen, root = { top: 0 }, inner = { height: 0 }, fontSize) => ({
+    ['baseBounds', 'inner', 'screen', 'style.fontSize'],
+    (baseBounds = { top: 0 }, inner = { height: 0 }, screen, fontSize) => ({
       root: [{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }],
       overlay: [
         {
@@ -42,12 +41,12 @@ export default compose<any, any>(
                   ),
                 }
               : {
-                  left: root.left,
-                  width: root.width,
+                  left: baseBounds.left,
+                  width: baseBounds.width,
                   top: Math.max(
                     fontSize * 0.25,
                     Math.min(
-                      root.top,
+                      baseBounds.top,
                       screen.height - inner.height - fontSize * 0.25,
                     ),
                   ),

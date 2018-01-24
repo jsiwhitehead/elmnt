@@ -155,10 +155,19 @@ export default compose<any, any>(
   ),
   focusOnMouse,
   renderLifted(
-    ({ closeModal, onMouseDown, hoverProps, setScrollElem, style, items }) => (
+    ({
+      closeModal,
+      onMouseDown,
+      hoverProps,
+      setScrollElem,
+      style,
+      items,
+      liftBounds,
+    }) => (
       <Modal
         closeModal={closeModal}
         modalProps={{ onMouseDown, ...hoverProps, ref: setScrollElem }}
+        baseBounds={liftBounds}
         style={style.base}
         children={items}
       />
