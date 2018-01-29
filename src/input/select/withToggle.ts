@@ -1,29 +1,28 @@
-import { HOC, mapPropsStream } from 'mishmash';
+import { combineState, HOC } from 'mishmash';
 
-export default mapPropsStream(
-  props$ =>
-    props$.map(props => {
-      const { value, label, options: { on, off = null }, onChange } = props;
+export default combineState(() => props => {
+  const { value, label, options: { on, off = null }, onChange } = props;
 
-      const selectIndex = () => onChange(value === on ? off : on);
+  const selectIndex = () => onChange(value === on ? off : on);
 
-      return {
-        ...props,
+  return [
+    {
+      ...props,
 
-        activeIndex: 0,
-        selected: { 0: value === on },
-        isList: true,
-        labels: [label],
-        labelIndices: [0],
-
-        selectIndex,
-        onKeyDown: event => {
-          if (event.keyCode === 13 || event.keyCode === 32) {
-            selectIndex();
-            event.preventDefault();
-          }
-        },
-      };
-    }),
-  true,
-) as HOC;
+      activeIndex: 0,
+      selected: { 0: value === on },
+      isList: true,
+      labels: [label],
+      labelIndices: [0],
+    },
+    {
+      selectIndex,
+      onKeyDown: event => {
+        if (event.keyCode === 13 || event.keyCode === 32) {
+          selectIndex();
+          event.preventDefault();
+        }
+      },
+    },
+  ];
+}) as HOC;

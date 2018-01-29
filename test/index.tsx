@@ -219,8 +219,8 @@ Hello *there*.
       maxKb={100000}
       config={{
         uploader: 'google' as 'google',
-        bucket: 'hub-test1',
-        accessId: 'kalambo-storage@hub-meteor-platform.iam.gserviceaccount.com',
+        bucket: 'kalambo-assets',
+        accessId: 'kalambo-storage-a@kalambo-platform.iam.gserviceaccount.com',
         serverUrl: 'http://localhost:3000/storage/upload',
       }}
     />

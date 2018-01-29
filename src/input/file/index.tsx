@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { compose, withState } from 'recompose';
-import { cssGroups, mapPropsStream, mapStyle, withTrigger } from 'mishmash';
+import { cssGroups, combineState, mapStyle, withTrigger } from 'mishmash';
 
 import Div from '../../div';
 import Txt from '../../txt';
@@ -31,69 +31,61 @@ let counter = 0;
 export default compose<any, any>(
   withState('state', 'setState', {}),
   withTrigger('clear', 'triggerClear'),
-  mapPropsStream(props$ => {
+  combineState(({ initialProps, onUnmount }) => {
     let form;
     let input;
     let focusOnReset = false;
     let successful = false;
-    let prevValue;
-    let listener;
-
-    props$.take(1).observe(({ value }) => (prevValue = value || null));
+    let prevValue = initialProps.value || null;
 
     const uploadIndex = counter++;
-    props$
-      .observe(({ config }) => {
-        window.removeEventListener('message', listener);
-        listener = window.addEventListener('message', event => {
-          if (
-            config.serverUrl.startsWith(event.origin) &&
-            event.data === uploadIndex
-          ) {
-            successful = true;
-          }
-        });
-      })
-      .then(() => window.removeEventListener('message', listener));
 
-    return props$
-      .map(({ state, ...props }) => ({
-        ...props,
-        ...state,
-        uploadIndex,
-      }))
-      .map(props => {
-        const {
-          value,
-          onChange,
-          maxKb,
-          fileType,
-          config,
-          fileName,
-          setState,
-          triggerClear,
-          setFocusElem,
-          ...otherProps
-        } = props;
+    let serverUrl = initialProps.config.serverUrl;
+    const listener = event => {
+      if (serverUrl.startsWith(event.origin) && event.data === uploadIndex) {
+        successful = true;
+      }
+    };
+    window.addEventListener('message', listener);
+    onUnmount(() => window.removeEventListener('message', listener));
 
-        const { prepareUpload, getUploadInfo } = uploaders[config.uploader](
-          config,
-        );
-        const info = getUploadInfo(props);
+    return ({ state, ...other }) => {
+      const props = { ...other, ...state, uploadIndex } as any;
 
-        const reset = () => {
-          focusOnReset = document.activeElement === input;
-          successful = false;
-          triggerClear();
-          setState({});
-        };
+      const {
+        value,
+        onChange,
+        maxKb,
+        fileType,
+        config,
+        fileName,
+        setState,
+        triggerClear,
+        setFocusElem,
+        ...otherProps
+      } = props;
 
-        return {
+      serverUrl = config.serverUrl;
+      const { prepareUpload, getUploadInfo } = uploaders[config.uploader](
+        config,
+      );
+      const info = getUploadInfo(props);
+
+      const reset = () => {
+        focusOnReset = document.activeElement === input;
+        successful = false;
+        triggerClear();
+        setState({});
+      };
+
+      return [
+        {
           fileName: value ? value.split(/\:(.+)$/)[1] : fileName || '',
           processing: !!fileName,
           info,
           ...otherProps,
-
+        },
+        {
           onChange: async () => {
             if (input.value) {
               if (checkFile(input.files, input.value, maxKb, fileType)) {
@@ -159,9 +151,10 @@ export default compose<any, any>(
               focusOnReset = false;
             }
           },
-        };
-      });
-  }, true),
+        },
+      ];
+    };
+  }),
   mapStyle(['isFocused', 'processing'], (isFocused, processing) => ({
     base: [['filter', ...cssGroups.other], ['merge', { cursor: 'pointer' }]],
     label: [

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { compose } from 'recompose';
-import { focusOnMouse, mapPropsStream, mapStyle, streamState } from 'mishmash';
+import { combineState, focusOnMouse, mapStyle } from 'mishmash';
 
 import Label from '../components/Label';
 
@@ -8,50 +8,50 @@ import parsers from './parsers';
 
 export default compose<any, any>(
   focusOnMouse,
-  mapPropsStream(props$ => {
-    const state = { props: {} as any, text: '', config: {} as any };
+  combineState(
+    ({ onNextProps, setState }) => {
+      const state = { props: {} as any, text: '', config: {} as any };
 
-    const { state$: text$, setState: setText } = streamState();
+      const onTextChange = text => {
+        const { type, value, onChange } = state.props;
 
-    const onTextChange = text => {
-      const { type, value, onChange } = state.props;
+        const parsed = text
+          ? parsers[type].parse(text, state.props)
+          : { value: null };
+        state.config = parsed.config || {};
+        state.text = parsed.text !== undefined ? parsed.text : text;
 
-      const parsed = text
-        ? parsers[type].parse(text, state.props)
-        : { value: null };
-      state.config = parsed.config || {};
-      state.text = parsed.text !== undefined ? parsed.text : text;
+        if (!parsers[type].equals(value, parsed.value)) onChange(parsed.value);
+        else setState({ text: state.text });
+      };
 
-      if (!parsers[type].equals(value, parsed.value)) onChange(parsed.value);
-      else setText(state.text);
-    };
-
-    props$.observe(props => {
-      if (props.value !== state.props.value) {
-        if (
-          props.value === null &&
-          parsers[props.type].parse(state.text, props).value === null
-        ) {
-          setText(state.text);
-        } else {
-          setText(parsers[props.type].format(props.value, state.config, props));
+      onNextProps(props => {
+        if (props.value !== state.props.value) {
+          if (
+            props.value === null &&
+            parsers[props.type].parse(state.text, props).value === null
+          ) {
+            setState({ text: state.text });
+          } else {
+            setState({
+              text: parsers[props.type].format(
+                props.value,
+                state.config,
+                props,
+              ),
+            });
+          }
         }
-      }
-      state.props = props;
-    });
+        state.props = props;
+      });
 
-    return props$.combine(
-      (props, text) => ({
+      return (props, { text }) => ({
         ...props,
 
         text,
         onTextChange,
 
-        ...(props.password
-          ? {
-              iconRight: 'lock',
-            }
-          : {}),
+        ...(props.password ? { iconRight: 'lock' } : {}),
 
         ...(props.type === 'date'
           ? {
@@ -71,10 +71,10 @@ export default compose<any, any>(
               prompt: true,
             }
           : {}),
-      }),
-      text$,
-    );
-  }),
+      });
+    },
+    { text: '' },
+  ),
   mapStyle(['isFocused'], isFocused => ({
     div: [['filter', 'display', 'width', 'height', 'maxWidth', 'maxHeight']],
     label: [

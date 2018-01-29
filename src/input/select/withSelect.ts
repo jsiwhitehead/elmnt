@@ -1,5 +1,5 @@
 import { compose } from 'recompose';
-import { HOC, mapPropsStream, streamState, withTrigger } from 'mishmash';
+import { HOC, combineState, withTrigger } from 'mishmash';
 
 const undefToNull = (v: any) => (v === undefined ? null : v);
 
@@ -11,24 +11,23 @@ const modMove = (start: number, delta: number, max: number) => {
 
 export default compose(
   withTrigger('noScrollRef', 'triggerNoScrollRef'),
-  mapPropsStream(props$ => {
-    const { state$: activeIndex$, setState: setActiveIndex } = streamState(0);
+  combineState(
+    ({ setState }) => {
+      const isOpening = { value: false, timeout: null as NodeJS.Timer | null };
 
-    const { state$: isOpen$, setState: setIsOpen } = streamState(false);
-    const isOpening = { value: false, timeout: null as NodeJS.Timer | null };
-    isOpen$.observe(isOpen => {
-      isOpening.value = isOpen;
-      if (!isOpen) clearTimeout(isOpening.timeout!);
-      isOpening.timeout = isOpen
-        ? setTimeout(() => (isOpening.value = false), 400)
-        : null;
-    });
+      let isScrolling = false;
+      let scrollElem: any = null;
 
-    let isScrolling = false;
-    let scrollElem: any = null;
+      const setIsOpen = isOpen => {
+        isOpening.value = isOpen;
+        if (!isOpen) clearTimeout(isOpening.timeout!);
+        isOpening.timeout = isOpen
+          ? setTimeout(() => (isOpening.value = false), 400)
+          : null;
+        setState({ isOpen });
+      };
 
-    return props$.combine(
-      (props, activeIndex, isOpen) => {
+      return (props, { activeIndex, isOpen }) => {
         const {
           isList,
           value,
@@ -62,7 +61,7 @@ export default compose(
 
         const selectIndex = index => {
           if (!isOpening.value) {
-            setActiveIndex(index);
+            setState({ activeIndex: index });
             if (!isList) {
               onChange(undefToNull(options[index]));
             } else {
@@ -88,9 +87,8 @@ export default compose(
               const newActiveIndex = jumpTo
                 ? move
                 : modMove(activeIndex, move, options.length);
-              (isList || layout === 'modal' ? setActiveIndex : selectIndex)(
-                newActiveIndex,
-              );
+              if (!isList && layout !== 'modal') selectIndex(newActiveIndex);
+              else setState({ activeIndex: newActiveIndex });
               if (layout === 'modal') isScrolling = true;
               scrollToIndex(newActiveIndex, parseFloat(fontSize) * 0.5);
             }
@@ -135,48 +133,51 @@ export default compose(
           return !group;
         });
 
-        return {
-          ...props,
+        return [
+          {
+            ...props,
 
-          activeIndex,
-          labels: newLabels,
-          labelIndices,
-          labelText: !isList
-            ? filteredLabels[options.indexOf(value)] || ''
-            : filteredLabels
-                .filter((_, i) => (value || []).includes(options[i]))
-                .join(', '),
-          selected: !isList
-            ? options.indexOf(value)
-            : (value || []).reduce(
-                (result, v) => ({ ...result, [options.indexOf(v)]: true }),
-                {},
-              ),
+            activeIndex,
+            labels: newLabels,
+            labelIndices,
+            labelText: !isList
+              ? filteredLabels[options.indexOf(value)] || ''
+              : filteredLabels
+                  .filter((_, i) => (value || []).includes(options[i]))
+                  .join(', '),
+            selected: !isList
+              ? options.indexOf(value)
+              : (value || []).reduce(
+                  (result, v) => ({ ...result, [options.indexOf(v)]: true }),
+                  {},
+                ),
 
-          selectIndex,
-          moveActiveIndex,
-          onKeyDown,
+            ...(layout === 'modal' ? { isOpen } : {}),
+          },
+          {
+            selectIndex,
+            moveActiveIndex,
+            onKeyDown,
 
-          ...(layout === 'modal'
-            ? {
-                isOpen,
-                openModal: () => setIsOpen(true),
-                closeModal: () => setIsOpen(false),
-                setScrollElem: elem => {
-                  scrollElem = elem;
-                  if (isList ? value && value.length > 0 : value) {
-                    const index = options.indexOf(isList ? value[0] : value);
-                    setActiveIndex(index);
-                    scrollToIndex(index, parseFloat(fontSize) * 0.5);
-                  }
-                },
-                ...(noScrollRef ? { setScrollElem: null } : {}),
-              }
-            : {}),
-        };
-      },
-      activeIndex$,
-      isOpen$,
-    );
-  }, true),
+            ...(layout === 'modal'
+              ? {
+                  openModal: () => setIsOpen(true),
+                  closeModal: () => setIsOpen(false),
+                  setScrollElem: elem => {
+                    scrollElem = elem;
+                    if (isList ? value && value.length > 0 : value) {
+                      const index = options.indexOf(isList ? value[0] : value);
+                      setState({ activeIndex: index });
+                      scrollToIndex(index, parseFloat(fontSize) * 0.5);
+                    }
+                  },
+                  ...(noScrollRef ? { setScrollElem: null } : {}),
+                }
+              : {}),
+          },
+        ];
+      };
+    },
+    { activeIndex: 0, isOpen: false },
+  ),
 ) as HOC;
