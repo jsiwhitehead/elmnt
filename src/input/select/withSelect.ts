@@ -1,5 +1,5 @@
 import { compose } from 'recompose';
-import { HOC, combineState, withTrigger } from 'mishmash';
+import { HOC, combineState, memoizeProps, withTrigger } from 'mishmash';
 
 const undefToNull = (v: any) => (v === undefined ? null : v);
 
@@ -180,4 +180,5 @@ export default compose(
     },
     { activeIndex: 0, isOpen: false },
   ),
+  memoizeProps('labels', 'labelIndices'),
 ) as HOC;

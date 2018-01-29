@@ -3384,9 +3384,9 @@ minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
-mishmash@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/mishmash/-/mishmash-0.5.0.tgz#34202c35c616cd5864308aae4f105c2c30740e50"
+mishmash@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/mishmash/-/mishmash-0.5.1.tgz#b013970c610700c455cac22492d68dea965cea29"
   dependencies:
     "@types/react" "^16.0.35"
     "@types/recompose" "^0.24.4"

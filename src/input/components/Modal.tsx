@@ -31,26 +31,28 @@ export default compose<any, any>(
                 ? '0 2px 25px rgba(0,0,0,0.5)'
                 : '0 2px 20px 5px rgba(0,0,0,0.4)',
             overflow: 'auto',
-            ...(screen.width < 500
-              ? {
-                  left: 50,
-                  width: screen.width - 100,
-                  top: Math.max(
-                    fontSize * 0.25,
-                    (screen.height - inner.height) * 0.5,
-                  ),
-                }
-              : {
-                  left: baseBounds.left,
-                  width: baseBounds.width,
-                  top: Math.max(
-                    fontSize * 0.25,
-                    Math.min(
-                      baseBounds.top,
-                      screen.height - inner.height - fontSize * 0.25,
+            ...(inner.height === 0
+              ? { visibility: 'hidden' }
+              : screen.width < 500
+                ? {
+                    left: 50,
+                    width: screen.width - 100,
+                    top: Math.max(
+                      fontSize * 0.25,
+                      (screen.height - inner.height) * 0.5,
                     ),
-                  ),
-                }),
+                  }
+                : {
+                    left: baseBounds.left,
+                    width: baseBounds.width,
+                    top: Math.max(
+                      fontSize * 0.25,
+                      Math.min(
+                        baseBounds.top,
+                        screen.height - inner.height - fontSize * 0.25,
+                      ),
+                    ),
+                  }),
           },
         ],
       ],

@@ -2,13 +2,10 @@ import { combineState, HOC } from 'mishmash';
 
 export default combineState(() => props => {
   const { value, label, options: { on, off = null }, onChange } = props;
-
   const selectIndex = () => onChange(value === on ? off : on);
-
   return [
     {
       ...props,
-
       activeIndex: 0,
       selected: { 0: value === on },
       isList: true,
