@@ -93,7 +93,7 @@ const TestApp = compose<any, any>(
       }),
       {},
     ),
-  }),
+  } as any),
   withProps(({ state }: any) => console.log(state)),
 )(({ value, ...props }) => (
   <Div style={{ padding: '50px 150px', layout: 'stack', spacing: 30 }}>

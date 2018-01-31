@@ -12,10 +12,10 @@ export default compose<any, any>(
       onMouseUp: ({ index, selectIndex }) => () => selectIndex(index),
       onMouseMove: ({ index, moveActiveIndex }) => () =>
         moveActiveIndex(index, true),
-    }),
+    } as any),
     withHandlers({
       onMouseDown: ({ index, selectIndex }) => () => selectIndex(index),
-    }),
+    } as any),
   ),
   mapStyle(
     ['isActive', 'isSelected', 'style.layout', 'isNone'],

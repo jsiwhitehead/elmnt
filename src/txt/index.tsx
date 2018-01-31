@@ -178,7 +178,7 @@ export default compose<any, TxtProps>(
         event.preventDefault();
       }
     },
-  }),
+  } as any),
   withProps(({ children }: any) => ({
     children: (children || '').toString(),
   })),
