@@ -36,9 +36,9 @@
     "@types/node" "*"
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.0.35":
-  version "16.0.35"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.35.tgz#7ce8a83cad9690fd965551fc513217a74fc9e079"
+"@types/react@*", "@types/react@^16.0.36":
+  version "16.0.36"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.36.tgz#ceb5639013bdb92a94147883052e69bb2c22c69b"
 
 "@types/recompose@^0.24.4":
   version "0.24.4"
@@ -3176,6 +3176,10 @@ lodash.sortby@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
 
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+
 lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.4:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
@@ -3384,15 +3388,15 @@ minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
-mishmash@^0.5.3:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/mishmash/-/mishmash-0.5.3.tgz#2f54309e78fba3390fc72a92f84fc3ceeb9ccf15"
+mishmash@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/mishmash/-/mishmash-0.5.4.tgz#595e0e4427bacafb73a4bf8010b50aaa5e29c256"
   dependencies:
-    "@types/react" "^16.0.35"
+    "@types/react" "^16.0.36"
     "@types/recompose" "^0.24.4"
-    deep-equal "^1.0.1"
     element-resize-detector "^1.1.13"
     keys-to-object "^0.2.0"
+    lodash.throttle "^4.1.1"
     recompose "^0.26.0"
     style-transform "^0.1.9"
 

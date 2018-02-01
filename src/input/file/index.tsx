@@ -1,6 +1,12 @@
 import * as React from 'react';
 import { compose, withState } from 'recompose';
-import { cssGroups, combineState, mapStyle, withTrigger } from 'mishmash';
+import {
+  cssGroups,
+  combineState,
+  mapStyle,
+  methodWrapper,
+  withTrigger,
+} from 'mishmash';
 
 import Div from '../../div';
 import Txt from '../../txt';
@@ -78,14 +84,14 @@ export default compose<any, any>(
         setState({});
       };
 
-      return [
-        {
-          fileName: value ? value.split(/\:(.+)$/)[1] : fileName || '',
-          processing: !!fileName,
-          info,
-          ...otherProps,
-        },
-        {
+      const methods = methodWrapper();
+      return {
+        fileName: value ? value.split(/\:(.+)$/)[1] : fileName || '',
+        processing: !!fileName,
+        info,
+        ...otherProps,
+
+        ...methods({
           onChange: async () => {
             if (input.value) {
               if (checkFile(input.files, input.value, maxKb, fileType)) {
@@ -151,8 +157,8 @@ export default compose<any, any>(
               focusOnReset = false;
             }
           },
-        },
-      ];
+        }),
+      };
     };
   }),
   mapStyle(['isFocused', 'processing'], (isFocused, processing) => ({

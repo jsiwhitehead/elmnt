@@ -1,5 +1,11 @@
 import { compose } from 'recompose';
-import { HOC, combineState, memoizeProps, withTrigger } from 'mishmash';
+import {
+  HOC,
+  combineState,
+  memoizeProps,
+  methodWrapper,
+  withTrigger,
+} from 'mishmash';
 
 const undefToNull = (v: any) => (v === undefined ? null : v);
 
@@ -27,6 +33,7 @@ export default compose(
         setState({ isOpen });
       };
 
+      const methods = methodWrapper();
       return (props, { activeIndex, isOpen }) => {
         const {
           isList,
@@ -133,28 +140,27 @@ export default compose(
           return !group;
         });
 
-        return [
-          {
-            ...props,
+        return {
+          ...props,
 
-            activeIndex,
-            labels: newLabels,
-            labelIndices,
-            labelText: !isList
-              ? filteredLabels[options.indexOf(value)] || ''
-              : filteredLabels
-                  .filter((_, i) => (value || []).includes(options[i]))
-                  .join(', '),
-            selected: !isList
-              ? options.indexOf(value)
-              : (value || []).reduce(
-                  (result, v) => ({ ...result, [options.indexOf(v)]: true }),
-                  {},
-                ),
+          activeIndex,
+          labels: newLabels,
+          labelIndices,
+          labelText: !isList
+            ? filteredLabels[options.indexOf(value)] || ''
+            : filteredLabels
+                .filter((_, i) => (value || []).includes(options[i]))
+                .join(', '),
+          selected: !isList
+            ? options.indexOf(value)
+            : (value || []).reduce(
+                (result, v) => ({ ...result, [options.indexOf(v)]: true }),
+                {},
+              ),
 
-            ...(layout === 'modal' ? { isOpen } : {}),
-          },
-          {
+          ...(layout === 'modal' ? { isOpen } : {}),
+
+          ...methods({
             selectIndex,
             moveActiveIndex,
             onKeyDown,
@@ -174,8 +180,8 @@ export default compose(
                   ...(noScrollRef ? { setScrollElem: null } : {}),
                 }
               : {}),
-          },
-        ];
+          }),
+        };
       };
     },
     { activeIndex: 0, isOpen: false },
