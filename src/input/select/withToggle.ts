@@ -1,9 +1,9 @@
-import { combineState, HOC, methodWrapper } from 'mishmash';
+import { enclose, HOC, methodWrap } from 'mishmash';
 
-export default combineState(() => props => {
+export default enclose(() => props => {
   const { value, label, options: { on, off = null }, onChange } = props;
   const selectIndex = () => onChange(value === on ? off : on);
-  const methods = methodWrapper();
+  const methods = methodWrap();
   return {
     ...props,
     activeIndex: 0,

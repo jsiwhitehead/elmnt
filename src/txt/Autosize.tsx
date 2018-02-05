@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { compose } from 'recompose';
-import { mapStyle } from 'mishmash';
+import { map, restyle } from 'mishmash';
 
 export interface AutosizeStyle extends React.CSSProperties {
   lineHeight: string;
@@ -10,8 +9,8 @@ export interface AutosizeProps {
   rows?: number;
   style: AutosizeStyle;
 }
-export default compose<any, AutosizeProps>(
-  mapStyle(['rows', 'style.lineHeight'], (rows, lineHeight) => [
+export default map<AutosizeProps>(
+  restyle(['rows', 'style.lineHeight'], (rows, lineHeight) => [
     [
       'merge',
       {

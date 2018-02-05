@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { compose } from 'recompose';
-import { combineState, focusOnMouse, mapStyle } from 'mishmash';
+import { compose, enclose, focusOnMouse, map, restyle } from 'mishmash';
 
 import Label from '../components/Label';
 
 import parsers from './parsers';
 
-export default compose<any, any>(
+export default compose(
   focusOnMouse,
-  combineState(
-    ({ onNextProps, setState }) => {
+  enclose(
+    ({ onProps, setState }) => {
       const state = { props: {} as any, text: '', config: {} as any };
 
       const onTextChange = text => {
@@ -25,8 +24,8 @@ export default compose<any, any>(
         else setState({ text: state.text });
       };
 
-      onNextProps(props => {
-        if (props.value !== state.props.value) {
+      onProps(props => {
+        if (props && props.value !== state.props.value) {
           if (
             props.value === null &&
             parsers[props.type].parse(state.text, props).value === null
@@ -75,13 +74,15 @@ export default compose<any, any>(
     },
     { text: '' },
   ),
-  mapStyle(['isFocused'], isFocused => ({
-    div: [['filter', 'display', 'width', 'height', 'maxWidth', 'maxHeight']],
-    label: [
-      ['mergeKeys', { active: isFocused }],
-      ['merge', { cursor: 'text' }],
-    ],
-  })),
+  map(
+    restyle(['isFocused'], isFocused => ({
+      div: [['filter', 'display', 'width', 'height', 'maxWidth', 'maxHeight']],
+      label: [
+        ['mergeKeys', { active: isFocused }],
+        ['merge', { cursor: 'text' }],
+      ],
+    })),
+  ),
 )(
   ({
     text,

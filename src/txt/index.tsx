@@ -1,23 +1,17 @@
 import * as React from 'react';
 import {
-  branch,
   compose,
-  lifecycle,
-  mapProps,
-  pure,
-  renderComponent,
-  withHandlers,
-  withProps,
-  withState,
-} from 'recompose';
-import { CSSTree, mapStyle } from 'mishmash';
-import {
-  cssGroups,
+  CSSTree,
   focusable,
   focusOnMouse,
-  omitProps,
-  renderLayer,
+  map,
+  omit,
+  pure,
+  render,
+  restyle,
 } from 'mishmash';
+
+import css from '../css';
 
 import Autosize from './Autosize';
 import Placeholder from './Placeholder';
@@ -35,198 +29,192 @@ export interface TxtProps extends React.HTMLProps<{}> {
   prompt?: boolean;
   rows?: number;
   password?: boolean;
-  tab?: number;
   focusRef?: (c: HTMLElement | null) => void;
   style?: CSSTree<'placeholder'>;
 }
-export default compose<any, TxtProps>(
-  focusable,
-  pure,
-  branch(({ onTextChange }: any) => onTextChange, focusOnMouse as any),
-  withProps(({ onTextChange }: any) => ({ isInput: !!onTextChange })),
-  mapStyle(
-    ['isInput'],
-    isInput => [
-      [
-        'defaults',
-        { fontSize: 16, lineHeight: 1.5, cursor: isInput ? 'text' : undefined },
-      ],
-      ['block'],
-      ['lineHeightPx'],
-    ],
-    cssTransforms,
-  ),
-  renderLayer(
-    compose(
-      mapStyle(['style.fontSize'], fontSize => ({
-        outer: [
-          ['filterKeys'],
-          ['filter', ...cssGroups.box, ...cssGroups.other],
+
+const createTxt = (input?: boolean) => {
+  const base = compose(
+    ...(input ? [focusable] : []),
+    pure,
+    ...(input ? [focusOnMouse] : []),
+    map(
+      restyle(
+        [
+          [
+            'defaults',
+            {
+              fontSize: 16,
+              lineHeight: 1.5,
+              cursor: input ? 'text' : undefined,
+            },
+          ],
+          ['block'],
+          ['lineHeightPx'],
         ],
-        inner: [{ padding: '1px 0px', display: 'block', minHeight: fontSize }],
-      })),
-      omitProps(
-        'isInput',
-        'onTextChange',
-        'placeholder',
-        'prompt',
-        'rows',
-        'password',
-        'tab',
-        'tabIndex',
-        'onFocus',
-        'onBlur',
-        'focusElem',
-        'setFocusElem',
-        'focusRef',
-        'spellCheck',
+        cssTransforms,
       ),
-    )(({ style, ...props }: any) => (
-      <span
-        style={style.outer}
-        {...props}
-        className={`${props.className || ''} e5 e6 e7 e8 e9`}
-      >
-        <span style={style.inner}>{props.children}</span>
-      </span>
-    )),
-  ),
-  mapStyle({
-    text: [['filterKeys'], ['filter', ...cssGroups.text]],
-    placeholder: [['mergeKeys', 'placeholder'], ['filter', ...cssGroups.text]],
-  }),
-  branch(
-    ({ onTextChange }: any) => !onTextChange,
-    compose(
-      mapProps(({ children, placeholder, style }: any) => ({
-        children: children || placeholder,
-        style: children ? style.text : style.placeholder,
-      })),
-      renderComponent(({ children, style }: any) => (
-        <span style={{ ...style, display: 'block', margin: getMargin(style) }}>
-          {React.Children.toArray(children).reduce<React.ReactNode[]>(
-            (result, child, i) =>
-              result.concat(
-                typeof child === 'string'
-                  ? child
-                      .split('\n')
-                      .reduce<React.ReactNode[]>(
-                        (res, line, j) =>
-                          res.concat(
-                            j === 0 ? line : [<br key={`${i}_${j}`} />, line],
-                          ),
-                        [],
-                      )
-                  : child,
-              ),
-            [],
-          )}
+    ),
+    render(
+      map(
+        restyle(['style.fontSize'], fontSize => ({
+          outer: [
+            ['filterKeys'],
+            ['filter', ...css.groups.box, ...css.groups.other],
+          ],
+          inner: [
+            { padding: '1px 0px', display: 'block', minHeight: fontSize },
+          ],
+        })),
+        omit(
+          'placeholder',
+          ...(input
+            ? [
+                'onTextChange',
+                'placeholder',
+                'prompt',
+                'rows',
+                'password',
+                'tab',
+                'tabIndex',
+                'onFocus',
+                'onBlur',
+                'focusElem',
+                'setFocusElem',
+                'focusRef',
+                'spellCheck',
+              ]
+            : []),
+        ),
+      )(({ style, next, ...props }) => (
+        <span
+          style={style.outer}
+          {...props}
+          className={`${props.className || ''} e5 e6 e7 e8 e9`}
+        >
+          <span style={style.inner}>{next()}</span>
         </span>
       )),
     ),
-  ),
-  mapStyle({
-    text: {
-      input: [
-        [
-          'merge',
-          {
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            resize: 'none',
-            overflow: 'hidden',
-            background: 'transparent',
-            outline: 'none',
-            border: 0,
-            padding: 0,
-            margin: 0,
-            display: 'block',
-          },
+    map(
+      restyle({
+        text: [['filterKeys'], ['filter', ...css.groups.text]],
+        placeholder: [
+          ['mergeKeys', 'placeholder'],
+          ['filter', ...css.groups.text],
         ],
-      ],
-    },
-  }),
-  withState('cursor', 'setCursor', null),
-  lifecycle({
-    componentDidUpdate(prevProps: any) {
-      const { children, cursor, setCursor, focusElem } = this.props;
-      if (children !== prevProps.children && cursor !== null) {
-        setCursor(
-          null,
-          () => (focusElem.selectionStart = focusElem.selectionEnd = cursor),
-        );
-      }
-    },
-  }),
-  withHandlers({
-    onChange: ({ onTextChange }) => event => onTextChange(event.target.value),
-    onKeyDown: ({ children, onTextChange, rows, tab, setCursor }) => event => {
-      if (event.keyCode === 13 && rows) event.stopPropagation();
-      if (event.keyCode === 9 && tab) {
-        const start = event.target.selectionStart || 0;
-        const end = event.target.selectionEnd || event.target.selectionStart;
-        const tabSpaces = Array(tab + 1).join(' ');
-        setCursor(start + tab);
-        onTextChange(
-          `${(children || '').substring(0, start)}${tabSpaces}${(
-            children || ''
-          ).substring(end)}`,
-        );
-        event.preventDefault();
-      }
-    },
-  } as any),
-  withProps(({ children }: any) => ({
-    children: (children || '').toString(),
-  })),
-  withProps(
-    ({
-      children,
-      rows,
-      password,
-      onChange,
-      onKeyDown,
-      tabIndex = 0,
-      onFocus,
-      onBlur,
-      setFocusElem,
-      spellCheck,
-      style,
-    }: any) => ({
-      value: rows ? children : children.replace(/\n/g, ''),
-      inputProps: {
-        value: rows ? children : children.replace(/\n/g, ''),
-        onChange,
-        type: password ? 'password' : 'text',
-        onKeyDown,
+      }),
+    ),
+  );
+  if (!input) {
+    return compose(
+      base,
+      map(({ children, placeholder, style }) => ({
+        children: children || placeholder,
+        style: children ? style.text : style.placeholder,
+      })),
+    )(({ style, children }) => (
+      <span style={{ ...style, display: 'block', margin: getMargin(style) }}>
+        {React.Children.toArray(children).reduce<React.ReactNode[]>(
+          (result, child, i) =>
+            result.concat(
+              typeof child === 'string'
+                ? child
+                    .split('\n')
+                    .reduce<React.ReactNode[]>(
+                      (res, line, j) =>
+                        res.concat(
+                          j === 0 ? line : [<br key={`${i}_${j}`} />, line],
+                        ),
+                      [],
+                    )
+                : child,
+            ),
+          [],
+        )}
+      </span>
+    ));
+  }
+  return compose(
+    base,
+    map(
+      restyle({
+        text: {
+          input: [
+            [
+              'merge',
+              {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                resize: 'none',
+                overflow: 'hidden',
+                background: 'transparent',
+                outline: 'none',
+                border: 0,
+                padding: 0,
+                margin: 0,
+                display: 'block',
+              },
+            ],
+          ],
+        },
+      }),
+      ({ children, ...props }) => {
+        const v = (children || '').toString();
+        return { ...props, value: props.rows ? v : v.replace(/\n/g, '') };
+      },
+      ({
+        password,
         tabIndex,
         onFocus,
         onBlur,
-        ref: setFocusElem,
+        setFocusElem,
+        onTextChange,
         spellCheck,
-        size: 1,
-        style: style.input,
-      },
-    }),
-  ),
-)(({ placeholder, prompt, rows, style, value, inputProps }) => (
-  <span
-    style={{
-      position: 'relative',
-      display: 'block',
-      margin: getMargin(style.text),
-    }}
-  >
-    <Autosize value={value || placeholder} rows={rows} style={style.text} />
-    <Placeholder
-      text={placeholder}
-      value={value}
-      prompt={prompt}
-      style={style.placeholder}
-    />
-    {rows ? <textarea {...inputProps} /> : <input {...inputProps} />}
-  </span>
-));
+        value,
+        ...props
+      }) => ({
+        ...props,
+        value,
+        inputProps: {
+          value,
+          onChange: event => onTextChange(event.target.value),
+          type: password ? 'password' : 'text',
+          onKeyDown: event => {
+            if (event.keyCode === 13 && props.rows) event.stopPropagation();
+          },
+          tabIndex,
+          onFocus,
+          onBlur,
+          ref: elem => setFocusElem(elem),
+          spellCheck,
+          size: 1,
+          style: props.style.input,
+        },
+      }),
+    ),
+  )(({ placeholder, prompt, rows, style, value, inputProps }) => (
+    <span
+      style={{
+        position: 'relative',
+        display: 'block',
+        margin: getMargin(style.text),
+      }}
+    >
+      <Autosize value={value || placeholder} rows={rows} style={style.text} />
+      <Placeholder
+        text={placeholder}
+        value={value}
+        prompt={prompt}
+        style={style.placeholder}
+      />
+      {rows ? <textarea {...inputProps} /> : <input {...inputProps} />}
+    </span>
+  ));
+};
+
+export default createTxt();
+export const TxtInput = createTxt(true);

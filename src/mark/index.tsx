@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as commonmark from 'commonmark';
 import * as CommonmarkRenderer from 'commonmark-react-renderer';
-import { cssGroups, CSSTree, mapStyle, memoize } from 'mishmash';
-import { compose } from 'recompose';
+import { CSSTree, map, memoize, restyle } from 'mishmash';
 
+import css from '../css';
 import Div from '../div';
 import Txt from '../txt';
 
@@ -109,42 +109,42 @@ export interface MarkProps {
   style?: CSSTree<'em' | 'st' | 'link' | 'heading' | 'hr'>;
   children?: string;
 }
-export default compose<any, MarkProps>(
-  mapStyle([
+export default map<MarkProps>(
+  restyle([
     ['defaults', { fontSize: 16, lineHeight: 1.5, color: 'black' }],
     ['numeric', 'fontSize'],
     ['scale', { lineGap: { fontSize: -1, lineHeight: 1 } }],
   ]),
-  mapStyle(
+  restyle(
     ['style.fontSize', 'style.color', 'style.lineGap'],
     (fontSize, color, lineGap) => ({
       div: [
-        ['filter', ...cssGroups.box, ...cssGroups.other],
+        ['filter', ...css.groups.box, ...css.groups.other],
         ['merge', { layout: 'stack', spacing: Math.round(lineGap * 3) }],
       ],
-      text: [['filter', ...cssGroups.text]],
+      text: [['filter', ...css.groups.text]],
       em: [
         ['defaults', { fontStyle: 'italic' }],
         ['mergeKeys', 'em'],
-        ['filter', ...cssGroups.text],
+        ['filter', ...css.groups.text],
         ['merge', { fontSize: 'inherit' }],
       ],
       st: [
         ['defaults', { fontWeight: 'bold' }],
         ['mergeKeys', 'st'],
-        ['filter', ...cssGroups.text],
+        ['filter', ...css.groups.text],
         ['merge', { fontSize: 'inherit' }],
       ],
       link: [
         ['defaults', { fontWeight: 'bold', textDecoration: 'underline' }],
         ['mergeKeys', 'link'],
-        ['filter', ...cssGroups.text],
+        ['filter', ...css.groups.text],
         ['merge', { fontSize: 'inherit' }],
       ],
       heading: [
         [
           'filter',
-          ...cssGroups.text.filter(k => k !== 'font'),
+          ...css.groups.text.filter(k => k !== 'font'),
           'fontStyle',
           'fontVariant',
           'fontWeight',
@@ -157,11 +157,11 @@ export default compose<any, MarkProps>(
         ['numeric', 'fontSize'],
       ],
       item: [
-        ['filter', ...cssGroups.text],
+        ['filter', ...css.groups.text],
         ['merge', { padding: `${Math.round(lineGap * 0.5)}px 0` }],
       ],
       list: [
-        ['filter', ...cssGroups.text],
+        ['filter', ...css.groups.text],
         ['scale', { paddingLeft: { fontSize: 2 } }],
         ['merge', { margin: `${Math.round(lineGap * -0.5) - 1}px 0` }],
       ],
@@ -184,7 +184,7 @@ export default compose<any, MarkProps>(
       ],
     }),
   ),
-  mapStyle(
+  restyle(
     ['style.text.fontSize', 'style.heading.fontSize'],
     (textSize, headingSize) => {
       const headingScale = Math.pow(headingSize / textSize, 1 / 4);

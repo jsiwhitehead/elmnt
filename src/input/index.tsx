@@ -1,9 +1,13 @@
-import * as React from 'react';
-import { branch, compose, pure, renderComponent, withProps } from 'recompose';
 import {
+  branch,
+  Comp,
+  compose,
   focusable,
-  mapStyle,
-  memoizeProps,
+  map,
+  memoize,
+  pure,
+  render,
+  restyle,
   withFocus,
   withHover,
 } from 'mishmash';
@@ -13,31 +17,42 @@ import select from './select';
 import text from './text';
 import { InputProps } from './typings';
 
-export default compose<any, InputProps>(
+export default compose(
   focusable,
-  memoizeProps('options', 'labels'),
+  map(({ options, labels, ...props }) => ({
+    ...(options ? { options: memoize(options) } : {}),
+    ...(labels ? { labels: memoize(labels) } : {}),
+    ...props,
+  })),
   pure,
   withFocus,
   withHover,
-  withProps(({ value, type, options }: any) => ({
-    value:
-      value === undefined ||
-      (type.endsWith('list') && Array.isArray(value) && value.length === 0)
-        ? null
-        : value,
-    isList: type.endsWith('list'),
-    ...(type === 'boolean' && !options ? { options: { on: true } } : {}),
-  })),
-  mapStyle(
-    ['invalid', 'isFocused', 'isHovered'],
-    (invalid, isFocused, isHovered) => [
-      [
-        'defaults',
-        { fontSize: 16, lineHeight: 1.5, color: 'black', layout: 'grid' },
+  map(
+    ({ value, ...props }) => ({
+      ...props,
+      value:
+        value === undefined ||
+        (props.type.endsWith('list') &&
+          Array.isArray(value) &&
+          value.length === 0)
+          ? null
+          : value,
+      isList: props.type.endsWith('list'),
+      ...(props.type === 'boolean' && !props.options
+        ? { options: { on: true } }
+        : {}),
+    }),
+    restyle(
+      ['invalid', 'isFocused', 'isHovered'],
+      (invalid, isFocused, isHovered) => [
+        [
+          'defaults',
+          { fontSize: 16, lineHeight: 1.5, color: 'black', layout: 'grid' },
+        ],
+        ['mergeKeys', { invalid, focus: isFocused, hover: isHovered }],
       ],
-      ['mergeKeys', { invalid, focus: isFocused, hover: isHovered }],
-    ],
+    ),
   ),
-  branch(({ options }: any) => options, renderComponent(select)),
-  branch(({ type }: any) => type === 'file', renderComponent(file)),
-)(text) as React.ComponentClass<InputProps>;
+  branch(({ options }) => options, render(select)),
+  branch(({ type }) => type === 'file', render(file)),
+)(text) as Comp<InputProps>;

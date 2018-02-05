@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { compose } from 'recompose';
-import { cssGroups, mapStyle } from 'mishmash';
+import { map, restyle } from 'mishmash';
 
+import css from '../../css';
 import Icon from '../../icon';
 
 // https://fontawesome.com
@@ -63,13 +63,13 @@ const icons = {
   },
 };
 
-export default compose<any, any>(
-  mapStyle([
+export default map(
+  restyle([
     ['numeric', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
   ]),
-  mapStyle({
+  restyle({
     div: [
-      ['filter', ...cssGroups.box, ...cssGroups.other],
+      ['filter', ...css.groups.box, ...css.groups.other],
       ['merge', { display: 'block', position: 'relative' }],
     ],
     icon: [['filter', 'fontSize', 'color']],

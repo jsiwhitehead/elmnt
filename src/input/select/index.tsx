@@ -1,13 +1,15 @@
 import * as React from 'react';
-import { branch, compose, renderComponent, withProps } from 'recompose';
 import {
-  cssGroups,
+  branch,
+  compose,
   focusOnMouse,
-  mapStyle,
-  renderLayer,
+  map,
+  render,
   renderLifted,
+  restyle,
 } from 'mishmash';
 
+import css from '../../css';
 import Div from '../../div';
 import Txt from '../../txt';
 
@@ -27,33 +29,32 @@ const userSelect = {
   WebkitUserSelect: 'none',
 };
 
-export default compose<any, any>(
-  branch(({ options }: any) => Array.isArray(options), withSelect, withToggle),
-  mapStyle(['style.layout'], layout => ({
-    base: null,
-    group: [
-      ['mergeKeys', 'group'],
-      [
-        'filter',
-        ...cssGroups.text,
-        'paddingTop',
-        'paddingBottom',
-        ...(layout === 'modal' ? ['paddingLeft', 'paddingRight'] : []),
+export default compose(
+  branch(({ options }) => Array.isArray(options), withSelect, withToggle),
+  map(
+    restyle(['style.layout'], layout => ({
+      base: null,
+      group: [
+        ['mergeKeys', 'group'],
+        [
+          'filter',
+          ...css.groups.text,
+          'paddingTop',
+          'paddingBottom',
+          ...(layout === 'modal' ? ['paddingLeft', 'paddingRight'] : []),
+        ],
+        ['merge', { width: '100%', ...userSelect }],
       ],
-      ['merge', { width: '100%', ...userSelect }],
-    ],
-    keyCell: [
-      ['mergeKeys', 'key'],
-      ['scale', { paddingRight: { fontSize: 1 } }],
-      ['filter', 'padding', 'width'],
-      ['merge', { verticalAlign: 'middle' }],
-    ],
-    keyText: [['mergeKeys', 'key'], ['filter', ...cssGroups.text]],
-  })),
-  withProps(
+      keyCell: [
+        ['mergeKeys', 'key'],
+        ['scale', { paddingRight: { fontSize: 1 } }],
+        ['filter', 'padding', 'width'],
+        ['merge', { verticalAlign: 'middle' }],
+      ],
+      keyText: [['mergeKeys', 'key'], ['filter', ...css.groups.text]],
+    })),
     ({
       text,
-      isList,
       selectIndex,
       options,
       labels,
@@ -61,64 +62,58 @@ export default compose<any, any>(
       selected,
       activeIndex,
       moveActiveIndex,
-      style,
-    }: any) => ({
+      ...props
+    }) => ({
+      ...props,
       items: [
-        ...(style.base.layout === 'table'
+        ...(props.style.base.layout === 'table'
           ? [
-              <td style={style.keyCell} key={-1}>
-                <Txt style={style.keyText}>{text}</Txt>
+              <td style={props.style.keyCell} key={-1}>
+                <Txt style={props.style.keyText}>{text}</Txt>
               </td>,
             ]
           : []),
         ...labels.map(
           (l, i) =>
             isGroup(l) ? (
-              <Txt style={style.group} key={i}>
+              <Txt style={props.style.group} key={i}>
                 {l.substring(1)}
               </Txt>
             ) : (
               <Item
                 text={l}
-                isList={isList}
+                isList={props.isList}
                 index={labelIndices[i]}
                 selectIndex={selectIndex}
                 isSelected={
-                  isList
+                  props.isList
                     ? selected[labelIndices[i]]
                     : selected === labelIndices[i]
                 }
                 isActive={activeIndex === labelIndices[i]}
                 isNone={Array.isArray(options) && !options[labelIndices[i]]}
                 moveActiveIndex={moveActiveIndex}
-                style={style.base}
+                style={props.style.base}
                 key={i}
               />
             ),
         ),
       ],
     }),
+    restyle(['style.base.layout'], layout => ({
+      base: {
+        div: [
+          ['filter', ...css.groups.other],
+          layout === 'table' && ['mergeKeys', 'row'],
+          ['merge', { outline: 'none' }],
+        ],
+      },
+    })),
   ),
-  mapStyle(['style.base.layout'], layout => ({
-    base: {
-      div: [
-        ['filter', ...cssGroups.other],
-        layout === 'table' && ['mergeKeys', 'row'],
-        ['merge', { outline: 'none' }],
-      ],
-    },
-  })),
   branch(
-    ({ style }: any) => style.base.layout === 'table',
-    renderComponent(
-      ({
-        onKeyDown,
-        hoverProps,
-        focusProps,
-        setFocusElem,
-        style,
-        items,
-      }: any) => (
+    ({ style }) => style.base.layout === 'table',
+    render(
+      ({ onKeyDown, hoverProps, focusProps, setFocusElem, style, items }) => (
         <tr
           onKeyDown={onKeyDown}
           {...hoverProps}
@@ -131,26 +126,22 @@ export default compose<any, any>(
       ),
     ),
   ),
-  renderLayer(
-    ({ onKeyDown, hoverProps, focusProps, setFocusElem, style, children }) => (
-      <div
-        onKeyDown={onKeyDown}
-        {...hoverProps}
-        {...focusProps}
-        ref={setFocusElem}
-        style={style.div}
-        children={children}
-        className="e5 e6 e7 e8 e9"
-      />
-    ),
-  ),
+  render(({ onKeyDown, hoverProps, focusProps, setFocusElem, style, next }) => (
+    <div
+      onKeyDown={onKeyDown}
+      {...hoverProps}
+      {...focusProps}
+      ref={setFocusElem}
+      style={style.div}
+      children={next()}
+      className="e5 e6 e7 e8 e9"
+    />
+  )),
   branch(
-    ({ style }: any) => style.base.layout !== 'modal',
+    ({ style }) => style.base.layout !== 'modal',
     compose(
-      mapStyle({ base: { base: [['filter', 'layout', 'spacing']] } }),
-      renderComponent(({ items, style }: any) => (
-        <Div style={style.base}>{items}</Div>
-      )),
+      map(restyle({ base: { base: [['filter', 'layout', 'spacing']] } })),
+      render(({ items, style }) => <Div style={style.base}>{items}</Div>),
     ),
   ),
   focusOnMouse,
@@ -174,11 +165,13 @@ export default compose<any, any>(
     ),
     ({ isOpen }) => isOpen,
   ),
-  mapStyle(['isFocused'], isFocused => ({
-    base: {
-      label: [['merge', userSelect], ['mergeKeys', { active: isFocused }]],
-    },
-  })),
+  map(
+    restyle(['isFocused'], isFocused => ({
+      base: {
+        label: [['merge', userSelect], ['mergeKeys', { active: isFocused }]],
+      },
+    })),
+  ),
 )(
   ({
     value,

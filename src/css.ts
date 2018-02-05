@@ -1,4 +1,4 @@
-const css = `
+const base = `
 
 .e0.e1.e2.e3.e4,
 .e0.e1.e2.e3.e4:before,
@@ -60,10 +60,66 @@ const css = `
 
 `;
 
-if (typeof document !== 'undefined') {
-  const div = document.createElement('div');
-  div.innerHTML = `&shy;<style>${css}</style>`;
-  document.body.appendChild(div.childNodes[1]);
-}
+const groups = {
+  text: [
+    'font',
+    'color',
+    'textAlign',
+    'letterSpacing',
+    'wordSpacing',
+    'textShadow',
+    'wordBreak',
+    'textDecoration',
+    'textTransform',
+    'overflowWrap',
+    'wordWrap',
+    'whiteSpace',
+    'userSelect',
+    'MozUserSelect',
+    'msUserSelect',
+    'WebkitUserSelect',
+    'textIndent',
+    'textOverflow',
+  ],
+  box: [
+    'background',
+    'padding',
+    'border',
+    'borderRadius',
+    'boxShadow',
+    'boxSizing',
+    'animation',
+    'spacing',
+    'layout',
+  ],
+  other: [
+    'cursor',
+    'overflow',
+    'outline',
+    'position',
+    'top',
+    'right',
+    'bottom',
+    'left',
+    'width',
+    'height',
+    'minWidth',
+    'maxWidth',
+    'minHeight',
+    'maxHeight',
+    'float',
+    'clear',
+    'zIndex',
+    'animation',
+    'display',
+    'visibility',
+    'opacity',
+    'margin',
+    'verticalAlign',
+  ],
+};
 
-export default css;
+export default {
+  base,
+  groups,
+};

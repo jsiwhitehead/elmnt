@@ -1,8 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { compose, withHandlers, withProps, withState } from 'recompose';
+import { enclose } from 'mishmash';
+import keysToObject from 'keys-to-object';
 
-import { Div, Input, Mark, Txt } from '../src';
+import { css, Div, Input, Mark, Txt } from '../src';
+
+const div = document.createElement('div');
+div.innerHTML = `&shy;<style>${css.base}</style>`;
+document.body.appendChild(div.childNodes[1]);
 
 const processingGrey = 'rgba(255,255,255,.4)';
 
@@ -77,25 +82,24 @@ const inputStyle = {
   },
 };
 
-const TestApp = compose<any, any>(
-  withState('state', 'setState', {
-    1: 'hello',
-    9: 'asdf:test.pdf',
-  }),
-  withHandlers({
-    value: ({ state }) => name =>
-      state[name] === undefined ? null : state[name],
-    ...[1, 2, 3, 4, 5, 6, 7, 8, 9].reduce(
-      (res, i) => ({
-        ...res,
-        [`onChange${i}`]: ({ setState }) => value =>
-          setState(state => ({ ...state, [i]: value })),
-      }),
-      {},
-    ),
-  } as any),
-  withProps(({ state }: any) => console.log(state)),
-)(({ value, ...props }) => (
+const TestApp = enclose(
+  ({ setState }) => {
+    return (_, state) =>
+      console.log(state) || {
+        ...keysToObject(
+          [1, 2, 3, 4, 5, 6, 7, 8, 9],
+          k => state[k],
+          k => `value${k}`,
+        ),
+        ...keysToObject(
+          [1, 2, 3, 4, 5, 6, 7, 8, 9],
+          k => value => setState({ [k]: value }),
+          k => `onChange${k}`,
+        ),
+      };
+  },
+  { 1: 'hello', 9: 'asdf:test.pdf' },
+)(props => (
   <Div style={{ padding: '50px 150px', layout: 'stack', spacing: 30 }}>
     <Txt>
       Hello <span style={{ fontWeight: 'bold' }}>there</span>,{' '}
@@ -117,7 +121,7 @@ Hello *there*.
     `}</Mark>
 
     <Input
-      value={value(1)}
+      value={props.value1}
       onChange={props.onChange1}
       type="string"
       style={inputStyle}
@@ -126,14 +130,14 @@ Hello *there*.
     />
 
     <Input
-      value={value(2)}
+      value={props.value2}
       onChange={props.onChange2}
       type="date"
       style={inputStyle}
     />
 
     <Input
-      value={value(3)}
+      value={props.value3}
       onChange={props.onChange3}
       type="boolean"
       label="Hello"
@@ -141,7 +145,7 @@ Hello *there*.
     />
 
     <Input
-      value={value(4)}
+      value={props.value4}
       onChange={props.onChange4}
       type="string"
       options={[null, 'One', 'Two', 'Three']}
@@ -150,7 +154,7 @@ Hello *there*.
     />
 
     <Input
-      value={value(5)}
+      value={props.value5}
       onChange={props.onChange5}
       type="stringlist"
       options={['One', 'Two', 'Three']}
@@ -160,7 +164,7 @@ Hello *there*.
     <table>
       <tbody>
         <Input
-          value={value(6)}
+          value={props.value6}
           onChange={props.onChange6}
           type="string"
           text="Hello"
@@ -172,7 +176,7 @@ Hello *there*.
     </table>
 
     <Input
-      value={value(7)}
+      value={props.value7}
       onChange={props.onChange7}
       type="string"
       options={[
@@ -201,7 +205,7 @@ Hello *there*.
     />
 
     <Input
-      value={value(8)}
+      value={props.value8}
       onChange={props.onChange8}
       type="stringlist"
       options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
@@ -210,7 +214,7 @@ Hello *there*.
     />
 
     <Input
-      value={value(9)}
+      value={props.value9}
       onChange={props.onChange9}
       type="file"
       style={inputStyle}
