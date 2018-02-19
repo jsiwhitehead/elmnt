@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { compose, enclose, map, methodWrap, restyle } from 'mishmash';
+import { compose, enclose, map, restyle } from 'mishmash';
 
 import css from '../../css';
 import Div from '../../div';
@@ -29,136 +29,130 @@ const fileIcons = {
 let counter = 0;
 
 export default compose(
-  enclose(
-    ({ initialProps, onProps, setState }) => {
-      let form;
-      let input;
-      let focusOnReset = false;
-      let successful = false;
-      let prevValue = initialProps.value || null;
+  enclose(({ initialProps, onProps, setState, methods }) => {
+    setState({ state: {}, clear: false });
 
-      const uploadIndex = counter++;
+    let form;
+    let input;
+    let focusOnReset = false;
+    let successful = false;
+    let prevValue = initialProps.value || null;
 
-      let serverUrl = initialProps.config.serverUrl;
-      const listener = event => {
-        if (serverUrl.startsWith(event.origin) && event.data === uploadIndex) {
-          successful = true;
-        }
-      };
-      window.addEventListener('message', listener);
-      onProps(
-        props => !props && window.removeEventListener('message', listener),
+    const uploadIndex = counter++;
+
+    let serverUrl = initialProps.config.serverUrl;
+    const listener = event => {
+      if (serverUrl.startsWith(event.origin) && event.data === uploadIndex) {
+        successful = true;
+      }
+    };
+    window.addEventListener('message', listener);
+    onProps(props => !props && window.removeEventListener('message', listener));
+
+    return (props, { state, clear }) => {
+      const allProps = { ...props, ...state, clear, uploadIndex };
+
+      const {
+        value,
+        onChange,
+        maxKb,
+        fileType,
+        config,
+        fileName,
+        setFocusElem,
+        ...otherProps
+      } = allProps;
+
+      serverUrl = config.serverUrl;
+      const { prepareUpload, getUploadInfo } = uploaders[config.uploader](
+        config,
       );
+      const info = getUploadInfo(allProps);
 
-      return (props, { state, clear }) => {
-        const allProps = { ...props, ...state, clear, uploadIndex };
+      const reset = () => {
+        focusOnReset = document.activeElement === input;
+        successful = false;
+        setState({ state: {}, clear: true }, () => setState({ clear: false }));
+      };
 
-        const {
-          value,
-          onChange,
-          maxKb,
-          fileType,
-          config,
-          fileName,
-          setFocusElem,
-          ...otherProps
-        } = allProps;
+      return {
+        fileName: value ? value.split(/\:(.+)$/)[1] : fileName || '',
+        processing: !!fileName,
+        info,
+        ...otherProps,
 
-        serverUrl = config.serverUrl;
-        const { prepareUpload, getUploadInfo } = uploaders[config.uploader](
-          config,
-        );
-        const info = getUploadInfo(allProps);
+        ...methods({
+          onChange: async () => {
+            if (input.value) {
+              if (checkFile(input.files, input.value, maxKb, fileType)) {
+                onChange(null);
+                const fileName = input.value
+                  .split('/')
+                  .pop()
+                  .split('\\')
+                  .pop();
+                setState({ state: { fileName } });
+                const uploadState = await prepareUpload(allProps);
+                setState({ state: { fileName, ...uploadState } }, () =>
+                  form.submit(),
+                );
+              }
+            }
+          },
 
-        const reset = () => {
-          focusOnReset = document.activeElement === input;
-          successful = false;
-          setState({ state: {}, clear: true }, () =>
-            setState({ clear: false }),
-          );
-        };
-
-        const methods = methodWrap();
-        return {
-          fileName: value ? value.split(/\:(.+)$/)[1] : fileName || '',
-          processing: !!fileName,
-          info,
-          ...otherProps,
-
-          ...methods({
-            onChange: async () => {
-              if (input.value) {
-                if (checkFile(input.files, input.value, maxKb, fileType)) {
-                  onChange(null);
-                  const fileName = input.value
-                    .split('/')
-                    .pop()
-                    .split('\\')
-                    .pop();
-                  setState({ state: { fileName } });
-                  const uploadState = await prepareUpload(allProps);
-                  setState({ state: { fileName, ...uploadState } }, () =>
-                    form.submit(),
+          onComplete: () =>
+            setTimeout(() => {
+              if (info.fileId) {
+                if (successful) {
+                  prevValue = `${info.fileId}:${fileName}`;
+                } else {
+                  alert(
+                    "Upload failed. It's likely that the file you chose is too big, please try again",
                   );
                 }
-              }
-            },
-
-            onComplete: () =>
-              setTimeout(() => {
-                if (info.fileId) {
-                  if (successful) {
-                    prevValue = `${info.fileId}:${fileName}`;
-                  } else {
-                    alert(
-                      "Upload failed. It's likely that the file you chose is too big, please try again",
-                    );
-                  }
-                  onChange(prevValue);
-                  reset();
-                }
-              }),
-
-            onClick: event => {
-              if (!value && fileName) {
                 onChange(prevValue);
                 reset();
-                event.preventDefault();
               }
-            },
-            onKeyDown: event => {
-              if (event.keyCode === 13 || event.keyCode === 32) {
-                input.click();
-                event.preventDefault();
-              }
-            },
-            onClear: event => {
-              if (value) {
-                prevValue = null;
-                onChange(null);
-              }
-              if (input) input.focus();
-              event.preventDefault();
-            },
-            onMouseDown: event => {
-              event.preventDefault();
-            },
+            }),
 
-            setFormElem: c => (form = c),
-            setFocusElem: c => {
-              input = c;
-              setFocusElem(c);
-              if (input && focusOnReset) {
-                input.focus();
-                focusOnReset = false;
-              }
-            },
-          }),
-        };
+          onClick: event => {
+            if (!value && fileName) {
+              onChange(prevValue);
+              reset();
+              event.preventDefault();
+            }
+          },
+          onKeyDown: event => {
+            if (event.keyCode === 13 || event.keyCode === 32) {
+              input.click();
+              event.preventDefault();
+            }
+          },
+          onClear: event => {
+            if (value) {
+              prevValue = null;
+              onChange(null);
+            }
+            if (input) input.focus();
+            event.preventDefault();
+          },
+          onMouseDown: event => {
+            event.preventDefault();
+          },
+
+          setFormElem: c => (form = c),
+          setFocusElem: c => {
+            input = c;
+            setFocusElem(c);
+            if (input && focusOnReset) {
+              input.focus();
+              focusOnReset = false;
+            }
+          },
+        }),
       };
-    },
-    { state: {}, clear: false },
-  ),
+    };
+  }),
   map(
     restyle(['isFocused', 'processing'], (isFocused, processing) => ({
       base: [['filter', ...css.groups.other], ['merge', { cursor: 'pointer' }]],

@@ -86,13 +86,13 @@ const createTxt = (input?: boolean) => {
               ]
             : []),
         ),
-      )(({ style, next, ...props }) => (
+      )(({ style, inner, ...props }) => (
         <span
           style={style.outer}
           {...props}
           className={`${props.className || ''} e5 e6 e7 e8 e9`}
         >
-          <span style={style.inner}>{next()}</span>
+          <span style={style.inner}>{inner()}</span>
         </span>
       )),
     ),
@@ -164,10 +164,12 @@ const createTxt = (input?: boolean) => {
       }),
       ({ children, ...props }) => {
         const v = (children || '').toString();
-        return { ...props, value: props.rows ? v : v.replace(/\n/g, '') };
+        return {
+          ...props,
+          value: props.rows === undefined ? v.replace(/\n/g, '') : v,
+        };
       },
       ({
-        password,
         tabIndex,
         onFocus,
         onBlur,
@@ -182,9 +184,11 @@ const createTxt = (input?: boolean) => {
         inputProps: {
           value,
           onChange: event => onTextChange(event.target.value),
-          type: password ? 'password' : 'text',
           onKeyDown: event => {
-            if (event.keyCode === 13 && props.rows) event.stopPropagation();
+            if (event.keyCode === 13) {
+              if (props.rows === undefined) event.preventDefault();
+              else event.stopPropagation();
+            }
           },
           tabIndex,
           onFocus,
@@ -196,7 +200,7 @@ const createTxt = (input?: boolean) => {
         },
       }),
     ),
-  )(({ placeholder, prompt, rows, style, value, inputProps }) => (
+  )(({ placeholder, prompt, rows, password, style, value, inputProps }) => (
     <span
       style={{
         position: 'relative',
@@ -211,7 +215,11 @@ const createTxt = (input?: boolean) => {
         prompt={prompt}
         style={style.placeholder}
       />
-      {rows ? <textarea {...inputProps} /> : <input {...inputProps} />}
+      {password ? (
+        <input type="password" {...inputProps} />
+      ) : (
+        <textarea {...inputProps} />
+      )}
     </span>
   ));
 };

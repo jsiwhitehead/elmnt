@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { map, restyle, withHover, Wrap } from 'mishmash';
+import { map, restyle, Use, withHover } from 'mishmash';
 import st from 'style-transform';
 
 import css from '../../css';
@@ -13,17 +13,14 @@ export default map(
   restyle(
     ['style.fontSize', 'style.iconSize', 'style.display', 'style.cursor'],
     (fontSize, iconSize, display, cursor) => ({
-      div: [
-        ['filter', ...css.groups.box, ...css.groups.other],
-        [
-          'merge',
-          {
-            layout: 'bar',
-            spacing: 0,
-            width: display === 'inline-block' ? 'auto' : '100%',
-            cursor: cursor || 'pointer',
-          },
-        ],
+      div: [['filter', ...css.groups.box, ...css.groups.other]],
+      bar: [
+        {
+          layout: 'bar',
+          spacing: 0,
+          width: display === 'inline-block' ? 'auto' : '100%',
+          cursor: cursor || 'pointer',
+        },
       ],
       icon: [
         ['filter', 'color'],
@@ -81,62 +78,64 @@ export default map(
     setFocusElem,
     style,
   }) => (
-    <Div style={style.div}>
-      {iconLeft &&
-        (onClickLeft ? (
-          <div onMouseDown={onClickLeft} style={style.iconLeft}>
-            <Wrap hoc={withHover}>
-              {({ isHovered: icon, hoverProps }) => (
-                <div
-                  {...hoverProps}
-                  style={st(style.iconHover, [['mergeKeys', { icon }]])}
-                >
-                  <Marker type={iconLeft} style={style.icon} />
-                </div>
-              )}
-            </Wrap>
-          </div>
+    <div style={style.div}>
+      <Div style={style.bar}>
+        {iconLeft &&
+          (onClickLeft ? (
+            <div onMouseDown={onClickLeft} style={style.iconLeft}>
+              <Use hoc={withHover}>
+                {({ isHovered: icon, hoverProps }) => (
+                  <div
+                    {...hoverProps}
+                    style={st(style.iconHover, [['mergeKeys', { icon }]])}
+                  >
+                    <Marker type={iconLeft} style={style.icon} />
+                  </div>
+                )}
+              </Use>
+            </div>
+          ) : (
+            <div style={style.iconLeft}>
+              <Marker type={iconLeft} style={style.icon} />
+            </div>
+          ))}
+        {onTextChange ? (
+          <TxtInput
+            onTextChange={onTextChange}
+            {...focusProps}
+            focusRef={setFocusElem}
+            placeholder={placeholder}
+            prompt={prompt}
+            rows={rows}
+            password={password}
+            tab={tab}
+            spellCheck={spellCheck}
+            style={style.text}
+            children={text}
+          />
         ) : (
-          <div style={style.iconLeft}>
-            <Marker type={iconLeft} style={style.icon} />
-          </div>
-        ))}
-      {onTextChange ? (
-        <TxtInput
-          onTextChange={onTextChange}
-          {...focusProps}
-          focusRef={setFocusElem}
-          placeholder={placeholder}
-          prompt={prompt}
-          rows={rows}
-          password={password}
-          tab={tab}
-          spellCheck={spellCheck}
-          style={style.text}
-          children={text}
-        />
-      ) : (
-        <Txt placeholder={placeholder} style={style.text} children={text} />
-      )}
-      {iconRight &&
-        (onClickRight ? (
-          <div onMouseDown={onClickRight} style={style.iconRight}>
-            <Wrap hoc={withHover}>
-              {({ isHovered: icon, hoverProps }) => (
-                <div
-                  {...hoverProps}
-                  style={st(style.iconHover, [['mergeKeys', { icon }]])}
-                >
-                  <Marker type={iconRight} style={style.icon} />
-                </div>
-              )}
-            </Wrap>
-          </div>
-        ) : (
-          <div style={style.iconRight}>
-            <Marker type={iconRight} style={style.icon} />
-          </div>
-        ))}
-    </Div>
+          <Txt placeholder={placeholder} style={style.text} children={text} />
+        )}
+        {iconRight &&
+          (onClickRight ? (
+            <div onMouseDown={onClickRight} style={style.iconRight}>
+              <Use hoc={withHover}>
+                {({ isHovered: icon, hoverProps }) => (
+                  <div
+                    {...hoverProps}
+                    style={st(style.iconHover, [['mergeKeys', { icon }]])}
+                  >
+                    <Marker type={iconRight} style={style.icon} />
+                  </div>
+                )}
+              </Use>
+            </div>
+          ) : (
+            <div style={style.iconRight}>
+              <Marker type={iconRight} style={style.icon} />
+            </div>
+          ))}
+      </Div>
+    </div>
   ),
 );

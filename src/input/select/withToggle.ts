@@ -1,9 +1,8 @@
-import { enclose, HOC, methodWrap } from 'mishmash';
+import { enclose, HOC } from 'mishmash';
 
-export default enclose(() => props => {
+export default enclose(({ methods }) => props => {
   const { value, label, options: { on, off = null }, onChange } = props;
   const selectIndex = () => onChange(value === on ? off : on);
-  const methods = methodWrap();
   return {
     ...props,
     activeIndex: 0,

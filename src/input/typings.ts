@@ -93,7 +93,12 @@ export type StringlistProps = { type: 'stringlist' } & (
   | TextInputBase<(string | null)[]>
   | SelectInputBase<(string | null)[]>);
 
-export type InputProps = { invalid?: boolean } & (
+export type InputProps = {
+  invalid?: boolean;
+  onFocus?: (event: any) => void;
+  onBlur?: (event: any) => void;
+  ref?: string | ((elem: Element | null) => any);
+} & (
   | BooleanProps
   | IntProps
   | FloatProps

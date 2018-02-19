@@ -82,24 +82,22 @@ const inputStyle = {
   },
 };
 
-const TestApp = enclose(
-  ({ setState }) => {
-    return (_, state) =>
-      console.log(state) || {
-        ...keysToObject(
-          [1, 2, 3, 4, 5, 6, 7, 8, 9],
-          k => state[k],
-          k => `value${k}`,
-        ),
-        ...keysToObject(
-          [1, 2, 3, 4, 5, 6, 7, 8, 9],
-          k => value => setState({ [k]: value }),
-          k => `onChange${k}`,
-        ),
-      };
-  },
-  { 1: 'hello', 9: 'asdf:test.pdf' },
-)(props => (
+const TestApp = enclose(({ setState }) => {
+  setState({ 1: 'hello', 9: 'asdf:test.pdf' });
+  return (_, state) =>
+    console.log(state) || {
+      ...keysToObject(
+        [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        k => state[k],
+        k => `value${k}`,
+      ),
+      ...keysToObject(
+        [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        k => value => setState({ [k]: value }),
+        k => `onChange${k}`,
+      ),
+    };
+})(props => (
   <Div style={{ padding: '50px 150px', layout: 'stack', spacing: 30 }}>
     <Txt>
       Hello <span style={{ fontWeight: 'bold' }}>there</span>,{' '}
@@ -127,6 +125,7 @@ Hello *there*.
       style={inputStyle}
       spellCheck={false}
       placeholder="Enter value"
+      rows={0}
     />
 
     <Input

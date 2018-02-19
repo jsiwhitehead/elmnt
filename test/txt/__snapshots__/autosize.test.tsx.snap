@@ -2,59 +2,64 @@
 
 exports[`txt: autosize multiple lines of text, no rows 1`] = `
 <span
-  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;max-height:30px;display:block;overflow:hidden"
+  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden"
 >
   Hello
-World!
+World!.
 </span>
 `;
 
 exports[`txt: autosize multiple lines of text, single row 1`] = `
 <span
-  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;max-height:none;display:block;overflow:hidden"
+  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden"
 >
   Hello
 World!
+.
 </span>
 `;
 
 exports[`txt: autosize multiple lines of text, three rows 1`] = `
 <span
-  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:90px;max-height:none;display:block;overflow:hidden"
+  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:90px;display:block;overflow:hidden"
 >
   Hello
 World!
+.
 </span>
 `;
 
 exports[`txt: autosize single line of text, no rows 1`] = `
 <span
-  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;max-height:30px;display:block;overflow:hidden"
+  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden"
 >
-  Hello!
+  Hello!.
 </span>
 `;
 
 exports[`txt: autosize single line of text, single row 1`] = `
 <span
-  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;max-height:none;display:block;overflow:hidden"
+  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden"
 >
   Hello!
+.
 </span>
 `;
 
 exports[`txt: autosize single line of text, single row, overwritten style 1`] = `
 <span
-  style="line-height:30px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;max-height:none;display:block;overflow:hidden"
+  style="line-height:30px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden"
 >
   Hello!
+.
 </span>
 `;
 
 exports[`txt: autosize single line of text, three rows 1`] = `
 <span
-  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:90px;max-height:none;display:block;overflow:hidden"
+  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:90px;display:block;overflow:hidden"
 >
   Hello!
+.
 </span>
 `;

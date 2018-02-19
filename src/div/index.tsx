@@ -35,7 +35,7 @@ const mapChildren = (
 const Div = compose(
   branch(
     ({ style }) => !(style && (style.layout || style.spacing)),
-    render(({ children, next: _, ...otherProps }) => (
+    render(({ children, inner: _, ...otherProps }) => (
       <div {...otherProps} className={getElmntClass(otherProps.className)}>
         {children}
         <div
@@ -55,7 +55,13 @@ const Div = compose(
   branch(
     ({ divStyles: { layout } }) => layout === 'bar',
     render(
-      ({ style, divStyles: { spacing }, children, next: _, ...otherProps }) => (
+      ({
+        style,
+        divStyles: { spacing },
+        children,
+        inner: _,
+        ...otherProps
+      }) => (
         <div
           style={{ ...style, display: 'table', verticalAlign: undefined }}
           {...otherProps}
@@ -82,7 +88,7 @@ const Div = compose(
   ),
   branch(
     ({ divStyles: { layout } }) => layout === 'grid',
-    render(({ divStyles: { spacing }, children, next: _, ...otherProps }) => (
+    render(({ divStyles: { spacing }, children, inner: _, ...otherProps }) => (
       <Div {...otherProps}>
         <div
           style={{ paddingTop: 1, paddingLeft: 1 }}
@@ -117,7 +123,7 @@ const Div = compose(
   ),
   branch(
     ({ divStyles: { layout } }) => !layout || layout === 'stack',
-    render(({ divStyles: { spacing }, children, next: _, ...otherProps }) => (
+    render(({ divStyles: { spacing }, children, inner: _, ...otherProps }) => (
       <div {...otherProps} className={getElmntClass(otherProps.className)}>
         {mapChildren(children, (child, i, first) => (
           <Div key={i} style={{ paddingTop: first ? 0 : spacing[0] }}>

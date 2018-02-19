@@ -118,7 +118,7 @@ export default compose(
   <div style={style.div}>
     <Div style={style.bar}>
       <Marker type={icon} style={style.icon} />
-      <Txt style={style.text}>{text}</Txt>
+      {text && <Txt style={style.text}>{text}</Txt>}
     </Div>
   </div>
 ));

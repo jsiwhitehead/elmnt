@@ -18,12 +18,11 @@ export default map<AutosizeProps>(
         whiteSpace: 'pre-wrap',
         wordBreak: 'break-word',
         minHeight: parseFloat(lineHeight) * (rows || 1),
-        maxHeight: rows ? 'none' : parseFloat(lineHeight),
         display: 'block',
         overflow: 'hidden',
       },
     ],
   ]),
-)(({ value, style }) => (
-  <span style={style}>{(value || '').replace(/\n$/, '\n.')}</span>
+)(({ value, rows, style }) => (
+  <span style={style}>{`${value || ''}${rows ? '\n' : ''}.`}</span>
 ));

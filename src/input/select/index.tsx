@@ -126,17 +126,19 @@ export default compose(
       ),
     ),
   ),
-  render(({ onKeyDown, hoverProps, focusProps, setFocusElem, style, next }) => (
-    <div
-      onKeyDown={onKeyDown}
-      {...hoverProps}
-      {...focusProps}
-      ref={setFocusElem}
-      style={style.div}
-      children={next()}
-      className="e5 e6 e7 e8 e9"
-    />
-  )),
+  render(
+    ({ onKeyDown, hoverProps, focusProps, setFocusElem, style, inner }) => (
+      <div
+        onKeyDown={onKeyDown}
+        {...hoverProps}
+        {...focusProps}
+        ref={setFocusElem}
+        style={style.div}
+        children={inner()}
+        className="e5 e6 e7 e8 e9"
+      />
+    ),
+  ),
   branch(
     ({ style }) => style.base.layout !== 'modal',
     compose(

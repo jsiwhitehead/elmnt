@@ -10,10 +10,12 @@ export default ({ path, viewBox, style, ...props }: IconProps) => {
   if (!path) {
     return (
       <span
-        style={{ ...style, display: 'block', width: size, height: size }}
+        style={{ ...style, display: 'block', width: 'auto', height: 'auto' }}
         className="e5 e6 e7 e8 e9"
         {...props}
-      />
+      >
+        <span style={{ display: 'block', width: size, height: size }} />
+      </span>
     );
   }
   return (
@@ -25,7 +27,7 @@ export default ({ path, viewBox, style, ...props }: IconProps) => {
       <svg
         width={size}
         height={size}
-        style={{ display: 'block' }}
+        style={{ display: 'block', width: size, height: size }}
         viewBox={viewBox}
       >
         <path style={{ fill: (style && style.color) || 'black' }} d={path} />
