@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { map, restyle, Use, withHover } from 'mishmash';
+import m, { watchHover } from 'mishmash';
 import st from 'style-transform';
 
 import css from '../../css';
@@ -8,9 +8,13 @@ import Txt, { TxtInput } from '../../txt';
 
 import Marker from './Marker';
 
-export default map(
-  restyle([['numeric', 'fontSize'], ['scale', { iconSize: { fontSize: 1 } }]]),
-  restyle(
+const Hover = m()
+  .enhance(watchHover)
+  .toComp();
+
+export default m()
+  .style([['numeric', 'fontSize'], ['scale', { iconSize: { fontSize: 1 } }]])
+  .style(
     ['style.fontSize', 'style.iconSize', 'style.display', 'style.cursor'],
     (fontSize, iconSize, display, cursor) => ({
       div: [['filter', ...css.groups.box, ...css.groups.other]],
@@ -51,16 +55,15 @@ export default map(
         [
           'scale',
           {
-            paddingLeft: { fontSize: 0.4 },
-            width: { iconSize: 1, fontSize: 0.4 },
+            paddingLeft: { fontSize: 1 },
+            width: { iconSize: 1, fontSize: 1 },
           },
         ],
         ['filter', 'paddingLeft', 'width'],
       ],
       text: [['filter', ...css.groups.text]],
     }),
-  ),
-)(
+  )(
   ({
     text,
     iconLeft,
@@ -76,14 +79,15 @@ export default map(
     onClickRight,
     focusProps,
     setFocusElem,
+    setLiftBaseElem,
     style,
   }) => (
-    <div style={style.div}>
+    <div style={style.div} ref={setLiftBaseElem}>
       <Div style={style.bar}>
         {iconLeft &&
           (onClickLeft ? (
             <div onMouseDown={onClickLeft} style={style.iconLeft}>
-              <Use hoc={withHover}>
+              <Hover>
                 {({ isHovered: icon, hoverProps }) => (
                   <div
                     {...hoverProps}
@@ -92,7 +96,7 @@ export default map(
                     <Marker type={iconLeft} style={style.icon} />
                   </div>
                 )}
-              </Use>
+              </Hover>
             </div>
           ) : (
             <div style={style.iconLeft}>
@@ -119,7 +123,7 @@ export default map(
         {iconRight &&
           (onClickRight ? (
             <div onMouseDown={onClickRight} style={style.iconRight}>
-              <Use hoc={withHover}>
+              <Hover>
                 {({ isHovered: icon, hoverProps }) => (
                   <div
                     {...hoverProps}
@@ -128,7 +132,7 @@ export default map(
                     <Marker type={iconRight} style={style.icon} />
                   </div>
                 )}
-              </Use>
+              </Hover>
             </div>
           ) : (
             <div style={style.iconRight}>

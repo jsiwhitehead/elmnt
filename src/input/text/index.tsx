@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { compose, enclose, focusOnMouse, map, restyle } from 'mishmash';
+import m, { focusOnMouse } from 'mishmash';
 
 import Label from '../components/Label';
 
 import parsers from './parsers';
 
-export default compose(
-  focusOnMouse,
-  enclose(({ onProps, setState }) => {
+export default m()
+  .enhance(focusOnMouse)
+  .enhance(({ onProps, setState }) => {
     setState({ text: '' });
     const state = { props: {} as any, text: '', config: {} as any };
 
@@ -22,20 +22,18 @@ export default compose(
 
       if (!parsers[type].equals(value, parsed.value)) onChange(parsed.value);
       else setState({ text: state.text });
+      state.props.onTextChange && state.props.onTextChange(state.text);
     };
 
     onProps(props => {
       if (props && props.value !== state.props.value) {
-        if (
+        const newText =
           props.value === null &&
           parsers[props.type].parse(state.text, props).value === null
-        ) {
-          setState({ text: state.text });
-        } else {
-          setState({
-            text: parsers[props.type].format(props.value, state.config, props),
-          });
-        }
+            ? state.text
+            : parsers[props.type].format(props.value, state.config, props);
+        setState({ text: newText });
+        props.onTextChange && props.onTextChange(newText);
       }
       state.props = props;
     });
@@ -67,27 +65,24 @@ export default compose(
           }
         : {}),
     });
-  }),
-  map(
-    restyle(['isFocused'], isFocused => ({
-      div: [
-        [
-          'filter',
-          'display',
-          'width',
-          'height',
-          'maxWidth',
-          'maxHeight',
-          'verticalAlign',
-        ],
+  })
+  .style(['isFocused'], isFocused => ({
+    div: [
+      [
+        'filter',
+        'display',
+        'width',
+        'height',
+        'maxWidth',
+        'maxHeight',
+        'verticalAlign',
       ],
-      label: [
-        ['mergeKeys', { active: isFocused }],
-        ['merge', { display: 'block', cursor: 'text' }],
-      ],
-    })),
-  ),
-)(
+    ],
+    label: [
+      ['mergeKeys', { active: isFocused }],
+      ['merge', { display: 'block', cursor: 'text' }],
+    ],
+  }))(
   ({
     text,
     onTextChange,

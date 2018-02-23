@@ -1,6 +1,6 @@
-import { enclose, HOC } from 'mishmash';
+import m, { HOC } from 'mishmash';
 
-export default enclose(({ methods }) => props => {
+export default m().enhance(({ methods }) => props => {
   const { value, label, options: { on, off = null }, onChange } = props;
   const selectIndex = () => onChange(value === on ? off : on);
   return {

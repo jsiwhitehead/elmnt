@@ -1,13 +1,5 @@
 import * as React from 'react';
-import {
-  branch,
-  compose,
-  focusOnMouse,
-  map,
-  render,
-  renderLifted,
-  restyle,
-} from 'mishmash';
+import m, { focusOnMouse, renderLifted } from 'mishmash';
 
 import css from '../../css';
 import Div from '../../div';
@@ -29,30 +21,30 @@ const userSelect = {
   WebkitUserSelect: 'none',
 };
 
-export default compose(
-  branch(({ options }) => Array.isArray(options), withSelect, withToggle),
-  map(
-    restyle(['style.layout'], layout => ({
-      base: null,
-      group: [
-        ['mergeKeys', 'group'],
-        [
-          'filter',
-          ...css.groups.text,
-          'paddingTop',
-          'paddingBottom',
-          ...(layout === 'modal' ? ['paddingLeft', 'paddingRight'] : []),
-        ],
-        ['merge', { width: '100%', ...userSelect }],
+export default m()
+  .branch(({ options }) => Array.isArray(options), withSelect, withToggle)
+  .style(['style.layout'], layout => ({
+    base: null,
+    group: [
+      ['mergeKeys', 'group'],
+      [
+        'filter',
+        ...css.groups.text,
+        'paddingTop',
+        'paddingBottom',
+        ...(layout === 'modal' ? ['paddingLeft', 'paddingRight'] : []),
       ],
-      keyCell: [
-        ['mergeKeys', 'key'],
-        ['scale', { paddingRight: { fontSize: 1 } }],
-        ['filter', 'padding', 'width'],
-        ['merge', { verticalAlign: 'middle' }],
-      ],
-      keyText: [['mergeKeys', 'key'], ['filter', ...css.groups.text]],
-    })),
+      ['merge', { width: '100%', ...userSelect }],
+    ],
+    keyCell: [
+      ['mergeKeys', 'key'],
+      ['scale', { paddingRight: { fontSize: 1 } }],
+      ['filter', 'padding', 'width'],
+      ['merge', { verticalAlign: 'middle' }],
+    ],
+    keyText: [['mergeKeys', 'key'], ['filter', ...css.groups.text]],
+  }))
+  .map(
     ({
       text,
       selectIndex,
@@ -100,81 +92,65 @@ export default compose(
         ),
       ],
     }),
-    restyle(['style.base.layout'], layout => ({
-      base: {
-        div: [
-          ['filter', ...css.groups.other],
-          layout === 'table' && ['mergeKeys', 'row'],
-          ['merge', { outline: 'none' }],
-        ],
-      },
-    })),
-  ),
-  branch(
-    ({ style }) => style.base.layout === 'table',
-    render(
-      ({ onKeyDown, hoverProps, focusProps, setFocusElem, style, items }) => (
-        <tr
-          onKeyDown={onKeyDown}
-          {...hoverProps}
-          {...focusProps}
-          ref={setFocusElem}
-          style={style.div}
+  )
+  .style(['style.base.layout'], layout => ({
+    base: {
+      div: [
+        ['filter', ...(layout !== 'modal' ? css.groups.other : [])],
+        layout === 'table' && ['mergeKeys', 'row'],
+        ['merge', { outline: 'none' }],
+      ],
+    },
+  }))
+  .render(
+    ({ onKeyDown, hoverProps, focusProps, setFocusElem, style, items, next }) =>
+      React.createElement(
+        style.base.layout === 'table' ? 'tr' : 'div',
+        {
+          onKeyDown,
+          ...hoverProps,
+          ...focusProps,
+          ref: setFocusElem,
+          style: style.div,
+          className: 'e5 e6 e7 e8 e9',
+        },
+        style.base.layout === 'table' ? items : next(),
+      ),
+  )
+  .branch(
+    ({ style }) => style.base.layout !== 'modal',
+    m()
+      .style({ base: { base: [['filter', 'layout', 'spacing']] } })
+      .render(({ items, style }) => <Div style={style.base}>{items}</Div>),
+  )
+  .enhance(focusOnMouse)
+  .merge(
+    renderLifted(
+      ({
+        closeModal,
+        onMouseDown,
+        hoverProps,
+        setScrollElem,
+        style,
+        items,
+        liftBounds,
+      }) => (
+        <Modal
+          closeModal={closeModal}
+          modalProps={{ onMouseDown, ...hoverProps, ref: setScrollElem }}
+          baseBounds={liftBounds}
+          style={style.base}
           children={items}
-          className="e5 e6 e7 e8 e9"
         />
       ),
+      ({ isOpen }) => isOpen,
     ),
-  ),
-  render(
-    ({ onKeyDown, hoverProps, focusProps, setFocusElem, style, inner }) => (
-      <div
-        onKeyDown={onKeyDown}
-        {...hoverProps}
-        {...focusProps}
-        ref={setFocusElem}
-        style={style.div}
-        children={inner()}
-        className="e5 e6 e7 e8 e9"
-      />
-    ),
-  ),
-  branch(
-    ({ style }) => style.base.layout !== 'modal',
-    compose(
-      map(restyle({ base: { base: [['filter', 'layout', 'spacing']] } })),
-      render(({ items, style }) => <Div style={style.base}>{items}</Div>),
-    ),
-  ),
-  focusOnMouse,
-  renderLifted(
-    ({
-      closeModal,
-      onMouseDown,
-      hoverProps,
-      setScrollElem,
-      style,
-      items,
-      liftBounds,
-    }) => (
-      <Modal
-        closeModal={closeModal}
-        modalProps={{ onMouseDown, ...hoverProps, ref: setScrollElem }}
-        baseBounds={liftBounds}
-        style={style.base}
-        children={items}
-      />
-    ),
-    ({ isOpen }) => isOpen,
-  ),
-  map(
-    restyle(['isFocused'], isFocused => ({
-      base: {
-        label: [['merge', userSelect], ['mergeKeys', { active: isFocused }]],
-      },
-    })),
-  ),
-)(
+  )
+  .style(['isFocused'], isFocused => ({
+    base: {
+      label: [['merge', userSelect], ['mergeKeys', { active: isFocused }]],
+    },
+  }))(
   ({
     value,
     isList,
@@ -184,11 +160,12 @@ export default compose(
     placeholder,
     style,
   }) => (
-    <div onMouseDown={openModal} ref={setLiftBaseElem}>
+    <div onMouseDown={openModal}>
       <Label
         text={value && labelText}
         iconRight={isList ? 'updown' : 'down'}
         placeholder={placeholder || labelText}
+        setLiftBaseElem={setLiftBaseElem}
         style={style.label}
       />
     </div>

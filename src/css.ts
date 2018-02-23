@@ -116,6 +116,10 @@ const groups = {
     'opacity',
     'margin',
     'verticalAlign',
+    'userSelect',
+    'MozUserSelect',
+    'msUserSelect',
+    'WebkitUserSelect',
   ],
 };
 

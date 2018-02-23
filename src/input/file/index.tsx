@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { compose, enclose, map, restyle } from 'mishmash';
+import m from 'mishmash';
 
 import css from '../../css';
 import Div from '../../div';
@@ -28,19 +28,19 @@ const fileIcons = {
 
 let counter = 0;
 
-export default compose(
-  enclose(({ initialProps, onProps, setState, methods }) => {
+export default m()
+  .enhance(({ firstProps, onProps, setState, methods }) => {
     setState({ state: {}, clear: false });
 
     let form;
     let input;
     let focusOnReset = false;
     let successful = false;
-    let prevValue = initialProps.value || null;
+    let prevValue = firstProps.value || null;
 
     const uploadIndex = counter++;
 
-    let serverUrl = initialProps.config.serverUrl;
+    let serverUrl = firstProps.config.serverUrl;
     const listener = event => {
       if (serverUrl.startsWith(event.origin) && event.data === uploadIndex) {
         successful = true;
@@ -152,30 +152,27 @@ export default compose(
         }),
       };
     };
-  }),
-  map(
-    restyle(['isFocused', 'processing'], (isFocused, processing) => ({
-      base: [['filter', ...css.groups.other], ['merge', { cursor: 'pointer' }]],
-      label: [
-        ['mergeKeys', { active: isFocused, processing }],
-        ['filter', ...css.groups.text, ...css.groups.box],
-        [
-          'merge',
-          {
-            borderRightWidth: 0,
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: 0,
-          },
-        ],
+  })
+  .style(['isFocused', 'processing'], (isFocused, processing) => ({
+    base: [['filter', ...css.groups.other], ['merge', { cursor: 'pointer' }]],
+    label: [
+      ['mergeKeys', { active: isFocused, processing }],
+      ['filter', ...css.groups.text, ...css.groups.box],
+      [
+        'merge',
+        {
+          borderRightWidth: 0,
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0,
+        },
       ],
-      button: [
-        ['mergeKeys', { active: isFocused, button: true }],
-        ['filter', ...css.groups.text, ...css.groups.box, 'width'],
-        ['merge', { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }],
-      ],
-    })),
-  ),
-)(
+    ],
+    button: [
+      ['mergeKeys', { active: isFocused, button: true }],
+      ['filter', ...css.groups.text, ...css.groups.box, 'width'],
+      ['merge', { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }],
+    ],
+  }))(
   ({
     fileName,
     processing,

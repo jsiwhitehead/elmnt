@@ -1,4 +1,4 @@
-import { enclose, HOC, memoize } from 'mishmash';
+import m, { HOC, memoize } from 'mishmash';
 
 const undefToNull = v => (v === undefined ? null : v);
 
@@ -8,7 +8,7 @@ const modMove = (start: number, delta: number, max: number) => {
   return mod(delta > 0 ? delta - 1 : delta, max);
 };
 
-export default enclose(({ setState, methods }) => {
+export default m().enhance(({ setState, methods }) => {
   setState({ activeIndex: 0, isOpen: false, noScrollRef: false });
 
   const isOpening = { value: false, timeout: null as NodeJS.Timer | null };

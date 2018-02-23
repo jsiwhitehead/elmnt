@@ -1,15 +1,5 @@
 import * as React from 'react';
-import {
-  compose,
-  CSSTree,
-  focusable,
-  focusOnMouse,
-  map,
-  omit,
-  pure,
-  render,
-  restyle,
-} from 'mishmash';
+import m, { CSSTree, focusable, focusOnMouse, omit } from 'mishmash';
 
 import css from '../css';
 
@@ -34,30 +24,31 @@ export interface TxtProps extends React.HTMLProps<{}> {
 }
 
 const createTxt = (input?: boolean) => {
-  const base = compose(
-    ...(input ? [focusable] : []),
-    pure,
-    ...(input ? [focusOnMouse] : []),
-    map(
-      restyle(
+  const base = (input
+    ? m()
+        .merge(focusable)
+        .pure()
+        .enhance(focusOnMouse)
+    : m().pure()
+  )
+    .style(
+      [
         [
-          [
-            'defaults',
-            {
-              fontSize: 16,
-              lineHeight: 1.5,
-              cursor: input ? 'text' : undefined,
-            },
-          ],
-          ['block'],
-          ['lineHeightPx'],
+          'defaults',
+          {
+            fontSize: 16,
+            lineHeight: 1.5,
+            cursor: input ? 'text' : undefined,
+          },
         ],
-        cssTransforms,
-      ),
-    ),
-    render(
-      map(
-        restyle(['style.fontSize'], fontSize => ({
+        ['block'],
+        ['lineHeightPx'],
+      ],
+      cssTransforms,
+    )
+    .render(
+      m()
+        .style(['style.fontSize'], fontSize => ({
           outer: [
             ['filterKeys'],
             ['filter', ...css.groups.box, ...css.groups.other],
@@ -65,55 +56,51 @@ const createTxt = (input?: boolean) => {
           inner: [
             { padding: '1px 0px', display: 'block', minHeight: fontSize },
           ],
-        })),
-        omit(
-          'placeholder',
-          ...(input
-            ? [
-                'onTextChange',
-                'placeholder',
-                'prompt',
-                'rows',
-                'password',
-                'tab',
-                'tabIndex',
-                'onFocus',
-                'onBlur',
-                'focusElem',
-                'setFocusElem',
-                'focusRef',
-                'spellCheck',
-              ]
-            : []),
-        ),
-      )(({ style, inner, ...props }) => (
+        }))
+        .map(
+          omit(
+            'placeholder',
+            ...(input
+              ? [
+                  'onTextChange',
+                  'placeholder',
+                  'prompt',
+                  'rows',
+                  'password',
+                  'tab',
+                  'tabIndex',
+                  'onFocus',
+                  'onBlur',
+                  'focusElem',
+                  'setFocusElem',
+                  'focusRef',
+                  'spellCheck',
+                ]
+              : []),
+          ),
+        )(({ style, next, ...props }) => (
         <span
           style={style.outer}
           {...props}
           className={`${props.className || ''} e5 e6 e7 e8 e9`}
         >
-          <span style={style.inner}>{inner()}</span>
+          <span style={style.inner}>{next()}</span>
         </span>
       )),
-    ),
-    map(
-      restyle({
-        text: [['filterKeys'], ['filter', ...css.groups.text]],
-        placeholder: [
-          ['mergeKeys', 'placeholder'],
-          ['filter', ...css.groups.text],
-        ],
-      }),
-    ),
-  );
+    )
+    .style({
+      text: [['filterKeys'], ['filter', ...css.groups.text]],
+      placeholder: [
+        ['mergeKeys', 'placeholder'],
+        ['filter', ...css.groups.text],
+      ],
+    });
+
   if (!input) {
-    return compose(
-      base,
-      map(({ children, placeholder, style }) => ({
-        children: children || placeholder,
-        style: children ? style.text : style.placeholder,
-      })),
-    )(({ style, children }) => (
+    return base.map(({ children, placeholder, style }) => ({
+      children: children || placeholder,
+      style: children ? style.text : style.placeholder,
+    }))(({ style, children }) => (
       <span style={{ ...style, display: 'block', margin: getMargin(style) }}>
         {React.Children.toArray(children).reduce<React.ReactNode[]>(
           (result, child, i) =>
@@ -135,40 +122,39 @@ const createTxt = (input?: boolean) => {
       </span>
     ));
   }
-  return compose(
-    base,
-    map(
-      restyle({
-        text: {
-          input: [
-            [
-              'merge',
-              {
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                resize: 'none',
-                overflow: 'hidden',
-                background: 'transparent',
-                outline: 'none',
-                border: 0,
-                padding: 0,
-                margin: 0,
-                display: 'block',
-              },
-            ],
+  return base
+    .style({
+      text: {
+        input: [
+          [
+            'merge',
+            {
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              resize: 'none',
+              overflow: 'hidden',
+              background: 'transparent',
+              outline: 'none',
+              border: 0,
+              padding: 0,
+              margin: 0,
+              display: 'block',
+            },
           ],
-        },
-      }),
-      ({ children, ...props }) => {
-        const v = (children || '').toString();
-        return {
-          ...props,
-          value: props.rows === undefined ? v.replace(/\n/g, '') : v,
-        };
+        ],
       },
+    })
+    .map(({ children, ...props }) => {
+      const v = (children || '').toString();
+      return {
+        ...props,
+        value: props.rows === undefined ? v.replace(/\n/g, '') : v,
+      };
+    })
+    .map(
       ({
         tabIndex,
         onFocus,
@@ -199,8 +185,7 @@ const createTxt = (input?: boolean) => {
           style: props.style.input,
         },
       }),
-    ),
-  )(({ placeholder, prompt, rows, password, style, value, inputProps }) => (
+    )(({ placeholder, prompt, rows, password, style, value, inputProps }) => (
     <span
       style={{
         position: 'relative',

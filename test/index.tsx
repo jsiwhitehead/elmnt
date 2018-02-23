@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { enclose } from 'mishmash';
+import r from 'mishmash';
 import keysToObject from 'keys-to-object';
 
 import { css, Div, Input, Mark, Txt } from '../src';
@@ -82,7 +82,7 @@ const inputStyle = {
   },
 };
 
-const TestApp = enclose(({ setState }) => {
+const TestApp = r().enhance(({ setState }) => {
   setState({ 1: 'hello', 9: 'asdf:test.pdf' });
   return (_, state) =>
     console.log(state) || {

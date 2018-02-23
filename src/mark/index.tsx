@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as commonmark from 'commonmark';
 import * as CommonmarkRenderer from 'commonmark-react-renderer';
-import { CSSTree, map, memoize, restyle } from 'mishmash';
+import m, { Comp, CSSTree, memoize } from 'mishmash';
 
 import css from '../css';
 import Div from '../div';
@@ -109,13 +109,13 @@ export interface MarkProps {
   style?: CSSTree<'em' | 'st' | 'link' | 'heading' | 'hr'>;
   children?: string;
 }
-export default map<MarkProps>(
-  restyle([
+export default m()
+  .style([
     ['defaults', { fontSize: 16, lineHeight: 1.5, color: 'black' }],
     ['numeric', 'fontSize'],
     ['scale', { lineGap: { fontSize: -1, lineHeight: 1 } }],
-  ]),
-  restyle(
+  ])
+  .style(
     ['style.fontSize', 'style.color', 'style.lineGap'],
     (fontSize, color, lineGap) => ({
       div: [
@@ -183,8 +183,8 @@ export default map<MarkProps>(
         ['mergeKeys', 'hr'],
       ],
     }),
-  ),
-  restyle(
+  )
+  .style(
     ['style.text.fontSize', 'style.heading.fontSize'],
     (textSize, headingSize) => {
       const headingScale = Math.pow(headingSize / textSize, 1 / 4);
@@ -199,8 +199,7 @@ export default map<MarkProps>(
         },
       };
     },
-  ),
-)(({ domain, style, children }) => (
+  )(({ domain, style, children }) => (
   <Div style={style.div}>
     {buildRenderer(style, domain).render(
       parser.parse(
@@ -228,4 +227,4 @@ export default map<MarkProps>(
       ),
     )}
   </Div>
-));
+)) as Comp<MarkProps>;
