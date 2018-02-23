@@ -96,7 +96,12 @@ export default m()
   .style(['style.base.layout'], layout => ({
     base: {
       div: [
-        ['filter', ...(layout !== 'modal' ? css.groups.other : [])],
+        [
+          'filter',
+          ...(layout !== 'modal'
+            ? css.groups.other
+            : ['maxWidth', 'maxHeight']),
+        ],
         layout === 'table' && ['mergeKeys', 'row'],
         ['merge', { outline: 'none' }],
       ],
