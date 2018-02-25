@@ -1,5 +1,5 @@
 import * as React from 'react';
-import m from 'mishmash';
+import m, { restyle } from 'mishmash';
 
 import css from '../../css';
 import Div from '../../div';
@@ -28,26 +28,26 @@ const fileIcons = {
 
 let counter = 0;
 
-export default m()
-  .enhance(({ firstProps, onProps, setState, methods }) => {
-    setState({ state: {}, clear: false });
+export default m
+  .stream(({ initial, observe, push }) => {
+    push({ state: {}, clear: false });
 
     let form;
     let input;
     let focusOnReset = false;
     let successful = false;
-    let prevValue = firstProps.value || null;
+    let prevValue = initial.value || null;
 
     const uploadIndex = counter++;
 
-    let serverUrl = firstProps.config.serverUrl;
+    let serverUrl = initial.config.serverUrl;
     const listener = event => {
       if (serverUrl.startsWith(event.origin) && event.data === uploadIndex) {
         successful = true;
       }
     };
     window.addEventListener('message', listener);
-    onProps(props => !props && window.removeEventListener('message', listener));
+    observe(props => !props && window.removeEventListener('message', listener));
 
     return (props, { state, clear }) => {
       const allProps = { ...props, ...state, clear, uploadIndex };
@@ -72,7 +72,7 @@ export default m()
       const reset = () => {
         focusOnReset = document.activeElement === input;
         successful = false;
-        setState({ state: {}, clear: true }, () => setState({ clear: false }));
+        push({ state: {}, clear: true }, () => push({ clear: false }));
       };
 
       return {
@@ -81,98 +81,108 @@ export default m()
         info,
         ...otherProps,
 
-        ...methods({
-          onChange: async () => {
-            if (input.value) {
-              if (checkFile(input.files, input.value, maxKb, fileType)) {
-                onChange(null);
-                const fileName = input.value
-                  .split('/')
-                  .pop()
-                  .split('\\')
-                  .pop();
-                setState({ state: { fileName } });
-                const uploadState = await prepareUpload(allProps);
-                setState({ state: { fileName, ...uploadState } }, () =>
-                  form.submit(),
+        onChange: async () => {
+          if (input.value) {
+            if (checkFile(input.files, input.value, maxKb, fileType)) {
+              onChange(null);
+              const fileName = input.value
+                .split('/')
+                .pop()
+                .split('\\')
+                .pop();
+              push({ state: { fileName } });
+              const uploadState = await prepareUpload(allProps);
+              push({ state: { fileName, ...uploadState } }, () =>
+                form.submit(),
+              );
+            }
+          }
+        },
+
+        onComplete: () =>
+          setTimeout(() => {
+            if (info.fileId) {
+              if (successful) {
+                prevValue = `${info.fileId}:${fileName}`;
+              } else {
+                alert(
+                  "Upload failed. It's likely that the file you chose is too big, please try again",
                 );
               }
-            }
-          },
-
-          onComplete: () =>
-            setTimeout(() => {
-              if (info.fileId) {
-                if (successful) {
-                  prevValue = `${info.fileId}:${fileName}`;
-                } else {
-                  alert(
-                    "Upload failed. It's likely that the file you chose is too big, please try again",
-                  );
-                }
-                onChange(prevValue);
-                reset();
-              }
-            }),
-
-          onClick: event => {
-            if (!value && fileName) {
               onChange(prevValue);
               reset();
-              event.preventDefault();
             }
-          },
-          onKeyDown: event => {
-            if (event.keyCode === 13 || event.keyCode === 32) {
-              input.click();
-              event.preventDefault();
-            }
-          },
-          onClear: event => {
-            if (value) {
-              prevValue = null;
-              onChange(null);
-            }
-            if (input) input.focus();
-            event.preventDefault();
-          },
-          onMouseDown: event => {
-            event.preventDefault();
-          },
+          }),
 
-          setFormElem: c => (form = c),
-          setFocusElem: c => {
-            input = c;
-            setFocusElem(c);
-            if (input && focusOnReset) {
-              input.focus();
-              focusOnReset = false;
-            }
-          },
-        }),
+        onClick: event => {
+          if (!value && fileName) {
+            onChange(prevValue);
+            reset();
+            event.preventDefault();
+          }
+        },
+        onKeyDown: event => {
+          if (event.keyCode === 13 || event.keyCode === 32) {
+            input.click();
+            event.preventDefault();
+          }
+        },
+        onClear: event => {
+          if (value) {
+            prevValue = null;
+            onChange(null);
+          }
+          if (input) input.focus();
+          event.preventDefault();
+        },
+        onMouseDown: event => {
+          event.preventDefault();
+        },
+
+        setFormElem: c => (form = c),
+        setFocusElem: c => {
+          input = c;
+          setFocusElem(c);
+          if (input && focusOnReset) {
+            input.focus();
+            focusOnReset = false;
+          }
+        },
       };
     };
   })
-  .style(['isFocused', 'processing'], (isFocused, processing) => ({
-    base: [['filter', ...css.groups.other], ['merge', { cursor: 'pointer' }]],
-    label: [
-      ['mergeKeys', { active: isFocused, processing }],
-      ['filter', ...css.groups.text, ...css.groups.box],
-      [
-        'merge',
-        {
-          borderRightWidth: 0,
-          borderTopRightRadius: 0,
-          borderBottomRightRadius: 0,
-        },
+  .cache(
+    'onChange',
+    'onComplete',
+    'onClick',
+    'onKeyDown',
+    'onClear',
+    'onMouseDown',
+    'setFormElem',
+    'setFocusElem',
+  )
+  .map(
+    restyle(['isFocused', 'processing'], (isFocused, processing) => ({
+      base: [['filter', ...css.groups.other], ['merge', { cursor: 'pointer' }]],
+      label: [
+        ['mergeKeys', { active: isFocused, processing }],
+        ['filter', ...css.groups.text, ...css.groups.box],
+        [
+          'merge',
+          {
+            borderRightWidth: 0,
+            borderTopRightRadius: 0,
+            borderBottomRightRadius: 0,
+          },
+        ],
       ],
-    ],
-    button: [
-      ['mergeKeys', { active: isFocused, button: true }],
-      ['filter', ...css.groups.text, ...css.groups.box, 'width'],
-      ['merge', { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }],
-    ],
-  }))(
+      button: [
+        ['mergeKeys', { active: isFocused, button: true }],
+        ['filter', ...css.groups.text, ...css.groups.box, 'width'],
+        ['merge', { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }],
+      ],
+    })),
+  )(
   ({
     fileName,
     processing,

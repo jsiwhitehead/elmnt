@@ -1,9 +1,9 @@
 import * as React from 'react';
-import m from 'mishmash';
+import m, { restyle } from 'mishmash';
 
 import Option from '../components/Option';
 
-export default m()
+export default m
   .pure()
   .map(({ selectIndex, moveActiveIndex, ...props }) => ({
     ...props,
@@ -16,19 +16,21 @@ export default m()
           onMouseDown: () => selectIndex(props.index),
         }),
   }))
-  .style(
-    ['isActive', 'isSelected', 'style.layout', 'isNone'],
-    (isActive, isSelected, layout, isNone) => [
-      ['merge', { display: 'block' }],
-      [
-        'mergeKeys',
-        {
-          active: isActive,
-          selected: isSelected && layout === 'modal',
-          none: isNone,
-        },
+  .map(
+    restyle(
+      ['isActive', 'isSelected', 'style.layout', 'isNone'],
+      (isActive, isSelected, layout, isNone) => [
+        ['merge', { display: 'block' }],
+        [
+          'mergeKeys',
+          {
+            active: isActive,
+            selected: isSelected && layout === 'modal',
+            none: isNone,
+          },
+        ],
       ],
-    ],
+    ),
   )(
   ({
     index,

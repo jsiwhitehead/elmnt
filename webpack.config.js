@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'development',
   entry: './test/index.tsx',
   output: { filename: 'bundle.js' },
   devServer: { contentBase: './test' },

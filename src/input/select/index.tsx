@@ -1,5 +1,5 @@
 import * as React from 'react';
-import m, { focusOnMouse, renderLifted } from 'mishmash';
+import m, { renderLifted, restyle } from 'mishmash';
 
 import css from '../../css';
 import Div from '../../div';
@@ -21,29 +21,31 @@ const userSelect = {
   WebkitUserSelect: 'none',
 };
 
-export default m()
+export default m
   .branch(({ options }) => Array.isArray(options), withSelect, withToggle)
-  .style(['style.layout'], layout => ({
-    base: null,
-    group: [
-      ['mergeKeys', 'group'],
-      [
-        'filter',
-        ...css.groups.text,
-        'paddingTop',
-        'paddingBottom',
-        ...(layout === 'modal' ? ['paddingLeft', 'paddingRight'] : []),
+  .map(
+    restyle(['style.layout'], layout => ({
+      base: null,
+      group: [
+        ['mergeKeys', 'group'],
+        [
+          'filter',
+          ...css.groups.text,
+          'paddingTop',
+          'paddingBottom',
+          ...(layout === 'modal' ? ['paddingLeft', 'paddingRight'] : []),
+        ],
+        ['merge', { width: '100%', ...userSelect }],
       ],
-      ['merge', { width: '100%', ...userSelect }],
-    ],
-    keyCell: [
-      ['mergeKeys', 'key'],
-      ['scale', { paddingRight: { fontSize: 1 } }],
-      ['filter', 'padding', 'width'],
-      ['merge', { verticalAlign: 'middle' }],
-    ],
-    keyText: [['mergeKeys', 'key'], ['filter', ...css.groups.text]],
-  }))
+      keyCell: [
+        ['mergeKeys', 'key'],
+        ['scale', { paddingRight: { fontSize: 1 } }],
+        ['filter', 'padding', 'width'],
+        ['merge', { verticalAlign: 'middle' }],
+      ],
+      keyText: [['mergeKeys', 'key'], ['filter', ...css.groups.text]],
+    })),
+  )
   .map(
     ({
       text,
@@ -93,20 +95,22 @@ export default m()
       ],
     }),
   )
-  .style(['style.base.layout'], layout => ({
-    base: {
-      div: [
-        [
-          'filter',
-          ...(layout !== 'modal'
-            ? css.groups.other
-            : ['maxWidth', 'maxHeight']),
+  .map(
+    restyle(['style.base.layout'], layout => ({
+      base: {
+        div: [
+          [
+            'filter',
+            ...(layout !== 'modal'
+              ? css.groups.other
+              : ['maxWidth', 'maxHeight']),
+          ],
+          layout === 'table' && ['mergeKeys', 'row'],
+          ['merge', { outline: 'none' }],
         ],
-        layout === 'table' && ['mergeKeys', 'row'],
-        ['merge', { outline: 'none' }],
-      ],
-    },
-  }))
+      },
+    })),
+  )
   .render(
     ({ onKeyDown, hoverProps, focusProps, setFocusElem, style, items, next }) =>
       React.createElement(
@@ -124,12 +128,11 @@ export default m()
   )
   .branch(
     ({ style }) => style.base.layout !== 'modal',
-    m()
-      .style({ base: { base: [['filter', 'layout', 'spacing']] } })
+    m
+      .map(restyle({ base: { base: [['filter', 'layout', 'spacing']] } }))
       .render(({ items, style }) => <Div style={style.base}>{items}</Div>),
   )
-  .enhance(focusOnMouse)
-  .merge(
+  .do(
     renderLifted(
       ({
         closeModal,
@@ -151,11 +154,13 @@ export default m()
       ({ isOpen }) => isOpen,
     ),
   )
-  .style(['isFocused'], isFocused => ({
-    base: {
-      label: [['merge', userSelect], ['mergeKeys', { active: isFocused }]],
-    },
-  }))(
+  .map(
+    restyle(['isFocused'], isFocused => ({
+      base: {
+        label: [['merge', userSelect], ['mergeKeys', { active: isFocused }]],
+      },
+    })),
+  )(
   ({
     value,
     isList,

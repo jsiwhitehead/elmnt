@@ -1,68 +1,71 @@
 import * as React from 'react';
-import m, { watchHover } from 'mishmash';
-import st from 'style-transform';
+import m, { restyle, watchHover } from 'mishmash';
 
 import css from '../../css';
 import Div from '../../div';
+import Hover from '../../hover';
 import Txt, { TxtInput } from '../../txt';
 
 import Marker from './Marker';
 
-const Hover = m()
-  .enhance(watchHover)
-  .toComp();
-
-export default m()
-  .style([['numeric', 'fontSize'], ['scale', { iconSize: { fontSize: 1 } }]])
-  .style(
-    ['style.fontSize', 'style.iconSize', 'style.display', 'style.cursor'],
-    (fontSize, iconSize, display, cursor) => ({
-      div: [['filter', ...css.groups.box, ...css.groups.other]],
-      bar: [
-        {
-          layout: 'bar',
-          spacing: 0,
-          width: display === 'inline-block' ? 'auto' : '100%',
-          cursor: cursor || 'pointer',
-        },
-      ],
-      icon: [
-        ['filter', 'color'],
-        [
-          'merge',
+export default m
+  .map(
+    restyle([
+      ['numeric', 'fontSize'],
+      ['scale', { iconSize: { fontSize: 1 } }],
+    ]),
+  )
+  .map(
+    restyle(
+      ['style.fontSize', 'style.iconSize', 'style.display', 'style.cursor'],
+      (fontSize, iconSize, display, cursor) => ({
+        div: [['filter', ...css.groups.box, ...css.groups.other]],
+        bar: [
           {
-            fontSize: iconSize,
-            paddingTop: (fontSize - iconSize) * 0.5,
-            paddingBottom: (fontSize - iconSize) * 0.5,
+            layout: 'bar',
+            spacing: 0,
+            width: display === 'inline-block' ? 'auto' : '100%',
+            cursor: cursor || 'pointer',
           },
         ],
-      ],
-      iconHover: [
-        ['scale', { padding: 0.5, margin: { padding: -0.5 } }],
-        ['filter', 'padding', 'margin'],
-      ],
-      iconLeft: [
-        [
-          'scale',
-          {
-            paddingRight: { fontSize: 0.4 },
-            width: { iconSize: 1, fontSize: 0.4 },
-          },
+        icon: [
+          ['filter', 'color'],
+          [
+            'merge',
+            {
+              fontSize: iconSize,
+              paddingTop: (fontSize - iconSize) * 0.5,
+              paddingBottom: (fontSize - iconSize) * 0.5,
+            },
+          ],
         ],
-        ['filter', 'paddingRight', 'width'],
-      ],
-      iconRight: [
-        [
-          'scale',
-          {
-            paddingLeft: { fontSize: 1 },
-            width: { iconSize: 1, fontSize: 1 },
-          },
+        iconHover: [
+          ['scale', { padding: 0.5, margin: { padding: -0.5 } }],
+          ['filter', 'padding', 'margin'],
         ],
-        ['filter', 'paddingLeft', 'width'],
-      ],
-      text: [['filter', ...css.groups.text]],
-    }),
+        iconLeft: [
+          [
+            'scale',
+            {
+              paddingRight: { fontSize: 0.4 },
+              width: { iconSize: 1, fontSize: 0.4 },
+            },
+          ],
+          ['filter', 'paddingRight', 'width'],
+        ],
+        iconRight: [
+          [
+            'scale',
+            {
+              paddingLeft: { fontSize: 1 },
+              width: { iconSize: 1, fontSize: 1 },
+            },
+          ],
+          ['filter', 'paddingLeft', 'width'],
+        ],
+        text: [['filter', ...css.groups.text]],
+      }),
+    ),
   )(
   ({
     text,
@@ -87,12 +90,9 @@ export default m()
         {iconLeft &&
           (onClickLeft ? (
             <div onMouseDown={onClickLeft} style={style.iconLeft}>
-              <Hover>
-                {({ isHovered: icon, hoverProps }) => (
-                  <div
-                    {...hoverProps}
-                    style={st(style.iconHover, [['mergeKeys', { icon }]])}
-                  >
+              <Hover style={style.iconHover} styleKey="icon">
+                {({ hoverProps, style: divStyle }) => (
+                  <div {...hoverProps} style={divStyle}>
                     <Marker type={iconLeft} style={style.icon} />
                   </div>
                 )}
@@ -123,12 +123,9 @@ export default m()
         {iconRight &&
           (onClickRight ? (
             <div onMouseDown={onClickRight} style={style.iconRight}>
-              <Hover>
-                {({ isHovered: icon, hoverProps }) => (
-                  <div
-                    {...hoverProps}
-                    style={st(style.iconHover, [['mergeKeys', { icon }]])}
-                  >
+              <Hover style={style.iconHover} styleKey="icon">
+                {({ hoverProps, style: divStyle }) => (
+                  <div {...hoverProps} style={divStyle}>
                     <Marker type={iconRight} style={style.icon} />
                   </div>
                 )}

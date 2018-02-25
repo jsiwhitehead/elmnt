@@ -1,24 +1,16 @@
-import * as React from 'react';
-
-(x => x) as React.ReactNode;
-
-import m, { Comp, focusable, memoize, watchFocus, watchHover } from 'mishmash';
+import m, { Comp, focusable, restyle, watchFocus, watchHover } from 'mishmash';
 
 import file from './file';
 import select from './select';
 import text from './text';
 import { InputProps } from './typings';
 
-export default m()
-  .merge(focusable)
-  .map(({ options, labels, ...props }) => ({
-    ...(options ? { options: memoize(options) } : {}),
-    ...(labels ? { labels: memoize(labels) } : {}),
-    ...props,
-  }))
+export default m
+  .do(focusable('setFocusElem', 'onMouseDown'))
+  .cache()
   .pure()
-  .enhance(watchFocus)
-  .enhance(watchHover)
+  .do(watchFocus)
+  .do(watchHover)
   .map(({ value, ...props }) => ({
     ...props,
     value:
@@ -33,17 +25,19 @@ export default m()
       ? { options: { on: true } }
       : {}),
   }))
-  .style(
-    ['invalid', 'isFocused', 'isHovered'],
-    (invalid, isFocused, isHovered) => [
-      [
-        'defaults',
-        { fontSize: 16, lineHeight: 1.5, color: 'black', layout: 'grid' },
+  .map(
+    restyle(
+      ['invalid', 'isFocused', 'isHovered'],
+      (invalid, isFocused, isHovered) => [
+        [
+          'defaults',
+          { fontSize: 16, lineHeight: 1.5, color: 'black', layout: 'grid' },
+        ],
+        ['mergeKeys', { invalid, focus: isFocused, hover: isHovered }],
       ],
-      ['mergeKeys', { invalid, focus: isFocused, hover: isHovered }],
-    ],
+    ),
   )
-  .branch(({ options }) => options, m().render(select))
-  .branch(({ type }) => type === 'file', m().render(file))(text) as Comp<
+  .branch(({ options }) => options, m.render(select))
+  .branch(({ type }) => type === 'file', m.render(file))(text) as Comp<
   InputProps
 >;

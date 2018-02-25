@@ -1,5 +1,5 @@
 import * as React from 'react';
-import m, { CSSTree, focusable, focusOnMouse, omit } from 'mishmash';
+import m, { CSSTree, focusable, restyle } from 'mishmash';
 
 import css from '../css';
 
@@ -11,6 +11,11 @@ const getMargin = style => {
   const gap = (parseFloat(style.lineHeight) - parseFloat(style.fontSize)) * 0.5;
   return `-${gap + 1}px 0px -${gap + 1}px`;
 };
+
+const omit = (...keys) => obj =>
+  Object.keys(obj)
+    .filter(k => !keys.includes(k))
+    .reduce((res, k) => ({ ...res, [k]: obj[k] }), {} as any);
 
 export interface TxtProps extends React.HTMLProps<{}> {
   children?: React.ReactNode;
@@ -24,39 +29,39 @@ export interface TxtProps extends React.HTMLProps<{}> {
 }
 
 const createTxt = (input?: boolean) => {
-  const base = (input
-    ? m()
-        .merge(focusable)
-        .pure()
-        .enhance(focusOnMouse)
-    : m().pure()
-  )
-    .style(
-      [
+  const base = m
+    .do(input ? focusable('setFocusElem', 'onMouseDown') : m)
+    .pure()
+    .map(
+      restyle(
         [
-          'defaults',
-          {
-            fontSize: 16,
-            lineHeight: 1.5,
-            cursor: input ? 'text' : undefined,
-          },
+          [
+            'defaults',
+            {
+              fontSize: 16,
+              lineHeight: 1.5,
+              cursor: input ? 'text' : undefined,
+            },
+          ],
+          ['block'],
+          ['lineHeightPx'],
         ],
-        ['block'],
-        ['lineHeightPx'],
-      ],
-      cssTransforms,
+        cssTransforms,
+      ),
     )
     .render(
-      m()
-        .style(['style.fontSize'], fontSize => ({
-          outer: [
-            ['filterKeys'],
-            ['filter', ...css.groups.box, ...css.groups.other],
-          ],
-          inner: [
-            { padding: '1px 0px', display: 'block', minHeight: fontSize },
-          ],
-        }))
+      m
+        .map(
+          restyle(['style.fontSize'], fontSize => ({
+            outer: [
+              ['filterKeys'],
+              ['filter', ...css.groups.box, ...css.groups.other],
+            ],
+            inner: [
+              { padding: '1px 0px', display: 'block', minHeight: fontSize },
+            ],
+          })),
+        )
         .map(
           omit(
             'placeholder',
@@ -88,13 +93,15 @@ const createTxt = (input?: boolean) => {
         </span>
       )),
     )
-    .style({
-      text: [['filterKeys'], ['filter', ...css.groups.text]],
-      placeholder: [
-        ['mergeKeys', 'placeholder'],
-        ['filter', ...css.groups.text],
-      ],
-    });
+    .map(
+      restyle({
+        text: [['filterKeys'], ['filter', ...css.groups.text]],
+        placeholder: [
+          ['mergeKeys', 'placeholder'],
+          ['filter', ...css.groups.text],
+        ],
+      }),
+    );
 
   if (!input) {
     return base.map(({ children, placeholder, style }) => ({
@@ -123,30 +130,32 @@ const createTxt = (input?: boolean) => {
     ));
   }
   return base
-    .style({
-      text: {
-        input: [
-          [
-            'merge',
-            {
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              resize: 'none',
-              overflow: 'hidden',
-              background: 'transparent',
-              outline: 'none',
-              border: 0,
-              padding: 0,
-              margin: 0,
-              display: 'block',
-            },
+    .map(
+      restyle({
+        text: {
+          input: [
+            [
+              'merge',
+              {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                resize: 'none',
+                overflow: 'hidden',
+                background: 'transparent',
+                outline: 'none',
+                border: 0,
+                padding: 0,
+                margin: 0,
+                display: 'block',
+              },
+            ],
           ],
-        ],
-      },
-    })
+        },
+      }),
+    )
     .map(({ children, ...props }) => {
       const v = (children || '').toString();
       return {

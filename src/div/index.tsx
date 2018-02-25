@@ -32,10 +32,10 @@ const mapChildren = (
   });
 };
 
-const Div = m()
+const Div = m
   .branch(
     ({ style }) => !(style && (style.layout || style.spacing)),
-    m().render(({ children, next: _, ...otherProps }) => (
+    m.render(({ children, next: _, ...otherProps }) => (
       <div {...otherProps} className={getElmntClass(otherProps.className)}>
         {children}
         <div
@@ -54,7 +54,7 @@ const Div = m()
   )
   .branch(
     ({ divStyles: { layout } }) => layout === 'bar',
-    m().render(
+    m.render(
       ({ style, divStyles: { spacing }, children, next: _, ...otherProps }) => (
         <div
           style={{ ...style, display: 'table', verticalAlign: undefined }}
@@ -82,7 +82,7 @@ const Div = m()
   )
   .branch(
     ({ divStyles: { layout } }) => layout === 'grid',
-    m().render(
+    m.render(
       ({ divStyles: { spacing }, children, next: _, ...otherProps }) => (
         <Div {...otherProps}>
           <div
@@ -119,7 +119,7 @@ const Div = m()
   )
   .branch(
     ({ divStyles: { layout } }) => !layout || layout === 'stack',
-    m().render(
+    m.render(
       ({ divStyles: { spacing }, children, next: _, ...otherProps }) => (
         <div {...otherProps} className={getElmntClass(otherProps.className)}>
           {mapChildren(children, (child, i, first) => (

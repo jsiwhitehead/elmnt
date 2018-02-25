@@ -1,6 +1,6 @@
 {
   "name": "elmnt",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "HTML elements reimagined with react",
   "author": "Jon Whitehead",
   "license": "MIT",
@@ -10,12 +10,10 @@
     "prettier":
       "prettier --single-quote --trailing-comma all --write \"{src,test}/**/*.{ts,tsx}\"",
     "clean": "rimraf lib/*",
-    "watch": "yarn run clean && tsc -w",
     "build": "yarn run clean && tsc",
     "test": "jest",
     "prepare": "yarn run test && yarn run build",
-    "dev": "webpack-dev-server",
-    "docs": "webpack --config ./docs/webpack.config.js"
+    "dev": "webpack-dev-server"
   },
   "jest": {
     "transform": {
@@ -43,10 +41,11 @@
     "rimraf": "^2.6.2",
     "source-map-loader": "^0.2.3",
     "ts-jest": "^22.0.4",
-    "ts-loader": "^3.5.0",
+    "ts-loader": "^4.0.0",
     "typescript": "^2.7.2",
-    "webpack": "^3.11.0",
-    "webpack-dev-server": "^2.11.1"
+    "webpack": "^4.0.0",
+    "webpack-cli": "^2.0.9",
+    "webpack-dev-server": "3.0.0"
   },
   "peerDependencies": {
     "react": "^16.0.0"
@@ -55,7 +54,7 @@
     "@types/react": "^16.0.38",
     "commonmark": "^0.28.1",
     "commonmark-react-renderer": "^4.3.4",
-    "mishmash": "^0.7.0",
-    "style-transform": "^0.1.11"
+    "fast-memoize": "^2.3.0",
+    "mishmash": "^0.7.1"
   }
 }

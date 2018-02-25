@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import r from 'mishmash';
+import m from 'mishmash';
 import keysToObject from 'keys-to-object';
 
 import { css, Div, Input, Mark, Txt } from '../src';
@@ -82,8 +82,8 @@ const inputStyle = {
   },
 };
 
-const TestApp = r().enhance(({ setState }) => {
-  setState({ 1: 'hello', 9: 'asdf:test.pdf' });
+const TestApp = m.stream(({ push }) => {
+  push({ 1: 'hello', 9: 'asdf:test.pdf' });
   return (_, state) =>
     console.log(state) || {
       ...keysToObject(
@@ -93,7 +93,7 @@ const TestApp = r().enhance(({ setState }) => {
       ),
       ...keysToObject(
         [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        k => value => setState({ [k]: value }),
+        k => value => push({ [k]: value }),
         k => `onChange${k}`,
       ),
     };
