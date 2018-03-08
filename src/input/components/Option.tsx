@@ -1,5 +1,6 @@
 import * as React from 'react';
-import m, { restyle } from 'mishmash';
+import m from 'mishmash';
+import st from 'style-transform';
 
 import css from '../../css';
 import Div from '../../div';
@@ -8,88 +9,68 @@ import Txt from '../../txt';
 import Marker from './Marker';
 
 export default m
-  .map(props => ({
-    ...props,
-    icon:
-      props.isSelected &&
-      (props.isList || props.style.layout === 'modal' ? 'tick' : 'disc'),
-  }))
-  .map(
-    restyle(['isList'], isList => [
-      !isList && ['merge', { borderRadius: 1000 }],
-      ['scale', { iconSize: { fontSize: 0.9 } }],
-      ['numeric', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
-    ]),
+  .merge(
+    'isSelected',
+    'isList',
+    'style.layout',
+    (isSelected, isList, layout) => ({
+      icon: isSelected && (isList || layout === 'modal' ? 'tick' : 'disc'),
+    }),
   )
-  .branch(
-    ({ style }) => style.layout !== 'modal',
-    m.map(
-      restyle(
-        [
-          'style.paddingTop',
-          'style.paddingRight',
-          'style.paddingBottom',
-          'style.paddingLeft',
-        ],
-        (paddingTop, paddingRight, paddingBottom, paddingLeft) => [
-          [
-            'merge',
-            {
-              padding: Math.round(
-                (paddingTop + paddingRight + paddingBottom + paddingLeft) *
-                  0.25,
-              ),
-            },
-          ],
-        ],
-      ),
-    ),
-  )
-  .map(
-    restyle(['style.layout'], layout => ({
-      div: [
-        ['filter', 'padding', 'background'],
-        [
-          'merge',
-          {
+  .merge('style', 'isList', (style, isList) => {
+    const base = st(style)
+      .merge(!isList ? { borderRadius: 1000 } : {})
+      .scale({ iconSize: { fontSize: 0.9 } })
+      .numeric('paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft');
+    const padded =
+      base.layout !== 'modal'
+        ? st(base).merge({
+            padding: Math.round(
+              (base.paddingTop +
+                base.paddingRight +
+                base.paddingBottom +
+                base.paddingLeft) *
+                0.25,
+            ),
+          })
+        : base;
+    return {
+      style: {
+        div: st(padded)
+          .filter('padding', 'background')
+          .merge({
             cursor: 'pointer',
             userSelect: 'none',
             MozUserSelect: 'none',
             msUserSelect: 'none',
             WebkitUserSelect: 'none',
-            ...(layout !== 'modal' && layout !== 'table'
+            ...(padded.layout !== 'modal' && padded.layout !== 'table'
               ? { background: 'none', padding: 0 }
               : {}),
-            ...(layout === 'modal' ? { width: '100%' } : {}),
-            ...(layout === 'table' ? { background: 'none' } : {}),
-          },
-        ],
-      ],
-      bar: [
-        [
-          'scale',
-          {
+            ...(padded.layout === 'modal' ? { width: '100%' } : {}),
+            ...(padded.layout === 'table' ? { background: 'none' } : {}),
+          }),
+        bar: st(padded)
+          .scale({
             spacing:
-              layout !== 'modal' ? { fontSize: 0.5 } : { paddingRight: 1 },
-          },
-        ],
-        ['filter', 'spacing'],
-        ['merge', { layout: 'bar', margin: layout === 'table' && '0 auto' }],
-      ],
-      icon: [
-        [
-          'scale',
-          {
+              padded.layout !== 'modal'
+                ? { fontSize: 0.5 }
+                : { paddingRight: 1 },
+          })
+          .filter('spacing')
+          .merge({
+            layout: 'bar',
+            margin: padded.layout === 'table' && '0 auto',
+          }),
+        icon: st(padded)
+          .scale({
             fontSize: { iconSize: 1 },
-            ...(layout !== 'modal' ? { padding: 0.4 } : {}),
-          },
-        ],
-        [
-          'scale',
-          {
+            ...(padded.layout !== 'modal' ? { padding: 0.4 } : {}),
+          })
+          .scale({
             width: {
               iconSize: 1,
-              ...(layout !== 'modal'
+              ...(padded.layout !== 'modal'
                 ? {
                     paddingLeft: 1,
                     paddingRight: 1,
@@ -98,22 +79,20 @@ export default m
                   }
                 : {}),
             },
-          },
-        ],
-        [
-          'filter',
-          'fontSize',
-          'color',
-          'background',
-          'width',
-          ...(layout !== 'modal'
-            ? ['padding', 'border', 'borderRadius', 'boxShadow']
-            : []),
-        ],
-      ],
-      text: [['filter', ...css.groups.text]],
-    })),
-  )(({ text, icon, style }) => (
+          })
+          .filter(
+            'fontSize',
+            'color',
+            'background',
+            'width',
+            ...(padded.layout !== 'modal'
+              ? ['padding', 'border', 'borderRadius', 'boxShadow']
+              : []),
+          ),
+        text: st(padded).filter(...css.groups.text),
+      },
+    };
+  })(({ text, icon, style }) => (
   <div style={style.div}>
     <Div style={style.bar}>
       <Marker type={icon} style={style.icon} />

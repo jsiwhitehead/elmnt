@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as commonmark from 'commonmark';
 import * as CommonmarkRenderer from 'commonmark-react-renderer';
-import m, { Comp, CSSTree, restyle } from 'mishmash';
+import m, { Comp } from 'mishmash';
 import * as memoize from 'fast-memoize';
+import st, { CSSTree } from 'style-transform';
 
 import css from '../css';
 import Div from '../div';
@@ -110,103 +111,81 @@ export interface MarkProps {
   style?: CSSTree<'em' | 'st' | 'link' | 'heading' | 'hr'>;
   children?: string;
 }
-export default m
-  .map(
-    restyle([
-      ['defaults', { fontSize: 16, lineHeight: 1.5, color: 'black' }],
-      ['numeric', 'fontSize'],
-      ['scale', { lineGap: { fontSize: -1, lineHeight: 1 } }],
-    ]),
-  )
-  .map(
-    restyle(
-      ['style.fontSize', 'style.color', 'style.lineGap'],
-      (fontSize, color, lineGap) => ({
-        div: [
-          ['filter', ...css.groups.box, ...css.groups.other],
-          ['merge', { layout: 'stack', spacing: Math.round(lineGap * 3) }],
-        ],
-        text: [['filter', ...css.groups.text]],
-        em: [
-          ['defaults', { fontStyle: 'italic' }],
-          ['mergeKeys', 'em'],
-          ['filter', ...css.groups.text],
-          ['merge', { fontSize: 'inherit' }],
-        ],
-        st: [
-          ['defaults', { fontWeight: 'bold' }],
-          ['mergeKeys', 'st'],
-          ['filter', ...css.groups.text],
-          ['merge', { fontSize: 'inherit' }],
-        ],
-        link: [
-          ['defaults', { fontWeight: 'bold', textDecoration: 'underline' }],
-          ['mergeKeys', 'link'],
-          ['filter', ...css.groups.text],
-          ['merge', { fontSize: 'inherit' }],
-        ],
-        heading: [
-          [
-            'filter',
-            ...css.groups.text.filter(k => k !== 'font'),
-            'fontStyle',
-            'fontVariant',
-            'fontWeight',
-            'fontStretch',
-            'lineHeight',
-            'fontFamily',
-          ],
-          ['defaults', { fontSize: fontSize * 2, fontWeight: 'bold' }],
-          ['mergeKeys', 'heading'],
-          ['numeric', 'fontSize'],
-        ],
-        item: [
-          ['filter', ...css.groups.text],
-          ['merge', { padding: `${Math.round(lineGap * 0.5)}px 0` }],
-        ],
-        list: [
-          ['filter', ...css.groups.text],
-          ['scale', { paddingLeft: { fontSize: 2 } }],
-          ['merge', { margin: `${Math.round(lineGap * -0.5) - 1}px 0` }],
-        ],
-        image: [
-          [
-            'merge',
-            { display: 'block', margin: `${Math.round(lineGap * 0.5)}px 0` },
-          ],
-        ],
-        hr: [
-          [
-            'defaults',
-            {
-              height: Math.round(fontSize * 0.2),
-              background: color,
-              margin: `${Math.round(lineGap * 1)}px 0`,
-            },
-          ],
-          ['mergeKeys', 'hr'],
-        ],
+export default m.merge('style', style => {
+  const base = st(style)
+    .defaults({ fontSize: 16, lineHeight: 1.5, color: 'black' })
+    .numeric('fontSize')
+    .scale({ lineGap: { fontSize: -1, lineHeight: 1 } });
+
+  const heading = st(base)
+    .filter(
+      ...css.groups.text.filter(k => k !== 'font'),
+      'fontStyle',
+      'fontVariant',
+      'fontWeight',
+      'fontStretch',
+      'lineHeight',
+      'fontFamily',
+    )
+    .defaults({
+      fontSize: (base.fontSize as number) * 2,
+      fontWeight: 'bold',
+    })
+    .mergeKeys('heading')
+    .numeric('fontSize');
+  const headingScale = Math.pow(
+    (heading.fontSize as number) / (base.fontSize as number),
+    1 / 4,
+  );
+  const getHeadingSize = (pow: number) =>
+    Math.round((base.fontSize as number) * Math.pow(headingScale, pow));
+
+  return {
+    style: {
+      div: st(base)
+        .filter(...css.groups.box, ...css.groups.other)
+        .merge({ layout: 'stack', spacing: Math.round(base.lineGap * 3) }),
+      text: st(base).filter(...css.groups.text),
+      em: st(base)
+        .defaults({ fontStyle: 'italic' })
+        .mergeKeys('em')
+        .filter(...css.groups.text)
+        .merge({ fontSize: 'inherit' }),
+      st: st(base)
+        .defaults({ fontWeight: 'bold' })
+        .mergeKeys('st')
+        .filter(...css.groups.text)
+        .merge({ fontSize: 'inherit' }),
+      link: st(base)
+        .defaults({ fontWeight: 'bold', textDecoration: 'underline' })
+        .mergeKeys('link')
+        .filter(...css.groups.text)
+        .merge({ fontSize: 'inherit' }),
+      h1: heading,
+      h2: heading.merge({ fontSize: getHeadingSize(3) }),
+      h3: heading.merge({ fontSize: getHeadingSize(2) }),
+      h4: heading.merge({ fontSize: getHeadingSize(1) }),
+      item: st(base)
+        .filter(...css.groups.text)
+        .merge({ padding: `${Math.round(base.lineGap * 0.5)}px 0` }),
+      list: st(base)
+        .filter(...css.groups.text)
+        .scale({ paddingLeft: { fontSize: 2 } })
+        .merge({ margin: `${Math.round(base.lineGap * -0.5) - 1}px 0` }),
+      image: st(base).merge({
+        display: 'block',
+        margin: `${Math.round(base.lineGap * 0.5)}px 0`,
       }),
-    ),
-  )
-  .map(
-    restyle(
-      ['style.text.fontSize', 'style.heading.fontSize'],
-      (textSize, headingSize) => {
-        const headingScale = Math.pow(headingSize / textSize, 1 / 4);
-        const getSize = (pow: number) =>
-          Math.round(textSize * Math.pow(headingScale, pow));
-        return {
-          heading: {
-            h1: [['merge', { fontSize: headingSize }]],
-            h2: [['merge', { fontSize: getSize(3) }]],
-            h3: [['merge', { fontSize: getSize(2) }]],
-            h4: [['merge', { fontSize: getSize(1) }]],
-          },
-        };
-      },
-    ),
-  )(({ domain, style, children }) => (
+      hr: st(base)
+        .defaults({
+          height: Math.round((base.fontSize as number) * 0.2),
+          background: base.color,
+          margin: `${Math.round(base.lineGap * 1)}px 0`,
+        })
+        .mergeKeys('hr'),
+    },
+  };
+})(({ domain, style, children }) => (
   <Div style={style.div}>
     {buildRenderer(style, domain).render(
       parser.parse(

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import m, { restyle, watchHover } from 'mishmash';
+import m from 'mishmash';
+import st from 'style-transform';
 
 import css from '../../css';
 import Div from '../../div';
@@ -8,65 +9,45 @@ import Txt, { TxtInput } from '../../txt';
 
 import Marker from './Marker';
 
-export default m
-  .map(
-    restyle([
-      ['numeric', 'fontSize'],
-      ['scale', { iconSize: { fontSize: 1 } }],
-    ]),
-  )
-  .map(
-    restyle(
-      ['style.fontSize', 'style.iconSize', 'style.display', 'style.cursor'],
-      (fontSize, iconSize, display, cursor) => ({
-        div: [['filter', ...css.groups.box, ...css.groups.other]],
-        bar: [
-          {
-            layout: 'bar',
-            spacing: 0,
-            width: display === 'inline-block' ? 'auto' : '100%',
-            cursor: cursor || 'pointer',
-          },
-        ],
-        icon: [
-          ['filter', 'color'],
-          [
-            'merge',
-            {
-              fontSize: iconSize,
-              paddingTop: (fontSize - iconSize) * 0.5,
-              paddingBottom: (fontSize - iconSize) * 0.5,
-            },
-          ],
-        ],
-        iconHover: [
-          ['scale', { padding: 0.5, margin: { padding: -0.5 } }],
-          ['filter', 'padding', 'margin'],
-        ],
-        iconLeft: [
-          [
-            'scale',
-            {
-              paddingRight: { fontSize: 0.4 },
-              width: { iconSize: 1, fontSize: 0.4 },
-            },
-          ],
-          ['filter', 'paddingRight', 'width'],
-        ],
-        iconRight: [
-          [
-            'scale',
-            {
-              paddingLeft: { fontSize: 1 },
-              width: { iconSize: 1, fontSize: 1 },
-            },
-          ],
-          ['filter', 'paddingLeft', 'width'],
-        ],
-        text: [['filter', ...css.groups.text]],
-      }),
-    ),
-  )(
+export default m.merge('style', style => {
+  const base = st(style)
+    .numeric('fontSize')
+    .scale({ iconSize: { fontSize: 1 } });
+  return {
+    style: {
+      div: st(base).filter(...css.groups.box, ...css.groups.other),
+      bar: {
+        layout: 'bar',
+        spacing: 0,
+        width: base.display === 'inline-block' ? 'auto' : '100%',
+        cursor: base.cursor || 'pointer',
+      },
+      icon: st(base)
+        .filter('color')
+        .merge({
+          fontSize: base.iconSize,
+          paddingTop: ((base.fontSize as number) - base.iconSize) * 0.5,
+          paddingBottom: ((base.fontSize as number) - base.iconSize) * 0.5,
+        }),
+      iconHover: st(base)
+        .scale({ padding: 0.5, margin: { padding: -0.5 } })
+        .filter('padding', 'margin'),
+      iconLeft: st(base)
+        .scale({
+          paddingRight: { fontSize: 0.4 },
+          width: { iconSize: 1, fontSize: 0.4 },
+        })
+        .filter('paddingRight', 'width'),
+      iconRight: st(base)
+        .scale({
+          paddingLeft: { fontSize: 1 },
+          width: { iconSize: 1, fontSize: 1 },
+        })
+        .filter('paddingLeft', 'width'),
+      text: st(base).filter(...css.groups.text),
+    },
+  };
+})(
   ({
     text,
     iconLeft,
@@ -82,10 +63,10 @@ export default m
     onClickRight,
     focusProps,
     setFocusElem,
-    setLiftBaseElem,
+    setBaseElem,
     style,
   }) => (
-    <div style={style.div} ref={setLiftBaseElem}>
+    <div style={style.div} ref={setBaseElem}>
       <Div style={style.bar}>
         {iconLeft &&
           (onClickLeft ? (
@@ -107,7 +88,7 @@ export default m
           <TxtInput
             onTextChange={onTextChange}
             {...focusProps}
-            focusRef={setFocusElem}
+            setFocusElem={setFocusElem}
             placeholder={placeholder}
             prompt={prompt}
             rows={rows}

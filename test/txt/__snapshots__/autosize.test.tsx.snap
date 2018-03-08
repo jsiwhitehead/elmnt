@@ -2,7 +2,7 @@
 
 exports[`txt: autosize multiple lines of text, no rows 1`] = `
 <span
-  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden"
+  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden;defaults:;expand-for:;filter:;filter-keys:;map:;merge:;merge-keys:;numeric:;scale:"
 >
   Hello
 World!.
@@ -11,7 +11,7 @@ World!.
 
 exports[`txt: autosize multiple lines of text, single row 1`] = `
 <span
-  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden"
+  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden;defaults:;expand-for:;filter:;filter-keys:;map:;merge:;merge-keys:;numeric:;scale:"
 >
   Hello
 World!
@@ -21,7 +21,7 @@ World!
 
 exports[`txt: autosize multiple lines of text, three rows 1`] = `
 <span
-  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:90px;display:block;overflow:hidden"
+  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:90px;display:block;overflow:hidden;defaults:;expand-for:;filter:;filter-keys:;map:;merge:;merge-keys:;numeric:;scale:"
 >
   Hello
 World!
@@ -31,7 +31,7 @@ World!
 
 exports[`txt: autosize single line of text, no rows 1`] = `
 <span
-  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden"
+  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden;defaults:;expand-for:;filter:;filter-keys:;map:;merge:;merge-keys:;numeric:;scale:"
 >
   Hello!.
 </span>
@@ -39,7 +39,7 @@ exports[`txt: autosize single line of text, no rows 1`] = `
 
 exports[`txt: autosize single line of text, single row 1`] = `
 <span
-  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden"
+  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden;defaults:;expand-for:;filter:;filter-keys:;map:;merge:;merge-keys:;numeric:;scale:"
 >
   Hello!
 .
@@ -48,7 +48,7 @@ exports[`txt: autosize single line of text, single row 1`] = `
 
 exports[`txt: autosize single line of text, single row, overwritten style 1`] = `
 <span
-  style="line-height:30px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden"
+  style="line-height:30px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:30px;display:block;overflow:hidden;defaults:;expand-for:;filter:;filter-keys:;map:;merge:;merge-keys:;numeric:;scale:"
 >
   Hello!
 .
@@ -57,7 +57,7 @@ exports[`txt: autosize single line of text, single row, overwritten style 1`] = 
 
 exports[`txt: autosize single line of text, three rows 1`] = `
 <span
-  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:90px;display:block;overflow:hidden"
+  style="line-height:30px;width:100px;visibility:hidden;white-space:pre-wrap;word-break:break-word;min-height:90px;display:block;overflow:hidden;defaults:;expand-for:;filter:;filter-keys:;map:;merge:;merge-keys:;numeric:;scale:"
 >
   Hello!
 .

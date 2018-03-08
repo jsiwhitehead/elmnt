@@ -1,4 +1,4 @@
-import { CSSTree } from 'mishmash';
+import { CSSTree } from 'style-transform';
 
 export type StyleKeys = 'invalid' | 'focus' | 'hover' | 'active';
 

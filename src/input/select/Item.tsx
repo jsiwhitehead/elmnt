@@ -1,36 +1,44 @@
 import * as React from 'react';
-import m, { restyle } from 'mishmash';
+import m from 'mishmash';
+import st from 'style-transform';
 
 import Option from '../components/Option';
 
 export default m
   .pure()
-  .map(({ selectIndex, moveActiveIndex, ...props }) => ({
-    ...props,
-    ...(props.style.layout === 'modal'
-      ? {
-          onMouseUp: () => selectIndex(props.index),
-          onMouseMove: () => moveActiveIndex(props.index, true),
-        }
-      : {
-          onMouseDown: () => selectIndex(props.index),
+  .merge(
+    'index',
+    'selectIndex',
+    'moveActiveIndex',
+    'style.layout',
+    (index, selectIndex, moveActiveIndex, layout) => ({
+      selectIndex: undefined,
+      moveActiveIndex: undefined,
+      ...(layout === 'modal'
+        ? {
+            onMouseUp: () => selectIndex(index),
+            onMouseMove: () => moveActiveIndex(index, true),
+          }
+        : {
+            onMouseDown: () => selectIndex(index),
+          }),
+    }),
+  )
+  .merge(
+    'style',
+    'isActive',
+    'isSelected',
+    'style.layout',
+    'isNone',
+    (style, isActive, isSelected, layout, isNone) => ({
+      style: st(style)
+        .merge({ display: 'block' })
+        .mergeKeys({
+          active: isActive,
+          selected: isSelected && layout === 'modal',
+          none: isNone,
         }),
-  }))
-  .map(
-    restyle(
-      ['isActive', 'isSelected', 'style.layout', 'isNone'],
-      (isActive, isSelected, layout, isNone) => [
-        ['merge', { display: 'block' }],
-        [
-          'mergeKeys',
-          {
-            active: isActive,
-            selected: isSelected && layout === 'modal',
-            none: isNone,
-          },
-        ],
-      ],
-    ),
+    }),
   )(
   ({
     index,

@@ -1,11 +1,13 @@
 import m, { HOC } from 'mishmash';
 
-export default m
-  .map(props => {
-    const { value, label, options: { on, off = null }, onChange } = props;
+export default m.merge(
+  'value',
+  'label',
+  'options',
+  'onChange',
+  (value, label, { on, off = null }, onChange) => {
     const selectIndex = () => onChange(value === on ? off : on);
     return {
-      ...props,
       activeIndex: 0,
       selected: { 0: value === on },
       isList: true,
@@ -19,5 +21,5 @@ export default m
         }
       },
     };
-  })
-  .cache('selectIndex', 'onKeyDown') as HOC;
+  },
+) as HOC;

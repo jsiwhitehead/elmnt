@@ -1,10 +1,14 @@
-import m, { Comp, restyle, watchHover } from 'mishmash';
+import m, { Comp, watchHover } from 'mishmash';
+import st from 'style-transform';
 
 export default m
   .do(watchHover)
-  .map(
-    restyle(['isHovered', 'styleKey'], (isHovered, styleKey = 'hover') => [
-      ['mergeKeys', { [styleKey]: isHovered }],
-    ]),
+  .merge(
+    'style',
+    'isHovered',
+    'styleKey',
+    (style, isHovered, styleKey = 'hover') => ({
+      style: st(style).mergeKeys({ [styleKey]: isHovered }),
+    }),
   )
   .toComp() as Comp;

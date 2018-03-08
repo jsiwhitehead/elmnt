@@ -1,5 +1,6 @@
 import * as React from 'react';
-import m, { restyle } from 'mishmash';
+import m from 'mishmash';
+import st from 'style-transform';
 
 import css from '../../css';
 import Icon from '../../icon';
@@ -63,21 +64,22 @@ const icons = {
   },
 };
 
-export default m
-  .map(
-    restyle([
-      ['numeric', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
-    ]),
-  )
-  .map(
-    restyle({
-      div: [
-        ['filter', ...css.groups.box, ...css.groups.other],
-        ['merge', { display: 'block', position: 'relative' }],
-      ],
-      icon: [['filter', 'fontSize', 'color']],
-    }),
-  )(({ type, style }) => (
+export default m.merge('style', style => {
+  const base = st(style).numeric(
+    'paddingTop',
+    'paddingRight',
+    'paddingBottom',
+    'paddingLeft',
+  );
+  return {
+    style: {
+      div: st(base)
+        .filter(...css.groups.box, ...css.groups.other)
+        .merge({ display: 'block', position: 'relative' }),
+      icon: st(base).filter('fontSize', 'color'),
+    },
+  };
+})(({ type, style }) => (
   <div style={style.div}>
     <Icon {...icons[type]} style={style.icon} />
     <div

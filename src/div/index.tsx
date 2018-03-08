@@ -1,5 +1,4 @@
 import * as React from 'react';
-import m, { Comp } from 'mishmash';
 
 export interface DivStyle extends React.CSSProperties {
   layout?: 'bar' | 'grid' | 'stack';
@@ -32,104 +31,91 @@ const mapChildren = (
   });
 };
 
-const Div = m
-  .branch(
-    ({ style }) => !(style && (style.layout || style.spacing)),
-    m.render(({ children, next: _, ...otherProps }) => (
-      <div {...otherProps} className={getElmntClass(otherProps.className)}>
+const Div = ({
+  style: { layout, spacing: baseSpacing, ...style } = {} as any,
+  children,
+  ...props
+}: DivProps) => {
+  if (!layout && !baseSpacing) {
+    return (
+      <div {...props} style={style} className={getElmntClass(props.className)}>
         {children}
         <div
           style={{ display: 'table', clear: 'both' }}
           className={getElmntClass()}
         />
       </div>
-    )),
-  )
-  .map(
-    ({ style: { layout, spacing, ...otherStyle } = {} as any, ...props }) => ({
-      ...props,
-      style: otherStyle,
-      divStyles: { layout, spacing: getSpacing(spacing) },
-    }),
-  )
-  .branch(
-    ({ divStyles: { layout } }) => layout === 'bar',
-    m.render(
-      ({ style, divStyles: { spacing }, children, next: _, ...otherProps }) => (
-        <div
-          style={{ ...style, display: 'table', verticalAlign: undefined }}
-          {...otherProps}
-          className={getElmntClass(otherProps.className)}
-        >
-          {mapChildren(children, (child, i, first) => (
-            <div
-              style={{
-                display: 'table-cell',
-                verticalAlign: (style && style.verticalAlign) || 'middle',
-                paddingLeft: first ? 0 : spacing[1],
-                width: (child.props.style && child.props.style.width) || 'auto',
-                boxSizing: 'content-box !important',
-              }}
-              className={getElmntClass('e10')}
-              key={i}
-            >
-              <div className={getElmntClass()}>{child}</div>
-            </div>
-          ))}
-        </div>
-      ),
-    ),
-  )
-  .branch(
-    ({ divStyles: { layout } }) => layout === 'grid',
-    m.render(
-      ({ divStyles: { spacing }, children, next: _, ...otherProps }) => (
-        <Div {...otherProps}>
+    );
+  }
+  const spacing = getSpacing(baseSpacing);
+  if (layout === 'bar') {
+    return (
+      <div
+        {...props}
+        style={{ ...style, display: 'table', verticalAlign: undefined }}
+        className={getElmntClass(props.className)}
+      >
+        {mapChildren(children, (child, i, first) => (
           <div
-            style={{ paddingTop: 1, paddingLeft: 1 }}
+            style={{
+              display: 'table-cell',
+              verticalAlign: (style && style.verticalAlign) || 'middle',
+              paddingLeft: first ? 0 : spacing[1],
+              width: (child.props.style && child.props.style.width) || 'auto',
+              boxSizing: 'content-box !important',
+            }}
+            className={getElmntClass('e10')}
+            key={i}
+          >
+            <div className={getElmntClass()}>{child}</div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  if (layout === 'grid') {
+    return (
+      <Div {...props} style={style}>
+        <div
+          style={{ paddingTop: 1, paddingLeft: 1 }}
+          className={getElmntClass()}
+        >
+          <div
+            style={{
+              marginTop: `-${parseFloat(spacing[0] as string) + 1}px`,
+              marginLeft: `-${parseFloat(spacing[1] as string) + 1}px`,
+            }}
             className={getElmntClass()}
           >
-            <div
-              style={{
-                marginTop: `-${parseFloat(spacing[0]) + 1}px`,
-                marginLeft: `-${parseFloat(spacing[1]) + 1}px`,
-              }}
-              className={getElmntClass()}
-            >
-              {mapChildren(children, (child, i) => (
-                <div
-                  style={{
-                    float: 'left',
-                    marginTop: spacing[0],
-                    marginLeft: spacing[1],
-                    width:
-                      (child.props.style && child.props.style.width) || 'auto',
-                  }}
-                  className={getElmntClass()}
-                  key={i}
-                >
-                  {child}
-                </div>
-              ))}
-            </div>
+            {mapChildren(children, (child, i) => (
+              <div
+                style={{
+                  float: 'left',
+                  marginTop: spacing[0],
+                  marginLeft: spacing[1],
+                  width:
+                    (child.props.style && child.props.style.width) || 'auto',
+                }}
+                className={getElmntClass()}
+                key={i}
+              >
+                {child}
+              </div>
+            ))}
           </div>
-        </Div>
-      ),
-    ),
-  )
-  .branch(
-    ({ divStyles: { layout } }) => !layout || layout === 'stack',
-    m.render(
-      ({ divStyles: { spacing }, children, next: _, ...otherProps }) => (
-        <div {...otherProps} className={getElmntClass(otherProps.className)}>
-          {mapChildren(children, (child, i, first) => (
-            <Div key={i} style={{ paddingTop: first ? 0 : spacing[0] }}>
-              {child}
-            </Div>
-          ))}
         </div>
-      ),
-    ),
-  )(props => <div {...props} />);
+      </Div>
+    );
+  }
+  return (
+    <div {...props} style={style} className={getElmntClass(props.className)}>
+      {mapChildren(children, (child, i, first) => (
+        <Div key={i} style={{ paddingTop: first ? 0 : spacing[0] }}>
+          {child}
+        </Div>
+      ))}
+    </div>
+  );
+};
 
-export default Div as Comp<DivProps>;
+export default Div;

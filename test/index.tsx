@@ -82,28 +82,27 @@ const inputStyle = {
   },
 };
 
-const TestApp = m.stream(({ push }) => {
-  push({ 1: 'hello', 9: 'asdf:test.pdf' });
-  return (_, state) =>
-    console.log(state) || {
-      ...keysToObject(
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        k => state[k],
-        k => `value${k}`,
+const TestApp = m.stream((observe, push) => {
+  push({ value1: 'hello', value9: 'asdf:test.pdf' });
+  observe(null, props => {
+    console.log(
+      keysToObject(
+        Object.keys(props).filter(k => k.startsWith('$value')),
+        k => props[k],
       ),
-      ...keysToObject(
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        k => value => push({ [k]: value }),
-        k => `onChange${k}`,
-      ),
-    };
+    );
+  });
+  return keysToObject(
+    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    k => value => push({ [`value${k}`]: value }),
+    k => `onChange${k}`,
+  );
 })(props => (
   <Div style={{ padding: '50px 150px', layout: 'stack', spacing: 30 }}>
     <Txt>
       Hello <span style={{ fontWeight: 'bold' }}>there</span>,{' '}
       <span style={{ fontStyle: 'italic' }}>how</span> are you today?
     </Txt>
-
     <Mark>{`
 # heading 1
 ## heading 2
@@ -117,7 +116,6 @@ Hello *there*.
 - a
 - list
     `}</Mark>
-
     <Input
       value={props.value1}
       onChange={props.onChange1}
@@ -127,14 +125,12 @@ Hello *there*.
       placeholder="Enter value"
       rows={0}
     />
-
     <Input
       value={props.value2}
       onChange={props.onChange2}
       type="date"
       style={inputStyle}
     />
-
     <Input
       value={props.value3}
       onChange={props.onChange3}
@@ -142,7 +138,6 @@ Hello *there*.
       label="Hello"
       style={inputStyle}
     />
-
     <Input
       value={props.value4}
       onChange={props.onChange4}
@@ -151,7 +146,6 @@ Hello *there*.
       labels={['-- None --', 'One', 'Two', '~Group', 'Three']}
       style={inputStyle}
     />
-
     <Input
       value={props.value5}
       onChange={props.onChange5}
@@ -159,7 +153,6 @@ Hello *there*.
       options={['One', 'Two', 'Three']}
       style={inputStyle}
     />
-
     <table>
       <tbody>
         <Input
@@ -173,7 +166,6 @@ Hello *there*.
         />
       </tbody>
     </table>
-
     <Input
       value={props.value7}
       onChange={props.onChange7}
@@ -202,7 +194,6 @@ Hello *there*.
       ]}
       style={{ ...inputStyle, layout: 'modal' }}
     />
-
     <Input
       value={props.value8}
       onChange={props.onChange8}
@@ -211,7 +202,6 @@ Hello *there*.
       placeholder="Select options"
       style={{ ...inputStyle, layout: 'modal' }}
     />
-
     <Input
       value={props.value9}
       onChange={props.onChange9}

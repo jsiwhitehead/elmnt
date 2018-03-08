@@ -3,13 +3,13 @@
 exports[`txt empty 1`] = `
 <span
   class=" e5 e6 e7 e8 e9"
-  style="display:block"
+  style="display:block;defaults:;expand-for:;filter:;filter-keys:;map:;merge:;merge-keys:;numeric:;scale:"
 >
   <span
     style="padding:1px 0px;display:block;min-height:16px"
   >
     <span
-      style="font-size:16px;line-height:24px;display:block;margin:-5px 0px -5px"
+      style="font-size:16px;line-height:24px;defaults:;expand-for:;filter:;filter-keys:;map:;merge:;merge-keys:;numeric:;scale:;display:block;margin:-5px 0px -5px"
     />
   </span>
 </span>

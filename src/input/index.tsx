@@ -1,4 +1,6 @@
-import m, { Comp, focusable, restyle, watchFocus, watchHover } from 'mishmash';
+import * as React from 'react';
+import m, { Comp, focusable, watchFocus, watchHover } from 'mishmash';
+import st from 'style-transform';
 
 import file from './file';
 import select from './select';
@@ -7,37 +9,36 @@ import { InputProps } from './typings';
 
 export default m
   .do(focusable('setFocusElem', 'onMouseDown'))
-  .cache()
-  .pure()
+  .pure(true)
   .do(watchFocus)
   .do(watchHover)
-  .map(({ value, ...props }) => ({
-    ...props,
+  .merge('value', 'type', 'options', (value, type, options) => ({
     value:
       value === undefined ||
-      (props.type.endsWith('list') &&
-        Array.isArray(value) &&
-        value.length === 0)
+      (type.endsWith('list') && Array.isArray(value) && value.length === 0)
         ? null
         : value,
-    isList: props.type.endsWith('list'),
-    ...(props.type === 'boolean' && !props.options
-      ? { options: { on: true } }
-      : {}),
+    isList: type.endsWith('list'),
+    ...(type === 'boolean' && !options ? { options: { on: true } } : {}),
   }))
-  .map(
-    restyle(
-      ['invalid', 'isFocused', 'isHovered'],
-      (invalid, isFocused, isHovered) => [
-        [
-          'defaults',
-          { fontSize: 16, lineHeight: 1.5, color: 'black', layout: 'grid' },
-        ],
-        ['mergeKeys', { invalid, focus: isFocused, hover: isHovered }],
-      ],
-    ),
-  )
-  .branch(({ options }) => options, m.render(select))
-  .branch(({ type }) => type === 'file', m.render(file))(text) as Comp<
-  InputProps
->;
+  .merge(
+    'style',
+    'invalid',
+    'isFocused',
+    'isHovered',
+    (style, invalid, isFocused, isHovered) => ({
+      style: st(style)
+        .defaults({
+          fontSize: 16,
+          lineHeight: 1.5,
+          color: 'black',
+          layout: 'grid',
+        })
+        .mergeKeys({ invalid, focus: isFocused, hover: isHovered }),
+    }),
+  )(props =>
+  React.createElement(
+    props.options ? select : props.type === 'file' ? file : text,
+    props,
+  ),
+) as Comp<InputProps>;

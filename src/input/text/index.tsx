@@ -1,90 +1,85 @@
 import * as React from 'react';
-import m, { restyle } from 'mishmash';
+import m from 'mishmash';
+import st from 'style-transform';
 
 import Label from '../components/Label';
 
 import parsers from './parsers';
 
 export default m
-  .stream(({ initial, observe, push }) => {
-    const state = { props: {} as any, text: '', config: {} as any };
+  .merge(null, props => ({
+    parseText: text => parsers[props.type].parse(text, props),
+    formatValue: (value, config) =>
+      parsers[props.type].format(value, config, props),
+  }))
+  .stream((observe, push) => {
+    let config = {};
+    push({
+      onTextChange: text => {
+        const { type, value, onChange, onTextChange, parseText } = observe();
 
-    const onTextChange = text => {
-      const { type, value, onChange } = state.props;
+        const parsed = text ? parseText(text) : { value: null };
+        config = parsed.config || {};
+        const parsedText = parsed.text !== undefined ? parsed.text : text;
+        push({ text: parsedText });
+        onTextChange && onTextChange(parsedText);
+        if (!parsers[type].equals(value, parsed.value)) onChange(parsed.value);
+      },
+    });
+    observe('value', value => {
+      const { onTextChange, parseText, formatValue, $text } = observe();
 
-      const parsed = text
-        ? parsers[type].parse(text, state.props)
-        : { value: null };
-      state.config = parsed.config || {};
-      state.text = parsed.text !== undefined ? parsed.text : text;
-
-      if (!parsers[type].equals(value, parsed.value)) onChange(parsed.value);
-      else push({ text: state.text });
-      state.props.onTextChange && state.props.onTextChange(state.text);
-    };
-
-    const update = props => {
-      if (props && props.value !== state.props.value) {
-        const newText =
-          props.value === null &&
-          parsers[props.type].parse(state.text, props).value === null
-            ? state.text
-            : parsers[props.type].format(props.value, state.config, props);
+      if (value !== null || parseText($text || '').value !== null) {
+        const newText = formatValue(value, config);
         push({ text: newText });
-        props.onTextChange && props.onTextChange(newText);
+        onTextChange && onTextChange(newText);
       }
-      state.props = props;
-    };
-    observe(update);
-    update(initial);
+    });
+  })
+  .merge(
+    'type',
+    'value',
+    'placeholder',
+    'password',
+    'noDay',
+    'text',
+    (type, value, placeholder, password, noDay, text) => ({
+      ...(password ? { iconRight: 'lock' } : {}),
 
-    return (props, { text }) => ({
-      ...props,
-
-      text,
-      onTextChange,
-
-      ...(props.password ? { iconRight: 'lock' } : {}),
-
-      ...(props.type === 'date'
+      ...(type === 'date'
         ? {
-            placeholder:
-              props.placeholder || (props.noDay ? 'MM/YY' : 'DD/MM/YY'),
-            iconRight: text && (props.value === null ? 'cross' : 'tick'),
+            placeholder: placeholder || (noDay ? 'MM/YY' : 'DD/MM/YY'),
+            iconRight: text && (value === null ? 'cross' : 'tick'),
           }
         : {}),
 
-      ...(props.type === 'stringlist'
+      ...(type === 'stringlist'
         ? {
-            rows: (props.value || ['']).length + 1,
+            rows: (value || ['']).length + 1,
             placeholder: [
               'Option 1',
-              ...(props.value || ['']).map((_, i) => `Option ${i + 2}`),
+              ...(value || ['']).map((_, i) => `Option ${i + 2}`),
             ].join('\n'),
             prompt: true,
           }
         : {}),
-    });
-  })
-  .map(
-    restyle(['isFocused'], isFocused => ({
-      div: [
-        [
-          'filter',
-          'display',
-          'width',
-          'height',
-          'maxWidth',
-          'maxHeight',
-          'verticalAlign',
-        ],
-      ],
-      label: [
-        ['mergeKeys', { active: isFocused }],
-        ['merge', { display: 'block', cursor: 'text' }],
-      ],
-    })),
-  )(
+    }),
+  )
+  .merge('style', 'isFocused', (style, isFocused) => ({
+    style: {
+      div: st(style).filter(
+        'display',
+        'width',
+        'height',
+        'maxWidth',
+        'maxHeight',
+        'verticalAlign',
+      ),
+      label: st(style)
+        .mergeKeys({ active: isFocused })
+        .merge({ display: 'block', cursor: 'text' }),
+    },
+  }))(
   ({
     text,
     onTextChange,
