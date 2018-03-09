@@ -64,6 +64,7 @@ export default m
       }))
       .yield(
         ({
+          onMouseDown,
           onKeyDown,
           hoverProps,
           focusProps,
@@ -75,7 +76,7 @@ export default m
           React.createElement(
             style.base.layout === 'table' ? 'tr' : 'div',
             {
-              onMouseDown: e => e.preventDefault(),
+              onMouseDown,
               onKeyDown,
               ...hoverProps,
               ...focusProps,

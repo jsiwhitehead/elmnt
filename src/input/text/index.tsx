@@ -12,11 +12,11 @@ export default m
     formatValue: (value, config) =>
       parsers[props.type].format(value, config, props),
   }))
-  .stream((observe, push) => {
+  .merge((props$, push) => {
     let config = {};
     push({
       onTextChange: text => {
-        const { type, value, onChange, onTextChange, parseText } = observe();
+        const { type, value, onChange, onTextChange, parseText } = props$();
 
         const parsed = text ? parseText(text) : { value: null };
         config = parsed.config || {};
@@ -26,8 +26,8 @@ export default m
         if (!parsers[type].equals(value, parsed.value)) onChange(parsed.value);
       },
     });
-    observe('value', value => {
-      const { onTextChange, parseText, formatValue, $text } = observe();
+    props$('value', value => {
+      const { onTextChange, parseText, formatValue, $text } = props$();
 
       if (value !== null || parseText($text || '').value !== null) {
         const newText = formatValue(value, config);

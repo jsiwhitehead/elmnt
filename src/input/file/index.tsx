@@ -30,7 +30,7 @@ const fileIcons = {
 let counter = 0;
 
 export default m
-  .stream((observe, push) => {
+  .merge((props$, push) => {
     let form;
     let input;
     let focusOnReset = false;
@@ -51,13 +51,13 @@ export default m
       );
     };
 
-    observe('value', value => {
-      const { $fileName } = observe();
+    props$('value', value => {
+      const { $fileName } = props$();
       if (value || !$fileName) resetForm();
     });
 
     const setValue = newValue => {
-      const { value, onChange } = observe();
+      const { value, onChange } = props$();
       push({ fileName: null });
       if (newValue !== value) onChange(newValue);
       else resetForm();
@@ -66,14 +66,14 @@ export default m
     push({
       onClear: () => setValue(null),
       onClick: event => {
-        const { $fileName } = observe();
+        const { $fileName } = props$();
         if ($fileName) {
           setValue(prevValue);
           event.preventDefault();
         }
       },
       onChange: async () => {
-        const { value, onChange, config, maxKb, fileType } = observe();
+        const { value, onChange, config, maxKb, fileType } = props$();
         if (input.value) {
           if (checkFile(input.files, input.value, maxKb, fileType)) {
             successful = false;
@@ -89,7 +89,7 @@ export default m
               {
                 formInfo: await uploaders[config.uploader](
                   config,
-                  observe(),
+                  props$(),
                   fileName,
                 ),
               },
@@ -99,7 +99,7 @@ export default m
         }
       },
       onFrameLoad: () => {
-        const { $fileName, $formInfo } = observe();
+        const { $fileName, $formInfo } = props$();
         if ($fileName) {
           setTimeout(() => {
             if (successful) {
@@ -121,7 +121,7 @@ export default m
       },
       setFormElem: c => (form = c),
       setFocusElem: c => {
-        const { setFocusElem } = observe();
+        const { setFocusElem } = props$();
         input = c;
         setFocusElem(c);
         if (input && focusOnReset) {
@@ -133,7 +133,7 @@ export default m
     });
 
     const onWindowMessage = event => {
-      const { config, $uploadIndex } = observe();
+      const { config, $uploadIndex } = props$();
       if (
         config.serverUrl.startsWith(event.origin) &&
         event.data === $uploadIndex

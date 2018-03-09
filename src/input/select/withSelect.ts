@@ -9,14 +9,14 @@ const modMove = (start: number, delta: number, max: number) => {
 };
 
 export default m
-  .stream((observe, push) => {
+  .merge((props$, push) => {
     const isOpening = { value: false, timeout: null as NodeJS.Timer | null };
 
     let isScrolling = false;
     let scrollElem: any = null;
 
     const setIsOpen = isOpen => {
-      if (isOpen) observe().onMouseDown();
+      if (isOpen) props$().onMouseDown();
       isOpening.value = isOpen;
       if (!isOpen) clearTimeout(isOpening.timeout!);
       isOpening.timeout = isOpen
@@ -26,7 +26,7 @@ export default m
     };
 
     const setScrollElem = elem => {
-      const { isList, value, options, style } = observe();
+      const { isList, value, options, style } = props$();
       scrollElem = elem;
       if (isList ? value && value.length > 0 : value) {
         const index = options.indexOf(isList ? value[0] : value);
@@ -56,7 +56,7 @@ export default m
     };
 
     const selectIndex = index => {
-      const { isList, value, onChange, options } = observe();
+      const { isList, value, onChange, options } = props$();
 
       if (!isOpening.value) {
         push({ activeIndex: index });
@@ -76,7 +76,7 @@ export default m
     };
 
     const moveActiveIndex = (move?: number, jumpTo?: boolean) => {
-      const { isList, options, style, $activeIndex } = observe();
+      const { isList, options, style, $activeIndex } = props$();
 
       if (move === undefined) {
         selectIndex($activeIndex);
@@ -96,7 +96,7 @@ export default m
     };
 
     const onKeyDown = event => {
-      const { isList, style, $isOpen } = observe();
+      const { isList, style, $isOpen } = props$();
 
       if (style.layout === 'modal' && !$isOpen) {
         if (event.keyCode === 13 || event.keyCode === 32) {
