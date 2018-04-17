@@ -4,7 +4,7 @@ export interface DivStyle extends React.CSSProperties {
   layout?: 'bar' | 'grid' | 'stack';
   spacing?: number | string;
 }
-export interface DivProps extends React.HTMLProps<{}> {
+export interface DivProps extends React.HTMLProps<any> {
   style?: DivStyle;
 }
 
@@ -62,7 +62,7 @@ const Div = ({
               verticalAlign: (style && style.verticalAlign) || 'middle',
               paddingLeft: first ? 0 : spacing[1],
               width: (child.props.style && child.props.style.width) || 'auto',
-              boxSizing: 'content-box !important',
+              boxSizing: 'content-box !important' as any,
             }}
             className={getElmntClass('e10')}
             key={i}

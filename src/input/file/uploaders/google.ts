@@ -1,13 +1,13 @@
 export default async function googleUploader(
   { bucket, accessId, serverUrl },
-  { maxKb, $uploadIndex },
+  { maxKb, uploadIndex },
   fileName,
 ) {
   const { uploadId, policy, signature } = await (await fetch(serverUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      uploadIndex: $uploadIndex,
+      uploadIndex,
       bucketId: bucket,
       maxSize: (maxKb || 500) * 1000,
     }),
@@ -20,7 +20,7 @@ export default async function googleUploader(
         ? `inline; filename=${fileName}`
         : 'inline',
       GoogleAccessId: accessId,
-      success_action_redirect: `${serverUrl}/${$uploadIndex}`,
+      success_action_redirect: `${serverUrl}/${uploadIndex}`,
       policy,
       signature,
     },

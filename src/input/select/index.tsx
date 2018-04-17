@@ -1,13 +1,13 @@
 import * as React from 'react';
-import m, { yieldLifted } from 'mishmash';
-import st from 'style-transform';
+import r from 'refluent';
 
 import css from '../../css';
 import Div from '../../div';
+import Modal from '../../modal';
 import Txt from '../../txt';
+import { restyle } from '../../utils';
 
 import Label from '../components/Label';
-import Modal from '../components/Modal';
 
 import Item from './Item';
 import withSelect from './withSelect';
@@ -22,12 +22,14 @@ const userSelect = {
   WebkitUserSelect: 'none',
 };
 
-export default m
-  .doIf(({ options }) => Array.isArray(options), withSelect, withToggle)
-  .merge('style', style => ({
-    style: {
+export default r
+  .yield(props =>
+    (Array.isArray(props.options) ? withSelect : withToggle)(props),
+  )
+  .do(
+    restyle(style => ({
       base: style,
-      group: st(style)
+      group: style
         .mergeKeys('group')
         .filter(
           ...css.groups.text,
@@ -36,23 +38,21 @@ export default m
           ...(style.layout === 'modal' ? ['paddingLeft', 'paddingRight'] : []),
         )
         .merge({ width: '100%', ...userSelect }),
-      keyCell: st(style)
+      keyCell: style
         .mergeKeys('key')
         .scale({ paddingRight: { fontSize: 1 } })
         .filter('padding', 'width')
         .merge({ verticalAlign: 'middle' }),
-      keyText: st(style)
-        .mergeKeys('key')
-        .filter(...css.groups.text),
-    },
-  }))
+      keyText: style.mergeKeys('key').filter(...css.groups.text),
+    })),
+  )
   .yield(
-    'items',
-    m
-      .merge('style', style => ({
-        style: {
+    r
+      .do('next', next => ({ items: next }))
+      .do(
+        restyle(style => ({
           ...style,
-          div: st(style.base)
+          div: style.base
             .filter(
               ...(style.base.layout !== 'modal'
                 ? css.groups.other
@@ -60,8 +60,8 @@ export default m
             )
             .mergeKeys(...(style.base.layout === 'table' ? ['row'] : []))
             .merge({ outline: 'none' }),
-        },
-      }))
+        })),
+      )
       .yield(
         ({
           onMouseDown,
@@ -87,103 +87,107 @@ export default m
             style.base.layout === 'modal' ? next() : items(),
           ),
       )
-      .do(
-        yieldLifted(
-          'liftBounds',
-          'setBaseElem',
-          ({
-            closeModal,
-            onMouseDown,
-            hoverProps,
-            setScrollElem,
-            style,
-            items,
-            liftBounds,
-          }) => (
-            <Modal
-              closeModal={closeModal}
-              modalProps={{ onMouseDown, ...hoverProps, ref: setScrollElem }}
-              baseBounds={liftBounds}
-              style={style.base}
-              children={items()}
-            />
-          ),
-          ({ isOpen }) => isOpen,
+      .yield(
+        ({
+          isOpen,
+          closeModal,
+          onMouseDown,
+          hoverProps,
+          setScrollElem,
+          style,
+          items,
+          next,
+        }) => (
+          <Modal
+            isOpen={isOpen}
+            onClose={closeModal}
+            getBase={base => ({
+              ...base,
+              width: Math.max(base.width, style.base.fontSize * 20),
+            })}
+            modalProps={{ onMouseDown, ...hoverProps, ref: setScrollElem }}
+            style={style.base}
+            next={next}
+          >
+            {items()}
+          </Modal>
         ),
       )
-      .merge('style', 'isFocused', (style, isFocused) => ({
-        style: st(style.base)
-          .merge(userSelect)
-          .mergeKeys({ active: isFocused }),
-      }))(
-      ({
-        value,
-        isList,
-        labelText,
-        openModal,
-        setBaseElem,
-        placeholder,
-        style,
-      }) => (
-        <div onMouseDown={openModal}>
-          <Label
-            text={value && labelText}
-            iconRight={isList ? 'updown' : 'down'}
-            placeholder={placeholder || labelText}
-            setBaseElem={setBaseElem}
-            style={style}
-          />
-        </div>
-      ),
-    ),
-  )(
-  ({
-    isList,
-    text,
-    selectIndex,
-    options,
-    labels,
-    labelIndices,
-    selected,
-    activeIndex,
-    moveActiveIndex,
-    style,
-  }) =>
-    (React.createElement as any)(
-      ...(style.base.layout !== 'table' && style.base.layout !== 'modal'
-        ? [Div, { style: st(style.base).filter('layout', 'spacing') }]
-        : [React.Fragment, null]),
-      ...(style.base.layout === 'table'
-        ? [
-            <td style={style.keyCell} key={-1}>
-              <Txt style={style.keyText}>{text}</Txt>
-            </td>,
-          ]
-        : []),
-      ...labels.map(
-        (l, i) =>
-          isGroup(l) ? (
-            <Txt style={style.group} key={i}>
-              {l.substring(1)}
-            </Txt>
-          ) : (
-            <Item
-              text={l}
-              isList={isList}
-              index={labelIndices[i]}
-              selectIndex={selectIndex}
-              isSelected={
-                isList
-                  ? selected[labelIndices[i]]
-                  : selected === labelIndices[i]
-              }
-              isActive={activeIndex === labelIndices[i]}
-              isNone={Array.isArray(options) && !options[labelIndices[i]]}
-              moveActiveIndex={moveActiveIndex}
-              style={style.base}
-              key={i}
+      .do(
+        restyle('isFocused', (isFocused, style) =>
+          style.base.merge(userSelect).mergeKeys({ active: isFocused }),
+        ),
+      )
+      .yield(
+        ({
+          value,
+          isList,
+          labelText,
+          openModal,
+          setModalBase,
+          placeholder,
+          style,
+        }) => (
+          <div onMouseDown={openModal}>
+            <Label
+              text={value && labelText}
+              iconRight={isList ? 'updown' : 'down'}
+              placeholder={placeholder || labelText}
+              setBaseElem={setModalBase}
+              style={style}
             />
-          ),
+          </div>
+        ),
       ),
-    ),
-);
+  )
+  .yield(
+    ({
+      isList,
+      text,
+      selectIndex,
+      options,
+      labels,
+      labelIndices,
+      selected,
+      activeIndex,
+      moveActiveIndex,
+      style,
+    }) =>
+      (React.createElement as any)(
+        ...(style.base.layout !== 'table' && style.base.layout !== 'modal'
+          ? [Div, { style: style.base.filter('layout', 'spacing') }]
+          : [React.Fragment, null]),
+        ...(style.base.layout === 'table'
+          ? [
+              <td style={style.keyCell} key={-1}>
+                <Txt style={style.keyText}>{text}</Txt>
+              </td>,
+            ]
+          : []),
+        ...labels.map(
+          (l, i) =>
+            isGroup(l) ? (
+              <Txt style={style.group} key={i}>
+                {l.substring(1)}
+              </Txt>
+            ) : (
+              <Item
+                text={l}
+                isList={isList}
+                index={labelIndices[i]}
+                selectIndex={selectIndex}
+                isSelected={
+                  isList
+                    ? selected[labelIndices[i]]
+                    : selected === labelIndices[i]
+                }
+                isActive={activeIndex === labelIndices[i]}
+                isNone={Array.isArray(options) && !options[labelIndices[i]]}
+                moveActiveIndex={moveActiveIndex}
+                style={style.base}
+                key={i}
+              />
+            ),
+        ),
+      ),
+  );

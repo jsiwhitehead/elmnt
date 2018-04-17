@@ -1,23 +1,44 @@
 import * as React from 'react';
-import m from 'mishmash';
-import st from 'style-transform';
+import r from 'refluent';
+
+import { restyle } from '../../utils';
 
 import Label from '../components/Label';
 
 import parsers from './parsers';
 
-export default m
-  .merge(null, props => ({
+export default r
+  .do(true, props => ({
     parseText: text => parsers[props.type].parse(text, props),
     formatValue: (value, config) =>
       parsers[props.type].format(value, config, props),
   }))
-  .merge((props$, push) => {
+  .do((props$, push) => {
     let config = {};
-    push({
+    let initial = true;
+    props$(
+      'onTextChange',
+      'parseText',
+      'formatValue',
+      'value',
+      (onTextChange, parseText, formatValue, value, commit) => {
+        if (
+          initial ||
+          (commit &&
+            (value !== null ||
+              parseText(props$(true).text || '').value !== null))
+        ) {
+          const newText = formatValue(value, config);
+          if (initial) push({ text: newText });
+          else setTimeout(() => push({ text: newText }));
+          onTextChange && onTextChange(newText);
+        }
+        if (commit) initial = false;
+      },
+    );
+    return {
       onTextChange: text => {
         const { type, value, onChange, onTextChange, parseText } = props$();
-
         const parsed = text ? parseText(text) : { value: null };
         config = parsed.config || {};
         const parsedText = parsed.text !== undefined ? parsed.text : text;
@@ -25,18 +46,9 @@ export default m
         onTextChange && onTextChange(parsedText);
         if (!parsers[type].equals(value, parsed.value)) onChange(parsed.value);
       },
-    });
-    props$('value', value => {
-      const { onTextChange, parseText, formatValue, $text } = props$();
-
-      if (value !== null || parseText($text || '').value !== null) {
-        const newText = formatValue(value, config);
-        push({ text: newText });
-        onTextChange && onTextChange(newText);
-      }
-    });
+    };
   })
-  .merge(
+  .do(
     'type',
     'value',
     'placeholder',
@@ -65,9 +77,9 @@ export default m
         : {}),
     }),
   )
-  .merge('style', 'isFocused', (style, isFocused) => ({
-    style: {
-      div: st(style).filter(
+  .do(
+    restyle('isFocused', (isFocused, style) => ({
+      div: style.filter(
         'display',
         'width',
         'height',
@@ -75,51 +87,52 @@ export default m
         'maxHeight',
         'verticalAlign',
       ),
-      label: st(style)
+      label: style
         .mergeKeys({ active: isFocused })
         .merge({ display: 'block', cursor: 'text' }),
-    },
-  }))(
-  ({
-    text,
-    onTextChange,
-    iconLeft,
-    iconRight,
-    placeholder,
-    prompt,
-    rows,
-    password,
-    tab,
-    spellCheck,
-    onMouseDown,
-    onKeyDown,
-    hoverProps,
-    focusProps,
-    setFocusElem,
-    style,
-  }) => (
-    <div
-      onMouseDown={onMouseDown}
-      onKeyDown={onKeyDown}
-      {...hoverProps}
-      style={style.div}
-      className="e5 e6 e7 e8 e9"
-    >
-      <Label
-        text={text}
-        onTextChange={onTextChange}
-        iconLeft={iconLeft}
-        iconRight={iconRight}
-        placeholder={placeholder}
-        prompt={prompt}
-        rows={rows}
-        password={password}
-        tab={tab}
-        spellCheck={spellCheck}
-        focusProps={focusProps}
-        setFocusElem={setFocusElem}
-        style={style.label}
-      />
-    </div>
-  ),
-);
+    })),
+  )
+  .yield(
+    ({
+      text,
+      onTextChange,
+      iconLeft,
+      iconRight,
+      placeholder,
+      prompt,
+      rows,
+      password,
+      tab,
+      spellCheck,
+      onMouseDown,
+      onKeyDown,
+      hoverProps,
+      focusProps,
+      setFocusElem,
+      style,
+    }) => (
+      <div
+        onMouseDown={onMouseDown}
+        onKeyDown={onKeyDown}
+        {...hoverProps}
+        style={style.div}
+        className="e5 e6 e7 e8 e9"
+      >
+        <Label
+          text={text}
+          onTextChange={onTextChange}
+          iconLeft={iconLeft}
+          iconRight={iconRight}
+          placeholder={placeholder}
+          prompt={prompt}
+          rows={rows}
+          password={password}
+          tab={tab}
+          spellCheck={spellCheck}
+          focusProps={focusProps}
+          setFocusElem={setFocusElem}
+          style={style.label}
+        />
+      </div>
+    ),
+  );

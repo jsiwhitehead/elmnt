@@ -1,14 +1,12 @@
-import m, { Comp, watchHover } from 'mishmash';
-import st from 'style-transform';
+import r from 'refluent';
 
-export default m
+import { restyle, watchHover } from '../utils';
+
+export default r
+  .transform(C => (C.displayName = 'Hover') && C)
   .do(watchHover)
-  .merge(
-    'style',
-    'isHovered',
-    'styleKey',
-    (style, isHovered, styleKey = 'hover') => ({
-      style: st(style).mergeKeys({ [styleKey]: isHovered }),
-    }),
-  )
-  .toComp() as Comp;
+  .do(
+    restyle('isHovered', 'styleKey', (isHovered, styleKey = 'hover', style) =>
+      style.mergeKeys({ [styleKey]: isHovered }),
+    ),
+  );

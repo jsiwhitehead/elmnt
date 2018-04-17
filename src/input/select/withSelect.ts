@@ -1,4 +1,4 @@
-import m, { HOC } from 'mishmash';
+import r from 'refluent';
 
 const undefToNull = v => (v === undefined ? null : v);
 
@@ -8,8 +8,8 @@ const modMove = (start: number, delta: number, max: number) => {
   return mod(delta > 0 ? delta - 1 : delta, max);
 };
 
-export default m
-  .merge((props$, push) => {
+export default r
+  .do((props$, push) => {
     const isOpening = { value: false, timeout: null as NodeJS.Timer | null };
 
     let isScrolling = false;
@@ -76,17 +76,18 @@ export default m
     };
 
     const moveActiveIndex = (move?: number, jumpTo?: boolean) => {
-      const { isList, options, style, $activeIndex } = props$();
+      const { isList, options, style } = props$();
+      const { activeIndex } = props$(true);
 
       if (move === undefined) {
-        selectIndex($activeIndex);
+        selectIndex(activeIndex);
       } else {
         if (isScrolling && jumpTo) {
           isScrolling = false;
         } else {
           const newActiveIndex = jumpTo
             ? move
-            : modMove($activeIndex, move, options.length);
+            : modMove(activeIndex, move, options.length);
           if (!isList && style.layout !== 'modal') selectIndex(newActiveIndex);
           else push({ activeIndex: newActiveIndex });
           if (style.layout === 'modal') isScrolling = true;
@@ -96,9 +97,10 @@ export default m
     };
 
     const onKeyDown = event => {
-      const { isList, style, $isOpen } = props$();
+      const { isList, style } = props$();
+      const { isOpen } = props$(true);
 
-      if (style.layout === 'modal' && !$isOpen) {
+      if (style.layout === 'modal' && !isOpen) {
         if (event.keyCode === 13 || event.keyCode === 32) {
           setIsOpen(true);
           event.preventDefault();
@@ -134,7 +136,7 @@ export default m
       setScrollElem,
     };
   })
-  .merge(
+  .do(
     'isList',
     'value',
     'options',
@@ -167,4 +169,4 @@ export default m
             ),
       };
     },
-  ) as HOC;
+  );

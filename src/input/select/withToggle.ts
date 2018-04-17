@@ -1,6 +1,6 @@
-import m, { HOC } from 'mishmash';
+import r from 'refluent';
 
-export default m.merge(
+export default r.do(
   'value',
   'label',
   'options',
@@ -22,4 +22,4 @@ export default m.merge(
       },
     };
   },
-) as HOC;
+);

@@ -11,7 +11,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitAny": false,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "strictFunctionTypes": true
   },
   "include": ["src/**/*"]
 }

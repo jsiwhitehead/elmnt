@@ -1,9 +1,9 @@
 import * as React from 'react';
-import m from 'mishmash';
-import st from 'style-transform';
+import r from 'refluent';
 
 import css from '../../css';
 import Icon from '../../icon';
+import { restyle } from '../../utils';
 
 // https://fontawesome.com
 const icons = {
@@ -64,26 +64,28 @@ const icons = {
   },
 };
 
-export default m.merge('style', style => {
-  const base = st(style).numeric(
-    'paddingTop',
-    'paddingRight',
-    'paddingBottom',
-    'paddingLeft',
-  );
-  return {
-    style: {
-      div: st(base)
-        .filter(...css.groups.box, ...css.groups.other)
-        .merge({ display: 'block', position: 'relative' }),
-      icon: st(base).filter('fontSize', 'color'),
-    },
-  };
-})(({ type, style }) => (
-  <div style={style.div}>
-    <Icon {...icons[type]} style={style.icon} />
-    <div
-      style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
-    />
-  </div>
-));
+export default r
+  .do(
+    restyle(style => {
+      const base = style.numeric(
+        'paddingTop',
+        'paddingRight',
+        'paddingBottom',
+        'paddingLeft',
+      );
+      return {
+        div: base
+          .filter(...css.groups.box, ...css.groups.other)
+          .merge({ display: 'block', position: 'relative' }),
+        icon: base.filter('fontSize', 'color'),
+      };
+    }),
+  )
+  .yield(({ type, style }) => (
+    <div style={style.div}>
+      <Icon {...icons[type]} style={style.icon} />
+      <div
+        style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+      />
+    </div>
+  ));

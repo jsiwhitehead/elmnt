@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import m from 'mishmash';
+import r from 'refluent';
 import keysToObject from 'keys-to-object';
 
 import { css, Div, Input, Mark, Txt } from '../src';
@@ -84,29 +84,36 @@ const inputStyle = {
   },
 };
 
-const TestApp = m.merge((props$, push) => {
-  push({ value1: 'hello', value9: 'asdf:test.pdf' });
-  props$(null, props => {
-    console.log(
-      keysToObject(
-        Object.keys(props).filter(k => k.startsWith('$value')),
-        k => props[k],
-      ),
+const TestApp = r
+  .do((props$, push) => {
+    push({ value1: 'hello', value9: 'asdf:test.pdf' });
+    props$(
+      (_, p) => p,
+      (props, commit) => {
+        if (commit) {
+          console.log(
+            keysToObject(
+              Object.keys(props).filter(k => k.startsWith('value')),
+              k => props[k],
+            ),
+          );
+        }
+      },
     );
-  });
-  return keysToObject(
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    k => value => push({ [`value${k}`]: value }),
-    k => `onChange${k}`,
-  );
-})(props => (
-  <Div style={{ padding: '50px 150px', layout: 'stack', spacing: 30 }}>
-    <Txt>
-      Hello <span style={{ fontWeight: 'bold' }}>there</span>,{' '}
-      <span style={{ fontStyle: 'italic' }}>how</span> are you today?
-    </Txt>
+    return keysToObject(
+      [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      k => value => push({ [`value${k}`]: value }),
+      k => `onChange${k}`,
+    );
+  })
+  .yield(props => (
+    <Div style={{ padding: '50px 150px', layout: 'stack', spacing: 30 }}>
+      <Txt>
+        Hello <span style={{ fontWeight: 'bold' }}>there</span>,{' '}
+        <span style={{ fontStyle: 'italic' }}>how</span> are you today?
+      </Txt>
 
-    <Mark>{`
+      <Mark>{`
 # heading 1
 ## heading 2
 ### heading 3
@@ -120,116 +127,126 @@ Hello *there*.
 - list
     `}</Mark>
 
-    <Input
-      value={props.value1}
-      onChange={props.onChange1}
-      type="string"
-      style={inputStyle}
-      spellCheck={false}
-      placeholder="Enter value"
-      rows={0}
-    />
+      <Input
+        value={props.value1}
+        onChange={props.onChange1}
+        type="string"
+        style={inputStyle}
+        spellCheck={false}
+        placeholder="Enter value"
+        rows={0}
+      />
 
-    <Input
-      value={props.value2}
-      onChange={props.onChange2}
-      type="date"
-      style={inputStyle}
-    />
+      <Input
+        value={props.value2}
+        onChange={props.onChange2}
+        type="date"
+        style={inputStyle}
+      />
 
-    <Input
-      value={props.value3}
-      onChange={props.onChange3}
-      type="boolean"
-      label="Hello"
-      style={inputStyle}
-    />
+      <Input
+        value={props.value3}
+        onChange={props.onChange3}
+        type="boolean"
+        label="Hello"
+        style={inputStyle}
+      />
 
-    <Input
-      value={props.value4}
-      onChange={props.onChange4}
-      type="string"
-      options={[null, 'One', 'Two', 'Three']}
-      labels={['-- None --', 'One', 'Two', '~Group', 'Three']}
-      style={inputStyle}
-    />
+      <Input
+        value={props.value4}
+        onChange={props.onChange4}
+        type="string"
+        options={[null, 'One', 'Two', 'Three']}
+        labels={['-- None --', 'One', 'Two', '~Group', 'Three']}
+        style={inputStyle}
+      />
 
-    <Input
-      value={props.value5}
-      onChange={props.onChange5}
-      type="stringlist"
-      options={['One', 'Two', 'Three']}
-      style={inputStyle}
-    />
+      <Input
+        value={props.value5}
+        onChange={props.onChange5}
+        type="stringlist"
+        options={['One', 'Two', 'Three']}
+        style={inputStyle}
+      />
 
-    <table>
-      <tbody>
-        <Input
-          value={props.value6}
-          onChange={props.onChange6}
-          type="string"
-          text="Hello"
-          options={[null, 'One', 'Two', 'Three']}
-          labels={['-- None --', 'One', 'Two', 'Three']}
-          style={{ ...inputStyle, layout: 'table' }}
-        />
-      </tbody>
-    </table>
+      <table>
+        <tbody>
+          <Input
+            value={props.value6}
+            onChange={props.onChange6}
+            type="string"
+            text="Hello"
+            options={[null, 'One', 'Two', 'Three']}
+            labels={['-- None --', 'One', 'Two', 'Three']}
+            style={{ ...inputStyle, layout: 'table' }}
+          />
+        </tbody>
+      </table>
 
-    <Input
-      value={props.value7}
-      onChange={props.onChange7}
-      type="string"
-      options={[
-        null,
-        'One',
-        'Two',
-        'Three',
-        'Four',
-        'Five',
-        'Six',
-        'Seven',
-        'Eight',
-      ]}
-      labels={[
-        '-- None --',
-        'One',
-        'Two',
-        'Three',
-        'Four',
-        'Five',
-        'Six',
-        'Seven',
-        'Eight',
-      ]}
-      style={{ ...inputStyle, layout: 'modal' }}
-    />
+      <Input
+        value={props.value7}
+        onChange={props.onChange7}
+        type="string"
+        options={[
+          null,
+          'One',
+          'Two',
+          'Three',
+          'Four',
+          'Five',
+          'Six',
+          'Seven',
+          'Eight',
+        ]}
+        labels={[
+          '-- None --',
+          'One',
+          'Two',
+          'Three',
+          'Four',
+          'Five',
+          'Six',
+          'Seven',
+          'Eight',
+        ]}
+        style={{ ...inputStyle, layout: 'modal' }}
+      />
 
-    <Input
-      value={props.value8}
-      onChange={props.onChange8}
-      type="stringlist"
-      options={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight']}
-      placeholder="Select options"
-      style={{ ...inputStyle, layout: 'modal' }}
-    />
+      <Input
+        value={props.value8}
+        onChange={props.onChange8}
+        type="stringlist"
+        options={[
+          'One',
+          'Two',
+          'Three',
+          'Four',
+          'Five',
+          'Six',
+          'Seven',
+          'Eight',
+        ]}
+        placeholder="Select options"
+        style={{ ...inputStyle, layout: 'modal' }}
+      />
 
-    <Input
-      value={props.value9}
-      onChange={props.onChange9}
-      type="file"
-      style={inputStyle}
-      placeholder="Choose file"
-      fileType="pdf"
-      maxKb={100000}
-      config={{
-        uploader: 'google' as 'google',
-        bucket: 'kalambo-assets',
-        accessId: 'kalambo-storage-a@kalambo-platform.iam.gserviceaccount.com',
-        serverUrl: 'http://localhost:3000/storage/upload',
-      }}
-    />
-  </Div>
-));
+      <Input
+        value={props.value9}
+        onChange={props.onChange9}
+        type="file"
+        style={inputStyle}
+        placeholder="Choose file"
+        fileType="pdf"
+        maxKb={100000}
+        config={{
+          uploader: 'google' as 'google',
+          bucket: 'kalambo-assets',
+          accessId:
+            'kalambo-storage-a@kalambo-platform.iam.gserviceaccount.com',
+          serverUrl: 'http://localhost:3000/storage/upload',
+        }}
+      />
+    </Div>
+  ));
 
 ReactDOM.render(<TestApp />, document.getElementById('root'));

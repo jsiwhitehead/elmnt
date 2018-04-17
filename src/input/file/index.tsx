@@ -1,10 +1,10 @@
 import * as React from 'react';
-import m from 'mishmash';
-import st from 'style-transform';
+import r from 'refluent';
 
 import css from '../../css';
 import Div from '../../div';
 import Txt from '../../txt';
+import { restyle } from '../../utils';
 
 import Label from '../components/Label';
 
@@ -29,8 +29,8 @@ const fileIcons = {
 
 let counter = 0;
 
-export default m
-  .merge((props$, push) => {
+export default r
+  .do((props$, push) => {
     let form;
     let input;
     let focusOnReset = false;
@@ -51,9 +51,11 @@ export default m
       );
     };
 
-    props$('value', value => {
-      const { $fileName } = props$();
-      if (value || !$fileName) resetForm();
+    props$('value', (value, commit) => {
+      if (commit) {
+        const { fileName } = props$(true);
+        if (value || !fileName) resetForm();
+      }
     });
 
     const setValue = newValue => {
@@ -66,8 +68,8 @@ export default m
     push({
       onClear: () => setValue(null),
       onClick: event => {
-        const { $fileName } = props$();
-        if ($fileName) {
+        const { fileName } = props$(true);
+        if (fileName) {
           setValue(prevValue);
           event.preventDefault();
         }
@@ -89,7 +91,7 @@ export default m
               {
                 formInfo: await uploaders[config.uploader](
                   config,
-                  props$(),
+                  { ...props$(), uploadIndex: props$(true).uploadIndex },
                   fileName,
                 ),
               },
@@ -99,11 +101,11 @@ export default m
         }
       },
       onFrameLoad: () => {
-        const { $fileName, $formInfo } = props$();
-        if ($fileName) {
+        const { fileName, formInfo } = props$(true);
+        if (fileName) {
           setTimeout(() => {
             if (successful) {
-              setValue(`${$formInfo.fileId}:${$fileName}`);
+              setValue(`${formInfo.fileId}:${fileName}`);
             } else {
               setValue(prevValue);
               alert(
@@ -119,24 +121,28 @@ export default m
           event.preventDefault();
         }
       },
-      setFormElem: c => (form = c),
-      setFocusElem: c => {
-        const { setFocusElem } = props$();
-        input = c;
-        setFocusElem(c);
-        if (input && focusOnReset) {
-          input.focus();
-          setTimeout(() => input && input.focus());
-          focusOnReset = false;
-        }
-      },
+      setFormElem: Object.assign(c => (form = c), { noCache: true }),
+      setFocusElem: Object.assign(
+        c => {
+          const { setFocusElem } = props$();
+          input = c;
+          setFocusElem(c);
+          if (input && focusOnReset) {
+            input.focus();
+            setTimeout(() => input && input.focus());
+            focusOnReset = false;
+          }
+        },
+        { noCache: true },
+      ),
     });
 
     const onWindowMessage = event => {
-      const { config, $uploadIndex } = props$();
+      const { config } = props$();
+      const { uploadIndex } = props$(true);
       if (
         config.serverUrl.startsWith(event.origin) &&
-        event.data === $uploadIndex
+        event.data === uploadIndex
       ) {
         successful = true;
       }
@@ -146,113 +152,107 @@ export default m
       return () => window.removeEventListener('message', onWindowMessage);
     }
   })
-  .merge('value', 'fileName', (value, fileName) => ({
+  .do('value', 'fileName', (value, fileName) => ({
     fileName: value ? value.split(/\:(.+)$/)[1] : fileName || '',
     processing: !!fileName,
   }))
-  .merge(
-    'style',
-    'isFocused',
-    'processing',
-    (style, isFocused, processing) => ({
-      style: {
-        base: st(style)
-          .filter(...css.groups.other)
-          .merge({ cursor: 'pointer' }),
-        label: st(style)
-          .mergeKeys({ active: isFocused, processing })
-          .filter(...css.groups.text, ...css.groups.box)
-          .merge({
-            borderRightWidth: 0,
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: 0,
-          }),
-        button: st(style)
-          .mergeKeys({ active: isFocused, button: true })
-          .filter(...css.groups.text, ...css.groups.box, 'width')
-          .merge({ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }),
-      },
-    }),
-  )(
-  ({
-    fileName,
-    processing,
-    uploadIndex,
-    placeholder,
-    formInfo,
-    resetDOM,
-    onClear,
-    onClick,
-    onChange,
-    onFrameLoad,
-    onKeyDown,
-    onMouseDown,
-    setFormElem,
-    setFocusElem,
-    hoverProps,
-    focusProps,
-    style,
-  }) => (
-    <label
-      {...hoverProps}
-      onMouseDown={onMouseDown}
-      style={style.base}
-      className="e5 e6 e7 e8 e9"
-    >
-      <Div style={{ layout: 'bar', width: '100%' }}>
-        <div>
-          <Label
-            text={`${fileName}${processing ? ' (uploading...)' : ''}`}
-            iconLeft={
-              fileName && `file${fileIcons[fileName.split('.').pop()] || ''}`
-            }
-            iconRight={fileName && !processing && 'cross'}
-            onClickRight={onClear}
-            placeholder={placeholder}
-            style={style.label}
-          />
-        </div>
-        <Txt style={style.button}>
-          {processing ? 'Cancel' : fileName ? 'Change' : 'Upload'}
-        </Txt>
-      </Div>
-
-      <form
-        action={formInfo && formInfo.url}
-        method="POST"
-        encType="multipart/form-data"
-        target={`iframe:${uploadIndex}`}
-        ref={setFormElem}
+  .do(
+    restyle('isFocused', 'processing', (isFocused, processing, style) => ({
+      base: style.filter(...css.groups.other).merge({ cursor: 'pointer' }),
+      label: style
+        .mergeKeys({ active: isFocused, processing })
+        .filter(...css.groups.text, ...css.groups.box)
+        .merge({
+          borderRightWidth: 0,
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0,
+        }),
+      button: style
+        .mergeKeys({ active: isFocused, button: true })
+        .filter(...css.groups.text, ...css.groups.box, 'width')
+        .merge({ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }),
+    })),
+  )
+  .yield(
+    ({
+      fileName,
+      processing,
+      uploadIndex,
+      placeholder,
+      formInfo,
+      resetDOM,
+      onClear,
+      onClick,
+      onChange,
+      onFrameLoad,
+      onKeyDown,
+      onMouseDown,
+      setFormElem,
+      setFocusElem,
+      hoverProps,
+      focusProps,
+      style,
+    }) => (
+      <label
+        {...hoverProps}
+        onMouseDown={onMouseDown}
+        style={style.base}
+        className="e5 e6 e7 e8 e9"
       >
-        {formInfo &&
-          Object.keys(formInfo.data).map(k => (
-            <input type="hidden" name={k} value={formInfo.data[k]} key={k} />
-          ))}
+        <Div style={{ layout: 'bar', width: '100%' }}>
+          <div>
+            <Label
+              text={`${fileName}${processing ? ' (uploading...)' : ''}`}
+              iconLeft={
+                fileName && `file${fileIcons[fileName.split('.').pop()] || ''}`
+              }
+              iconRight={fileName && !processing && 'cross'}
+              onClickRight={onClear}
+              placeholder={placeholder}
+              style={style.label}
+            />
+          </div>
+          <Txt style={style.button}>
+            {processing ? 'Cancel' : fileName ? 'Change' : 'Upload'}
+          </Txt>
+        </Div>
+
+        <form
+          action={formInfo && formInfo.url}
+          method="POST"
+          encType="multipart/form-data"
+          target={`iframe:${uploadIndex}`}
+          ref={setFormElem}
+        >
+          {formInfo &&
+            Object.keys(formInfo.data).map(k => (
+              <input type="hidden" name={k} value={formInfo.data[k]} key={k} />
+            ))}
+
+          {!resetDOM && (
+            <input
+              name="file"
+              type="file"
+              onChange={onChange}
+              onClick={onClick}
+              onKeyDown={onKeyDown}
+              style={hiddenStyle}
+              id={`file:${uploadIndex}`}
+              {...focusProps}
+              ref={setFocusElem}
+            />
+          )}
+        </form>
 
         {!resetDOM && (
-          <input
-            name="file"
-            type="file"
-            onChange={onChange}
-            onClick={onClick}
-            onKeyDown={onKeyDown}
+          <iframe
             style={hiddenStyle}
-            id={`file:${uploadIndex}`}
-            {...focusProps}
-            ref={setFocusElem}
+            name={`iframe:${uploadIndex}`}
+            src=""
+            onLoad={onFrameLoad}
+            tabIndex={-1}
           />
         )}
-      </form>
-
-      {!resetDOM && (
-        <iframe
-          style={hiddenStyle}
-          name={`iframe:${uploadIndex}`}
-          src=""
-          onLoad={onFrameLoad}
-          tabIndex={-1}
-        />
-      )}
-    </label>
-  ),
-);
+      </label>
+    ),
+  );

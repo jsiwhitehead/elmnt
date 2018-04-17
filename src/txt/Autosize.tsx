@@ -1,6 +1,7 @@
 import * as React from 'react';
-import m, { Comp } from 'mishmash';
-import st from 'style-transform';
+import r from 'refluent';
+
+import { restyle } from '../utils';
 
 export interface AutosizeStyle extends React.CSSProperties {
   lineHeight: string;
@@ -10,15 +11,22 @@ export interface AutosizeProps {
   rows?: number;
   style: AutosizeStyle;
 }
-export default m.merge('style', 'rows', (style, rows) => ({
-  style: st(style).merge({
-    visibility: 'hidden',
-    whiteSpace: 'pre-wrap',
-    wordBreak: 'break-word',
-    minHeight: parseFloat(style.lineHeight) * (rows || 1),
-    display: 'block',
-    overflow: 'hidden',
-  }),
-}))(({ value, rows, style }) => (
-  <span style={style}>{`${value || ''}${rows ? '\n' : ''}.`}</span>
-)) as Comp<AutosizeProps>;
+export default r
+  .do(
+    restyle('rows', (rows, style) =>
+      style.merge({
+        visibility: 'hidden',
+        whiteSpace: 'pre-wrap',
+        wordBreak: 'break-word',
+        minHeight: parseFloat(style.lineHeight) * (rows || 1),
+        display: 'block',
+        overflow: 'hidden',
+      }),
+    ),
+  )
+  .yield(({ value, rows, style }) => (
+    <span style={style}>
+      {value || ''}
+      {rows ? '\n' : ''}.
+    </span>
+  )) as r<AutosizeProps>;

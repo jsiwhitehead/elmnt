@@ -1,12 +1,13 @@
 import * as React from 'react';
-import m from 'mishmash';
-import st from 'style-transform';
+import r from 'refluent';
+
+import { restyle } from '../../utils';
 
 import Option from '../components/Option';
 
-export default m
-  .pure()
-  .merge(
+export default r
+  .yield(({ next }) => next(props => props))
+  .do(
     'index',
     'selectIndex',
     'moveActiveIndex',
@@ -24,46 +25,44 @@ export default m
           }),
     }),
   )
-  .merge(
-    'style',
-    'isActive',
-    'isSelected',
-    'style.layout',
-    'isNone',
-    (style, isActive, isSelected, layout, isNone) => ({
-      style: st(style)
-        .merge({ display: 'block' })
-        .mergeKeys({
+  .do(
+    restyle(
+      'isActive',
+      'isSelected',
+      'isNone',
+      (isActive, isSelected, isNone, style) =>
+        style.merge({ display: 'block' }).mergeKeys({
           active: isActive,
-          selected: isSelected && layout === 'modal',
+          selected: isSelected && style.layout === 'modal',
           none: isNone,
         }),
-    }),
-  )(
-  ({
-    index,
-    text,
-    isList,
-    isSelected,
-    onMouseUp,
-    onMouseDown,
-    onMouseMove,
-    style,
-  }) =>
-    React.createElement(
-      style.layout === 'table' ? 'td' : 'div',
-      {
-        onMouseDown,
-        onMouseUp,
-        onMouseMove,
-        'data-modal-index': index,
-        style: { verticalAlign: 'middle' },
-      },
-      <Option
-        text={text}
-        isList={isList}
-        isSelected={isSelected}
-        style={style}
-      />,
     ),
-);
+  )
+  .yield(
+    ({
+      index,
+      text,
+      isList,
+      isSelected,
+      onMouseUp,
+      onMouseDown,
+      onMouseMove,
+      style,
+    }) =>
+      React.createElement(
+        style.layout === 'table' ? 'td' : 'div',
+        {
+          onMouseDown,
+          onMouseUp,
+          onMouseMove,
+          'data-modal-index': index,
+          style: { verticalAlign: 'middle' },
+        },
+        <Option
+          text={text}
+          isList={isList}
+          isSelected={isSelected}
+          style={style}
+        />,
+      ),
+  );

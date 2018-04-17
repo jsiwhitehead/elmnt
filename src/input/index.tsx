@@ -1,44 +1,48 @@
 import * as React from 'react';
-import m, { Comp, focusable, watchFocus, watchHover } from 'mishmash';
-import st from 'style-transform';
+import r from 'refluent';
+
+import { focusable, restyle, watchFocus, watchHover } from '../utils';
 
 import file from './file';
 import select from './select';
 import text from './text';
 import { InputProps } from './typings';
 
-export default m
-  .do(focusable('setFocusElem', 'onMouseDown'))
-  .pure(true)
-  .do(watchFocus)
-  .do(watchHover)
-  .merge('value', 'type', 'options', (value, type, options) => ({
-    value:
-      value === undefined ||
-      (type.endsWith('list') && Array.isArray(value) && value.length === 0)
-        ? null
-        : value,
-    isList: type.endsWith('list'),
-    ...(type === 'boolean' && !options ? { options: { on: true } } : {}),
-  }))
-  .merge(
-    'style',
-    'invalid',
-    'isFocused',
-    'isHovered',
-    (style, invalid, isFocused, isHovered) => ({
-      style: st(style)
-        .defaults({
-          fontSize: 16,
-          lineHeight: 1.5,
-          color: 'black',
-          layout: 'grid',
-        })
-        .mergeKeys({ invalid, focus: isFocused, hover: isHovered }),
-    }),
-  )(props =>
-  React.createElement(
-    props.options ? select : props.type === 'file' ? file : text,
-    props,
-  ),
-) as Comp<InputProps>;
+export default focusable('setFocusElem', 'onMouseDown')(
+  r
+    .transform(C => (C.displayName = 'Input') && C)
+    .yield(({ next }) => next(props => props, true))
+    .do(watchFocus)
+    .do(watchHover)
+    .do('value', 'type', 'options', (value, type, options) => ({
+      value:
+        value === undefined ||
+        (type.endsWith('list') && Array.isArray(value) && value.length === 0)
+          ? null
+          : value,
+      isList: type.endsWith('list'),
+      ...(type === 'boolean' && !options ? { options: { on: true } } : {}),
+    }))
+    .do(
+      restyle(
+        'invalid',
+        'isFocused',
+        'isHovered',
+        (invalid, isFocused, isHovered, style) =>
+          style
+            .defaults({
+              fontSize: 16,
+              lineHeight: 1.5,
+              color: 'black',
+              layout: 'grid',
+            })
+            .mergeKeys({ invalid, focus: isFocused, hover: isHovered }),
+      ),
+    )
+    .yield(props =>
+      React.createElement(
+        props.options ? select : props.type === 'file' ? file : text,
+        props,
+      ),
+    ),
+) as React.ComponentClass<InputProps>;
