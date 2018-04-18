@@ -24,7 +24,7 @@ export default (onChange, bounds?) => {
     if (e === sizeElem) onChange(getSize(e, bounds));
   }, 50);
   onChange(getSize(null, bounds));
-  return Object.assign(
+  const ref = Object.assign(
     (elem: HTMLElement | null) => {
       if (sizeElem) {
         const temp = sizeElem;
@@ -35,4 +35,6 @@ export default (onChange, bounds?) => {
     },
     { noCache: true },
   );
+  if (!bounds) return ref;
+  return { ref, update: () => update(sizeElem) };
 };
