@@ -26,8 +26,7 @@ export interface TxtProps extends React.HTMLProps<{}> {
 
 const base = (input?) =>
   r
-    .transform(C => (C.displayName = input ? 'TxtInput' : 'Txt') && C)
-    .yield(({ next }) => next(props => props, true))
+    .label(input ? 'TxtInput' : 'Txt')
     .do(
       restyle(style =>
         style

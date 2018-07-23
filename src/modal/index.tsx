@@ -14,8 +14,7 @@ let counter = 0;
 const indices = {};
 
 export default r
-  .transform(C => (C.displayName = 'Modal') && C)
-  .yield(({ next }) => next(props => props, true))
+  .label('Modal')
   .do((props$, _) => ({
     setClickElem: clickOutsideRef(() => props$().onClose && props$().onClose()),
   }))

@@ -2,7 +2,7 @@ import r from 'refluent';
 
 const undefToNull = v => (v === undefined ? null : v);
 
-const mod = (a: number, b: number) => (a % b + b) % b;
+const mod = (a: number, b: number) => ((a % b) + b) % b;
 const modMove = (start: number, delta: number, max: number) => {
   if (start >= 0) return mod(start + delta, max);
   return mod(delta > 0 ? delta - 1 : delta, max);

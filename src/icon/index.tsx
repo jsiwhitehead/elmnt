@@ -5,7 +5,7 @@ export interface IconProps extends React.HTMLProps<any> {
   viewBox?: string;
   style?: React.CSSProperties;
 }
-export default ({ viewBox, path, style, ...props }: IconProps) => {
+const Icon = ({ viewBox, path, style, ...props }: IconProps) => {
   const size = (style && (style.width || style.fontSize)) || 16;
   if (!path) {
     return (
@@ -35,3 +35,4 @@ export default ({ viewBox, path, style, ...props }: IconProps) => {
     </span>
   );
 };
+export default Icon;

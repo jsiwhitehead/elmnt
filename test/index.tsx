@@ -85,27 +85,28 @@ const inputStyle = {
 };
 
 const TestApp = r
-  .do((props$, push) => {
-    push({ value1: 'hello', value9: 'asdf:test.pdf' });
-    props$(
-      (_, p) => p,
-      (props, commit) => {
-        if (commit) {
-          console.log(
-            keysToObject(
-              Object.keys(props).filter(k => k.startsWith('value')),
-              k => props[k],
-            ),
-          );
-        }
-      },
-    );
-    return keysToObject(
+  .do((_, push) => ({
+    value1: 'hello',
+    value9: 'asdf:test.pdf',
+    ...keysToObject(
       [1, 2, 3, 4, 5, 6, 7, 8, 9],
       k => value => push({ [`value${k}`]: value }),
       k => `onChange${k}`,
-    );
-  })
+    ),
+  }))
+  .do(
+    props => props,
+    (props, _, commit) => {
+      if (commit) {
+        console.log(
+          keysToObject(
+            Object.keys(props).filter(k => k.startsWith('value')),
+            k => props[k],
+          ),
+        );
+      }
+    },
+  )
   .yield(props => (
     <Div style={{ padding: '50px 150px', layout: 'stack', spacing: 30 }}>
       <Txt>

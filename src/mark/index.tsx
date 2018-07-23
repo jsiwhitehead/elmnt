@@ -36,8 +36,7 @@ export interface MarkProps {
   children?: string;
 }
 export default r
-  .transform(C => (C.displayName = 'Mark') && C)
-  .yield(({ next }) => next(props => props, true))
+  .label('Mark')
   .do(
     restyle(style => {
       const base = style

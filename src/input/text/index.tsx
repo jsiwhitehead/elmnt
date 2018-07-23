@@ -8,11 +8,14 @@ import Label from '../components/Label';
 import parsers from './parsers';
 
 export default r
-  .do(true, props => ({
-    parseText: text => parsers[props.type].parse(text, props),
-    formatValue: (value, config) =>
-      parsers[props.type].format(value, config, props),
-  }))
+  .do(
+    props => props,
+    props => ({
+      parseText: text => parsers[props.type].parse(text, props),
+      formatValue: (value, config) =>
+        parsers[props.type].format(value, config, props),
+    }),
+  )
   .do((props$, push) => {
     let config = {};
     let initial = true;

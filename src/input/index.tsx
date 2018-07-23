@@ -10,8 +10,7 @@ import { InputProps } from './typings';
 
 export default focusable('setFocusElem', 'onMouseDown')(
   r
-    .transform(C => (C.displayName = 'Input') && C)
-    .yield(({ next }) => next(props => props, true))
+    .label('Input')
     .do(watchFocus)
     .do(watchHover)
     .do('value', 'type', 'options', (value, type, options) => ({
