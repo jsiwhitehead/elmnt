@@ -112,7 +112,7 @@ export default r
                 "Upload failed. It's likely that the file you chose is too big, please try again",
               );
             }
-          });
+          }, 50);
         }
       },
       onKeyDown: event => {
