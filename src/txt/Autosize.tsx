@@ -26,7 +26,7 @@ export default r
   )
   .yield(({ value, rows, style }) => (
     <span style={style}>
-      {value || ''}
-      {rows ? '\n' : ''}.
+      {(rows !== -1 && value) || ''}
+      {rows && rows !== -1 ? '\n' : ''}.
     </span>
   )) as r<AutosizeProps>;

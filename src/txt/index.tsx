@@ -160,14 +160,14 @@ export const TxtInput = focusable('setFocusElem', 'onMouseDown')(
         const v = (children || '').toString();
         return {
           children: undefined,
-          value: rows === undefined ? v.replace(/\n/g, '') : v,
+          value: rows === undefined || rows === -1 ? v.replace(/\n/g, '') : v,
         };
       })
       .do('rows', 'onTextChange', (rows, onTextChange) => ({
         onChange: event => onTextChange((event.target as any).value),
         onKeyDown: event => {
           if (event.keyCode === 13) {
-            if (rows === undefined) event.preventDefault();
+            if (rows === undefined || rows === -1) event.preventDefault();
             else event.stopPropagation();
           }
         },
@@ -197,7 +197,7 @@ export const TxtInput = focusable('setFocusElem', 'onMouseDown')(
           >
             <Autosize
               value={value || placeholder}
-              rows={rows}
+              rows={password ? -1 : rows}
               style={style.text}
             />
             <Placeholder
@@ -206,19 +206,22 @@ export const TxtInput = focusable('setFocusElem', 'onMouseDown')(
               prompt={prompt}
               style={style.placeholder}
             />
-            {React.createElement(password ? 'input' : 'textarea', {
-              ...(password ? { type: 'password' } : {}),
-              value,
-              onChange,
-              onKeyDown,
-              tabIndex,
-              onFocus,
-              onBlur,
-              ref: setFocusElem,
-              spellCheck,
-              size: 1,
-              style: style.input,
-            })}
+            {React.createElement(
+              rows === -1 || password ? 'input' : 'textarea',
+              {
+                ...(password ? { type: 'password' } : {}),
+                value,
+                onChange,
+                onKeyDown,
+                tabIndex,
+                onFocus,
+                onBlur,
+                ref: setFocusElem,
+                spellCheck,
+                size: 1,
+                style: style.input,
+              },
+            )}
           </span>
         ),
       ),
