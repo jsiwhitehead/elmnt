@@ -8,6 +8,13 @@ const modMove = (start: number, delta: number, max: number) => {
   return mod(delta > 0 ? delta - 1 : delta, max);
 };
 
+const isDate = v => Object.prototype.toString.call(v) === '[object Date]';
+
+const getIndex = (options, value) => {
+  if (!isDate(value)) return options.indexOf(value);
+  return options.map(o => o && o.getTime()).indexOf(value.getTime());
+};
+
 export default r
   .do((props$, push) => {
     const isOpening = { value: false, timeout: null as NodeJS.Timer | null };
@@ -29,7 +36,7 @@ export default r
       const { isList, value, options, style } = props$();
       scrollElem = elem;
       if (isList ? value && value.length > 0 : value) {
-        const index = options.indexOf(isList ? value[0] : value);
+        const index = getIndex(options, isList ? value[0] : value);
         push({ activeIndex: index });
         scrollToIndex(index, parseFloat(style.fontSize) * 0.5);
       }
@@ -66,8 +73,8 @@ export default r
           const newValue = options.filter(
             (o, i) =>
               i === index
-                ? !(value || []).includes(o)
-                : (value || []).includes(o),
+                ? getIndex(value || [], o) === -1
+                : getIndex(value || [], o) !== -1,
           );
           onChange(newValue.length > 0 ? newValue : null);
         }
@@ -157,14 +164,14 @@ export default r
         labels: newLabels,
         labelIndices,
         labelText: !isList
-          ? filteredLabels[options.indexOf(value)] || ''
+          ? filteredLabels[getIndex(options, value)] || ''
           : filteredLabels
-              .filter((_, i) => (value || []).includes(options[i]))
+              .filter((_, i) => getIndex(value || [], options[i]) !== -1)
               .join(', '),
         selected: !isList
-          ? options.indexOf(value)
+          ? getIndex(options, value)
           : (value || []).reduce(
-              (result, v) => ({ ...result, [options.indexOf(v)]: true }),
+              (result, v) => ({ ...result, [getIndex(options, v)]: true }),
               {},
             ),
       };
